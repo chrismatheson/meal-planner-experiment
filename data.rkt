@@ -1,32 +1,26 @@
 #lang racket
 (require db deta threading)
 
-(define conn (sqlite3-connect 	#:database 'memory))
+(define conn (sqlite3-connect	#:database "./recipes.db"))
 
 (define-schema recipe
-  ([id id/f #:primary-key #:auto-increment]
-   [title string/f #:contract non-empty-string? #:wrapper string-titlecase]
-   [ingrediants string/f]
-   [directions string/f]))
+  ([Name string/f #:contract non-empty-string? #:wrapper string-titlecase]
+   [Ingredients string/f]
+   [Notes string/f]))
 
 (create-table! conn 'recipe)
 
-(void
- (insert! conn
-          (make-recipe #:title "Hot Dog, Macn & cheese"
-                     #:ingrediants ""
-                     #:directions "")
-          (make-recipe #:title "Banger and Mash"
-                     #:ingrediants ""
-                     #:directions "")
-          (make-recipe #:title "Peking Duck"
-                     #:ingrediants ""
-                     #:directions "")))
+
+; (~> (from "recipe" #:as u) (order-by (["random()"])))
+
+
+
 
 (provide
  conn
  recipe
- recipe-title
- recipe-ingrediants
- recipe-directions
+ recipe-Name
+ recipe-Ingredients
+
+ recipe-Notes
  make-recipe)

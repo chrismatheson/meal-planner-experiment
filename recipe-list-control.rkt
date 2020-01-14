@@ -9,9 +9,9 @@
   (begin
     (define (open-recipe-item ls ev)
       (define r (send ls get-data (first (send ls get-selections))))
-      (send title-field set-value (recipe-title r))
-      (send ingerdiants-field set-value (recipe-ingrediants r))
-      (send directions-field set-value (recipe-directions r))
+      (send title-field set-value (recipe-Name r))
+      (send ingerdients-field set-value (recipe-Ingredients r))
+      (send directions-field set-value (recipe-Notes r))
     )
    
 
@@ -23,7 +23,7 @@
                              [label false]
                              [choices (list)]
                              [callback open-recipe-item]))
-    (map (lambda (item) (send recipe-list append (recipe-title item) item))
+    (map (lambda (item) (send recipe-list append (recipe-Name item) item))
          (recipe-list-data conn))
 
     (define recipe-item (new vertical-panel% 
@@ -34,8 +34,8 @@
                              [parent recipe-item]
                              [style (list 'multiple 'vertical-label)]))
 
-    (define ingerdiants-field (new text-field%
-                                   [label "Ingrediants"]
+    (define ingerdients-field (new text-field%
+                                   [label "Ingredients"]
                                    [parent recipe-item]
                                    [min-height 100]
                                    [style (list 'multiple 'vertical-label)]))
@@ -47,16 +47,16 @@
                                   [min-height 200]
                                   [stretchable-height true]))
 
-    (define (get-new-recipe) (make-recipe #:title (send title-field get-value)
-                                          #:ingrediants (send ingerdiants-field get-value)
-                                          #:directions (send directions-field get-value)))
+    (define (get-new-recipe) (make-recipe #:Name (send title-field get-value)
+                                          #:Ingredients (send ingerdients-field get-value)
+                                          #:Notes (send directions-field get-value)))
 
     (define save-btn (new button%
                           [parent recipe-item]
                           [label "save"]
                           [callback (lambda (btn ev)
                                       (define item (insert-one! conn (get-new-recipe)))
-                                      (send recipe-list append  (recipe-title item) item))]))
+                                      (send recipe-list append  (recipe-Name item) item))]))
     void))
 
 
