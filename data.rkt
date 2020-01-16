@@ -10,11 +10,7 @@
 
 (create-table! conn 'recipe)
 
-
 ; (~> (from "recipe" #:as u) (order-by (["random()"])))
-
-
-
 
 (provide
  conn

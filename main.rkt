@@ -1,5 +1,5 @@
 #lang racket/gui
-(require "recipe-list-control.rkt" "data.rkt")
+(require "recipe-list-control.rkt" "data.rkt" "planner-tab.rkt")
 
 ; Make a frame by instantiating the frame% class
 
@@ -16,7 +16,7 @@
 
   (match (send panel get-selection)
     [0 (recipe-tab panel conn)]
-    [1 (planner-tab panel)]
+    [1 (planner-tab panel conn)]
     [2 void]))
 
 
@@ -28,11 +28,5 @@
                                       "Admin/Guide/ToDo"))
                        [callback show-tab]))
 
-(define (planner-tab parent-tab) (new text-field%
-                                      [parent parent-tab]))
-
-;(recipe-tab tabs conn)
-
 (send frame show #t)
-
 
