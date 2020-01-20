@@ -13,7 +13,6 @@
       (send ingerdients-field set-value (recipe-Ingredients r))
       (send directions-field set-value (recipe-Notes r))
     )
-   
 
     (define panel (new horizontal-panel%
                        [parent tab-parent]))

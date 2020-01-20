@@ -28,5 +28,8 @@
                                       "Admin/Guide/ToDo"))
                        [callback show-tab]))
 
+(recipe-tab tabs conn)
+
 (send frame show #t)
+
 

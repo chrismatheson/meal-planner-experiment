@@ -12,11 +12,6 @@
 
 ; (~> (from "recipe" #:as u) (order-by (["random()"])))
 
-(provide
- conn
- recipe
- recipe-Name
- recipe-Ingredients
-
- recipe-Notes
- make-recipe)
+(provide (schema-out recipe))
+(provide conn)
+ 
