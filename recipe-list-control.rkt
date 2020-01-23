@@ -12,7 +12,11 @@
       (send title-field set-value (recipe-Name r))
       (send ingerdients-field set-value (recipe-Ingredients r))
       (send directions-field set-value (recipe-Notes r))
-    )
+      )
+
+    (define search (new text-field%
+                        [label false]
+                        [parent tab-parent]))
 
     (define panel (new horizontal-panel%
                        [parent tab-parent]))
@@ -48,7 +52,8 @@
 
     (define (get-new-recipe) (make-recipe #:Name (send title-field get-value)
                                           #:Ingredients (send ingerdients-field get-value)
-                                          #:Notes (send directions-field get-value)))
+                                          #:Notes (send directions-field get-value)
+                                          #:Favorite false))
 
     (define save-btn (new button%
                           [parent recipe-item]
@@ -56,6 +61,10 @@
                           [callback (lambda (btn ev)
                                       (define item (insert-one! conn (get-new-recipe)))
                                       (send recipe-list append  (recipe-Name item) item))]))
+    (define fav-btn (new button%
+                         [parent recipe-item]
+                         [label "fav"]
+                         [callback (lambda (btn ev) void)]))
     void))
 
 
