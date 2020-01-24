@@ -1,14 +1,32 @@
 #lang racket/gui
 (require db deta threading "data.rkt")
 
-(define (recipe-list-data conn)
-  (for/list ([b (in-entities conn (~> (from recipe #:as b)))])
+(define (recipe-list-data conn [fav 0])
+  (for/list
+      ([b (in-entities conn
+                       (~> (from recipe #:as b)
+                           (where (= ,fav b.Favorite))
+                           ))])
     b))
+
+(define/contract (mark-fav! conn selected)
+  (-> connection? recipe? any)
+  (print "hello")
+  (define modified (update-recipe-Favorite? selected not))
+  (print modified)
+  (update-one! conn modified))
+
+(define/contract (insert-new-recipe! conn new-recipe)
+  (-> connection? recipe? recipe?)
+  (insert-one! conn new-recipe))
 
 (define (recipe-tab tab-parent conn)
   (begin
+    (define (current-recipe ls)
+      (send ls get-data (first (send ls get-selections))))
+
     (define (open-recipe-item ls ev)
-      (define r (send ls get-data (first (send ls get-selections))))
+      (define r (current-recipe ls))
       (send title-field set-value (recipe-Name r))
       (send ingerdients-field set-value (recipe-Ingredients r))
       (send directions-field set-value (recipe-Notes r))
@@ -16,6 +34,7 @@
 
     (define search (new text-field%
                         [label false]
+                        [init-value "[fav]"]
                         [parent tab-parent]))
 
     (define panel (new horizontal-panel%
@@ -26,8 +45,24 @@
                              [label false]
                              [choices (list)]
                              [callback open-recipe-item]))
-    (map (lambda (item) (send recipe-list append (recipe-Name item) item))
-         (recipe-list-data conn))
+
+    (define fav-recipe-list (new list-box%
+                             [parent panel]
+                             [label false]
+                             [choices (list)]
+                             [callback open-recipe-item]))
+
+    (define (refresh-lists conn)
+      (send recipe-list clear)
+      (send fav-recipe-list clear)
+      (map (lambda (item) (send recipe-list append (recipe-Name item) item))
+           (recipe-list-data conn 0))
+      (map (lambda (item) (send fav-recipe-list append (recipe-Name item) item))
+           (recipe-list-data conn 1)))
+
+    (refresh-lists conn)
+
+    ;RECIPE-ITEM
 
     (define recipe-item (new vertical-panel% 
                              [parent panel]))
@@ -59,12 +94,15 @@
                           [parent recipe-item]
                           [label "save"]
                           [callback (lambda (btn ev)
-                                      (define item (insert-one! conn (get-new-recipe)))
-                                      (send recipe-list append  (recipe-Name item) item))]))
+                                      (define item (insert-new-recipe! conn (get-new-recipe)))
+                                      (refresh-lists conn))]))
     (define fav-btn (new button%
                          [parent recipe-item]
                          [label "fav"]
-                         [callback (lambda (btn ev) void)]))
+                         [callback (lambda (btn ev)
+                                     (mark-fav! conn (current-recipe recipe-list))
+                                     (refresh-lists conn)
+                                     void)]))
     void))
 
 

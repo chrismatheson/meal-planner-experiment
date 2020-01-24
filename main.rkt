@@ -16,6 +16,7 @@
 
   (match (send panel get-selection)
     [0 (recipe-tab panel conn)]
+
     [1 (planner-tab panel conn)]
     [2 void]))
 
@@ -27,7 +28,6 @@
                                       "Shop"
                                       "Admin/Guide/ToDo"))
                        [callback show-tab]))
-
 (recipe-tab tabs conn)
 
 (send frame show #t)
