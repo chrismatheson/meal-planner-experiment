@@ -88,7 +88,7 @@
     (define (get-new-recipe) (make-recipe #:Name (send title-field get-value)
                                           #:Ingredients (send ingerdients-field get-value)
                                           #:Notes (send directions-field get-value)
-                                          #:Favorite false))
+                                          #:Favorite? false))
 
     (define save-btn (new button%
                           [parent recipe-item]
