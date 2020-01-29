@@ -16,7 +16,6 @@
 
   (match (send panel get-selection)
     [0 (recipe-tab panel conn)]
-
     [1 (planner-tab panel conn)]
     [2 void]))
 

@@ -1,5 +1,5 @@
 #lang racket
-(require db deta threading gregor rackunit)
+(require db deta threading gregor predicates)
 
 (define conn (sqlite3-connect	#:database "./recipes.db"))
 
@@ -20,13 +20,12 @@
 (create-table! conn 'meals)
 
 ;(insert-one! conn (make-meals #:Name "SpagBol" #:Time (today)))
-
 ; (~> (from "recipe" #:as u) (order-by (["random()"])))
 
 (define (recipe-list-data conn [fav 0])
   (sequence->list (in-entities conn
                                (~> (from recipe #:as b)
-                                   ;(where (= ,fav b.Favorite))
+                                   (where (= ,fav b.Favorite))
                                    ))))
 
 (define (all-meals conn)
@@ -34,13 +33,29 @@
                                (~> (from meals #:as meals))
                                )))
 
+(define/contract (recipe-toggle-Favorite! conn selected)
+  (-> connection? recipe? any)
+  (print "hello")
+  (define modified (update-recipe-Favorite? selected not))
+  (print modified)
+  (update-one! conn modified))
+
+(define/contract (upsert-one! conn e)
+  (-> connection? recipe? recipe?)
+  (cond
+    [(not-null? (recipe-id e)) (update-one! e)]
+    [(null? (recipe-id e)) (insert-one! e)]))
 
 (provide (schema-out recipe))
-(provide conn)
+(provide
+ conn
+ all-meals
+ recipe-list-data
+ recipe-toggle-Favorite!)
 
 
 (module+ test
-  (require rackunit/text-ui rackunit/quickcheck quickcheck)
+  (require rackunit rackunit/text-ui rackunit/quickcheck quickcheck)
 
   (define (as-value e)
     (drop (vector->list (struct->vector e)) 2))

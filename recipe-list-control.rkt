@@ -1,24 +1,18 @@
 #lang racket/gui
 (require db deta threading "data.rkt")
 
-(define (recipe-list-data conn [fav 0])
-  (for/list
-      ([b (in-entities conn
-                       (~> (from recipe #:as b)
-                           (where (= ,fav b.Favorite))
-                           ))])
-    b))
-
-(define/contract (mark-fav! conn selected)
-  (-> connection? recipe? any)
-  (print "hello")
-  (define modified (update-recipe-Favorite? selected not))
-  (print modified)
-  (update-one! conn modified))
-
 (define/contract (insert-new-recipe! conn new-recipe)
   (-> connection? recipe? recipe?)
   (insert-one! conn new-recipe))
+
+(define search-box%
+  (class text-field%
+    (super-new)
+    (init [on-search (lambda () void)])
+    (define/override (on-subwindow-char win char)
+      (when (eq? #\return (send char get-key-code))
+        ((get-on-search this) (send this get-value)))
+      (super on-subwindow-char win char))))
 
 (define (recipe-tab tab-parent conn)
   (begin
@@ -32,10 +26,11 @@
       (send directions-field set-value (recipe-Notes r))
       )
 
-    (define search (new text-field%
+    (define search (new search-box%
                         [label false]
                         [init-value "[fav]"]
-                        [parent tab-parent]))
+                        [parent tab-parent]
+                        [on-search (lambda (str) (print str))]))
 
     (define panel (new horizontal-panel%
                        [parent tab-parent]))
@@ -100,7 +95,7 @@
                          [parent recipe-item]
                          [label "fav"]
                          [callback (lambda (btn ev)
-                                     (mark-fav! conn (current-recipe recipe-list))
+                                     (recipe-toggle-Favorite! conn (current-recipe recipe-list))
                                      (refresh-lists conn)
                                      void)]))
     void))
