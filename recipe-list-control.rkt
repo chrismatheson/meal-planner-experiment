@@ -14,17 +14,45 @@
       ;;  ((get-on-search this) (send this get-value)))
       (super on-subwindow-char win char))))
 
+(define recipe-editor%
+  (class vertical-panel%
+    (super-new)
+    (define/public (set-value val)
+      (send title-field set-value (recipe-Name val))
+      (send ingerdients-field set-value (recipe-Ingredients val))
+      (send directions-field set-value (recipe-Notes val)))
+    (define title-field (new text-field%
+                             [label "Title"]
+                             [parent this]
+                             [style (list 'multiple 'vertical-label)]))
+    (define ingerdients-field (new text-field%
+                                   [label "Ingredients"]
+                                   [parent this]
+                                   [min-height 100]
+                                   [style (list 'multiple 'vertical-label)]))
+
+    (define directions-field (new text-field%
+                                  [label "Directions"]
+                                  [parent this]
+                                  [style (list 'multiple 'vertical-label)]
+                                  [min-height 200]
+                                  [stretchable-height true]))
+    (define/public (get-new-recipe) (make-recipe #:Name (send title-field get-value)
+                                          #:Ingredients (send ingerdients-field get-value)
+                                          #:Notes (send directions-field get-value)
+                                          #:Favorite? false))
+    ))
+
 (define (recipe-tab tab-parent conn)
   (begin
     (define (current-recipe ls)
       (send ls get-data (first (send ls get-selections))))
 
     (define (open-recipe-item ls ev)
-      (define r (current-recipe ls))
-      (send title-field set-value (recipe-Name r))
-      (send ingerdients-field set-value (recipe-Ingredients r))
-      (send directions-field set-value (recipe-Notes r))
-      )
+      (send recipe-item set-value (current-recipe ls)))
+
+    (define (all-recipes) (recipe-list-data conn 0))
+    (define (fav-recipes) (recipe-list-data conn 1))
 
     (define search (new search-box%
                         [label false]
@@ -39,13 +67,19 @@
          [parent switches]
          [label "all"]
          [callback (λ (target event)
-                     (refresh-lists (λ () (recipe-list-data conn 0))))])
+                     (refresh-lists all-recipes))])
 
     (new button%
          [parent switches]
          [label "fav"]
          [callback (λ (target event)
-                     (refresh-lists (λ () (recipe-list-data conn 1))))])
+                     (refresh-lists fav-recipes))])
+
+    (new button%
+         [parent switches]
+         [label "veg"]
+         [callback (λ (target event)
+                     (refresh-lists fav-recipes))])
 
     (define panel (new horizontal-panel%
                        [parent tab-parent]))
@@ -61,41 +95,18 @@
       (map (lambda (item) (send recipe-list append (recipe-Name item) item))
            (data)))
 
-    (refresh-lists (λ () (recipe-list-data conn 0)))
+    (refresh-lists all-recipes)
 
     ;RECIPE-ITEM
 
-    (define recipe-item (new vertical-panel% 
+    (define recipe-item (new recipe-editor% 
                              [parent panel]))
-
-    (define title-field (new text-field%
-                             [label "Title"]
-                             [parent recipe-item]
-                             [style (list 'multiple 'vertical-label)]))
-
-    (define ingerdients-field (new text-field%
-                                   [label "Ingredients"]
-                                   [parent recipe-item]
-                                   [min-height 100]
-                                   [style (list 'multiple 'vertical-label)]))
-
-    (define directions-field (new text-field%
-                                  [label "Directions"]
-                                  [parent recipe-item]
-                                  [style (list 'multiple 'vertical-label)]
-                                  [min-height 200]
-                                  [stretchable-height true]))
-
-    (define (get-new-recipe) (make-recipe #:Name (send title-field get-value)
-                                          #:Ingredients (send ingerdients-field get-value)
-                                          #:Notes (send directions-field get-value)
-                                          #:Favorite? false))
 
     (define save-btn (new button%
                           [parent recipe-item]
                           [label "save"]
                           [callback (lambda (btn ev)
-                                      (define item (insert-new-recipe! conn (get-new-recipe)))
+                                      (define item (insert-new-recipe! conn (send recipe-item get-new-recipe)))
                                       (refresh-lists conn))]))
     (define fav-btn (new button%
                          [parent recipe-item]
