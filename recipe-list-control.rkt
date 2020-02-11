@@ -10,8 +10,8 @@
     (super-new)
     (init [on-search (lambda () void)])
     (define/override (on-subwindow-char win char)
-      (when (eq? #\return (send char get-key-code))
-        ((get-on-search this) (send this get-value)))
+      ;;(when (eq? #\return (send char get-key-code))
+      ;;  ((get-on-search this) (send this get-value)))
       (super on-subwindow-char win char))))
 
 (define (recipe-tab tab-parent conn)
@@ -32,6 +32,21 @@
                         [parent tab-parent]
                         [on-search (lambda (str) (print str))]))
 
+    (define switches (new horizontal-panel%
+                          [parent tab-parent]
+                          [stretchable-height false]))
+    (new button%
+         [parent switches]
+         [label "all"]
+         [callback (λ (target event)
+                     (refresh-lists (λ () (recipe-list-data conn 0))))])
+
+    (new button%
+         [parent switches]
+         [label "fav"]
+         [callback (λ (target event)
+                     (refresh-lists (λ () (recipe-list-data conn 1))))])
+
     (define panel (new horizontal-panel%
                        [parent tab-parent]))
 
@@ -41,21 +56,12 @@
                              [choices (list)]
                              [callback open-recipe-item]))
 
-    (define fav-recipe-list (new list-box%
-                             [parent panel]
-                             [label false]
-                             [choices (list)]
-                             [callback open-recipe-item]))
-
-    (define (refresh-lists conn)
+    (define (refresh-lists data)
       (send recipe-list clear)
-      (send fav-recipe-list clear)
       (map (lambda (item) (send recipe-list append (recipe-Name item) item))
-           (recipe-list-data conn 0))
-      (map (lambda (item) (send fav-recipe-list append (recipe-Name item) item))
-           (recipe-list-data conn 1)))
+           (data)))
 
-    (refresh-lists conn)
+    (refresh-lists (λ () (recipe-list-data conn 0)))
 
     ;RECIPE-ITEM
 
@@ -96,7 +102,7 @@
                          [label "fav"]
                          [callback (lambda (btn ev)
                                      (recipe-toggle-Favorite! conn (current-recipe recipe-list))
-                                     (refresh-lists conn)
+                                     ;;(refresh-lists conn)
                                      void)]))
     void))
 
