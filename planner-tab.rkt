@@ -3,6 +3,45 @@
 
 (provide planner-tab)
 
+(define (recipe-summary-view parent #:name name)
+  (define/contract (self r)
+    (-> recipe? any/c)
+    (send text set-label (recipe-Name r)))
+  (define main (new horizontal-panel%
+                    [parent (new group-box-panel%
+                                 [parent parent]
+                                 [label name])]))
+
+  (define image (new panel%
+                     [parent main]
+                     [min-height 100]
+                     [min-width 100]
+                     [stretchable-width false]
+                     [stretchable-height false]
+                     [style (list 'border)]))
+  (send image accept-drop-files true)
+
+  (define dwane (make-object bitmap% (string->path "/Users/chrismatheson/Downloads/dwayne1.jpg")))
+
+  (new message%
+       [parent image]
+       [label "<add photo>"])
+
+  (define text (new message%
+                    [parent main]
+                    [label "..."]
+                    [stretchable-width false]
+                    [auto-resize true]))
+  (new button%
+       [parent main]
+       [label "switch"]
+       [callback (lambda (btn ev) void)])
+  (new button%
+       [parent main]
+       [label "pin"]
+       [callback (lambda (btn ev) void)])
+  self)
+
 (define (planner-tab parent-tab conn)
   ;; (define (switch-meal Day)
   ;;   (define choice (in-entities conn
@@ -43,43 +82,7 @@
   (controls parent-tab)
 
 
-  (define (recipe-summary-view parent #:name name)
-    (define/contract (self r)
-      (-> recipe? any/c)
-      (send text set-label (recipe-Name r)))
-    (define main (new horizontal-panel%
-                      [parent (new group-box-panel%
-                                   [parent parent]
-                                   [label name])]))
-
-    (define image (new panel%
-                       [parent main]
-                       [min-height 100]
-                       [min-width 100]
-                       [stretchable-width false]
-                       [stretchable-height false]
-                       [style (list 'border)]))
-    (send image accept-drop-files true)
-
-    (define dwane (make-object bitmap% (string->path "/Users/chrismatheson/Downloads/dwayne1.jpg")))
-
-    (new message%
-         [parent image]
-         [label "<add photo>"])
-
-    (define text (new message%
-                      [parent main]
-                      [label "..."]
-                      [stretchable-width false]
-                      [auto-resize true]))
-    (new button%
-         [parent main]
-         [label "switch"]
-         [callback (lambda (btn ev) void)])
-    (new button%
-         [parent main]
-         [label "pin"]
-         [callback (lambda (btn ev) void)])
-    self)
+  
   void)
+
 
