@@ -3,6 +3,31 @@
 
 (provide planner-tab)
 
+(define image-input%
+  (class panel%
+    (super-new)
+    (inherit min-height min-width stretchable-width stretchable-height accept-drop-files)
+    (min-height 100)
+    (min-width 100)
+    [stretchable-width false]
+    [stretchable-height false]
+
+    (accept-drop-files true)
+
+    (define dwane (make-object bitmap% (string->path "/Users/chrismatheson/Downloads/dwayne1.jpg")))
+
+    (new message%
+         [parent this]
+         [label "<add photo>"])
+    ))
+
+(define recipe-summary-view%
+  (class horizontal-panel%
+    (super-new)
+
+    (define/public (set-value val) void)
+    ))
+
 (define (recipe-summary-view parent #:name name)
   (define/contract (self r)
     (-> recipe? any/c)
@@ -12,20 +37,9 @@
                                  [parent parent]
                                  [label name])]))
 
-  (define image (new panel%
+  (define image (new image-input%
                      [parent main]
-                     [min-height 100]
-                     [min-width 100]
-                     [stretchable-width false]
-                     [stretchable-height false]
                      [style (list 'border)]))
-  (send image accept-drop-files true)
-
-  (define dwane (make-object bitmap% (string->path "/Users/chrismatheson/Downloads/dwayne1.jpg")))
-
-  (new message%
-       [parent image]
-       [label "<add photo>"])
 
   (define text (new message%
                     [parent main]
