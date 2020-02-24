@@ -21,12 +21,6 @@
          [label "<add photo>"])
     ))
 
-(define recipe-summary-view%
-  (class horizontal-panel%
-    (super-new)
-
-    (define/public (set-value val) void)
-    ))
 
 (define (recipe-summary-view parent #:name name)
   (define/contract (self r)

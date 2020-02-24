@@ -1,9 +1,14 @@
 #lang racket/gui
 (require db deta threading "data.rkt")
 
-(define/contract (insert-new-recipe! conn new-recipe)
+(define/contract (upsert-recipe! conn new-recipe)
   (-> connection? recipe? recipe?)
-  (insert-one! conn new-recipe))
+  (print new-recipe)
+  (cond
+    [(void? (recipe-id new-recipe)) (insert-one! conn new-recipe)]
+    [else (begin
+            (update-one! conn new-recipe))])
+  (values new-recipe))
 
 (define search-box%
   (class text-field%
@@ -17,10 +22,18 @@
 (define recipe-editor%
   (class vertical-panel%
     (super-new)
+    (init [value (struct-copy recipe null-recipe)])
+    (define cur-value value)
     (define/public (set-value val)
+      (set! cur-value val)
       (send title-field set-value (recipe-Name val))
       (send ingerdients-field set-value (recipe-Ingredients val))
       (send directions-field set-value (recipe-Notes val)))
+    (define/public (get-value) (begin
+                                 (set! cur-value (set-recipe-Name cur-value (send title-field get-value)))
+                                 (set! cur-value (set-recipe-Ingredients cur-value (send  ingerdients-field get-value)))
+                                 (set! cur-value (set-recipe-Notes cur-value (send directions-field get-value)))
+                                 cur-value))
     (define title-field (new text-field%
                              [label "Title"]
                              [parent this]
@@ -37,16 +50,14 @@
                                   [style (list 'multiple 'vertical-label)]
                                   [min-height 200]
                                   [stretchable-height true]))
-    (define/public (get-new-recipe) (make-recipe #:Name (send title-field get-value)
-                                          #:Ingredients (send ingerdients-field get-value)
-                                          #:Notes (send directions-field get-value)
-                                          #:Favorite? false))
     ))
 
 (define (recipe-tab tab-parent conn)
   (begin
     (define (current-recipe ls)
-      (send ls get-data (first (send ls get-selections))))
+      (match (send ls get-selections)
+        [(list item) (send ls get-data item)]
+        ['() null-recipe]))
 
     (define (open-recipe-item ls ev)
       (send recipe-item set-value (current-recipe ls)))
@@ -106,15 +117,21 @@
                           [parent recipe-item]
                           [label "save"]
                           [callback (lambda (btn ev)
-                                      (define item (insert-new-recipe! conn (send recipe-item get-new-recipe)))
-                                      (refresh-lists conn))]))
+                                      (define item (upsert-recipe! conn (send recipe-item get-value)))
+                                      (refresh-lists all-recipes))]))
     (define fav-btn (new button%
                          [parent recipe-item]
                          [label "fav"]
                          [callback (lambda (btn ev)
                                      (recipe-toggle-Favorite! conn (current-recipe recipe-list))
-                                     ;;(refresh-lists conn)
+                                     (refresh-lists all-recipes)
                                      void)]))
+    (define remove-btn (new button%
+                          [parent recipe-item]
+                          [label "remove"]
+                          [callback (lambda (btn ev)
+                                      (delete-one! conn (send recipe-item get-value))
+                                      (refresh-lists all-recipes))]))
     void))
 
 
