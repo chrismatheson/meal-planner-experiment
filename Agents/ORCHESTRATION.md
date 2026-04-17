@@ -12,12 +12,13 @@ See also:
 
 ### Definition of Done
 
-| Phase | Required Evidence |
-|-------|-------------------|
-| Feature Dev | Failing test → Passing test → Code committed |
-| Integration | Test hits real API and passes |
-| UI Complete | UI test runs and passes |
-| MVP Complete | Full app run-through with real credentials |
+| Phase | Required Evidence | QA Action |
+|-------|-------------------|-----------|
+| Feature Dev | Failing test → Passing test → Code committed | - |
+| Integration | Test hits real API and passes | QA verifies, updates TEST_PLAN.md |
+| UI Complete | UI test runs and passes | QA verifies, updates TEST_PLAN.md |
+| MVP Complete | Full app run-through with real credentials | QA runs all manual tests, updates TEST_PLAN.md |
+| **Handoff to User/PO** | QA sign-off required | QA audits TEST_PLAN.md reflects reality |
 
 ## Invocation Pattern
 

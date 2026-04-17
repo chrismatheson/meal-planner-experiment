@@ -179,6 +179,41 @@ func test_mealPlan_withNetworkError_showsRetryButton() { }
 - "How does this behave with 0, 1, many items?"
 - "What if the user backgrounds the app mid-flow?"
 
+## Process Hooks - When QA Must Act
+
+### Trigger: Developer marks feature "working"
+1. **Verify the claim** - run the app, execute the feature manually
+2. **Update TEST_PLAN.md** - mark relevant test cases as 🟢 Done
+3. **If it doesn't work** - send back to dev with evidence, do NOT update status
+
+### Trigger: Before any handoff to user/PO
+1. **Run all manual test cases** for affected features
+2. **Update TEST_PLAN.md** with actual status
+3. **Block handoff** if critical tests fail
+
+### Trigger: New feature added to ROADMAP.md
+1. **Add test cases** to TEST_PLAN.md immediately (even if ⚪ Not Started)
+2. **Define acceptance criteria** as testable assertions
+
+### Trigger: Sprint/milestone end
+1. **Audit TEST_PLAN.md** - is status accurate?
+2. **Report test coverage gaps** to team
+
+### The Test Plan is YOUR Document
+
+**TEST_PLAN.md must always reflect reality.**
+
+- If a test passes → mark it 🟢 Done
+- If a test fails → mark it ⚪ or 🔴 with notes
+- If you haven't run it → it's ⚪ Not Started (don't guess)
+- Stale status = QA failure
+
+```
+# Bad: Test plan says ⚪ but feature works
+# Bad: Test plan says 🟢 but no one actually ran it
+# Good: Status matches what you've personally verified
+```
+
 ## Collaboration Points
 
 - **With PM**: Clarify acceptance criteria, prioritize bug fixes
