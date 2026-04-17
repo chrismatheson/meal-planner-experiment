@@ -5,100 +5,100 @@
 
 ## Vision
 
-A native iOS app that enhances the Paprika Recipe Manager experience with better meal planning UX, offline support, and smart features.
+**Autopilot for meal planning.** Generate a week of dinners from your Paprika library. You just steer.
 
 ---
 
 ## Current Focus
 
-### 🎯 Now: MVP Completion
+### 🎯 Now: Generate-First MVP
 
-**Theme**: Get core meal planning workflow functional
+**Theme**: App generates the plan, user just approves
 
 | Feature | Status | Priority | Notes |
 |---------|--------|----------|-------|
 | Paprika login | 🟢 Complete | - | Working with multipart form auth |
-| Recipe list display | 🟢 Complete | - | Grid UI with images |
-| **Write-back meal selections** | ⚪ Not Started | P0 | ← *PO Priority* |
-| **Token persistence** | ⚪ Not Started | P0 | ← *PO Priority* |
-| Recipe data caching | ⚪ Not Started | P1 | Faster subsequent launches |
+| Recipe fetching | 🟢 Complete | - | Can pull from Paprika |
+| **"Plan My Week" generation** | ⚪ Not Started | P0 | Random, no duplicates |
+| **Review week UI** | ⚪ Not Started | P0 | 7 cards, regenerate per-day |
+| **Sync plan to Paprika** | ⚪ Not Started | P0 | Write back on Accept |
+| Token persistence | ⚪ Not Started | P1 | Stay logged in |
+| Recipe caching | ⚪ Not Started | P1 | Offline generation |
 
-### 📋 Next: Polish & Full Sync
+### ❌ Cut from v1.0 (not needed for generate-first)
 
-**Theme**: Complete v1.0 experience
-
-| Feature | Priority | Effort | Dependencies |
-|---------|----------|--------|--------------|
-| Full recipe sync (pagination) | P1 | M | Token persistence |
-| Meal plan week view | P1 | M | Write-back |
-| Offline recipe viewing | P1 | M | Data caching |
-| Error handling polish | P2 | S | None |
-
-### 🔮 Later (Backlog)
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Recipe search/filter | P2 | In-app search of cached recipes |
-| Recipe detail view | P2 | Full recipe info, ingredients, steps |
-| Pull-to-refresh | P3 | Nice UX polish |
+| Feature | Reason |
+|---------|--------|
+| Recipe grid browsing | User doesn't pick recipes |
+| Manual assignment UI | Generation does this |
+| Drag-drop / swipe gestures | Not needed - just "regenerate" |
+| Recipe detail view | Maybe later, not core flow |
 
 ---
 
 ## Milestones
 
-### 🚀 MVP (v1.0)
+### 🚀 v1.0 - Generate-First MVP
 
-**Goal**: Usable app that syncs with Paprika and allows meal planning - works offline
+**Goal**: Generate a week of dinners, steer with regenerate, sync to Paprika
 **Status**: In Progress
 
-- [x] User can login with Paprika credentials
-- [x] User can view their recipes with images
-- [ ] User can assign recipes to meal plan slots
-- [ ] Changes sync back to Paprika
-- [ ] User stays logged in between sessions
-- [ ] App caches recipes locally (SwiftData)
-- [ ] App works offline with cached data
-- [ ] Syncs changes when connectivity restored
+**Core Flow:**
+```
+Login → "Plan My Week" → Review 7 dinners → Regenerate any → Accept → Synced
+```
 
-**Success Criteria**: User can plan a week of meals offline, and changes appear in Paprika when back online
+**Checklist:**
+- [x] Paprika authentication
+- [x] Fetch recipes from Paprika
+- [ ] Generate 7-day plan (random, no duplicates in week)
+- [ ] Review UI: 7 cards (day + recipe + photo)
+- [ ] Per-day "↻ Another" (excluded-random)
+- [ ] "↻ Regenerate All"
+- [ ] "Use This Plan" → sync to Paprika
+- [ ] Token persistence (stay logged in)
+- [ ] Recipe caching (offline generation)
 
-### 📈 v1.1 - Enhanced Experience
+**Scope:**
+- Dinner only (one meal per day)
+- Next 7 days (rolling, not calendar week)
+- Random generation (no "smart" yet)
 
-**Goal**: Polish and quality-of-life improvements
+**Success Criteria**: Generate → tweak → accept in under 60 seconds
 
-- [ ] Recipe search and filtering
-- [ ] Recipe detail view
-- [ ] Meal plan week navigation
-- [ ] Accessibility audit and fixes
-- [ ] Loading states and error handling polish
+### 📈 v1.1 - Polish
 
-### 🌟 v2.0 - Auto-populate (Simple)
+**Goal**: Refinements based on real usage
 
-**Goal**: Reduce manual meal planning effort with basic automation
+- [ ] Loading states and error handling
+- [ ] Recipe photo tap → show name/description
+- [ ] "Undo" last regeneration
+- [ ] Accessibility audit
 
-- [ ] "Fill my week" button - randomly assigns recipes to empty slots
-- [ ] Basic exclusions (e.g., "not this recipe again this week")
-- [ ] Respects any manually-placed meals
+### 🌟 v2.0 - Smarter Generation
 
-**Philosophy**: Ship simple randomisation, see how it holds up in real life before adding complexity.
+**Goal**: Generation that learns from rejections
 
-### 🔮 v2.1 - Smart Constraints
+- [ ] Track rejected recipes per session
+- [ ] "Don't suggest this one for a while"
+- [ ] No repeats from last week
+- [ ] Basic variety rules (not same protein 3x)
 
-**Goal**: Intelligent meal planning based on rules and habits
+### 🔮 v2.1 - Habit-Aware
 
-- [ ] Dietary rules (vegetarian Mondays, no nuts, etc.)
-- [ ] Habit patterns (takeaway Fridays, Sunday roast, quick meals on busy days)
-- [ ] Ingredient-aware suggestions (use what's in the fridge)
-- [ ] Meal history awareness (don't repeat too often)
+**Goal**: Encode weekly patterns and preferences
+
+- [ ] Fixed slots (Takeaway Friday, Sunday Roast)
+- [ ] Recipe metadata (quick vs elaborate, kid-friendly)
+- [ ] Weeknight vs weekend awareness
+- [ ] Learns from "we didn't make this" feedback
 
 ### 🔮 v3.0+ Vision
 
-- [ ] Apple TV companion
-  - it mihgt be a nice feature to have the kids involved in selecting meals, or maybe just making suggestions. But i dont want to stick them in front of an iPad or phone.
-- [ ] Siri Shortcuts integration
-- [ ] Family sharing / multi-user
-- [ ] Calendar integration
-- [ ] Grocery delivery service integration
+- [ ] **Apple TV companion** - Kids involved in meal selection on the big screen, no personal devices
+- [ ] Breakfast / lunch support
+- [ ] Family voting on suggestions
+- [ ] Siri: "What's for dinner tonight?"
 
 ---
 

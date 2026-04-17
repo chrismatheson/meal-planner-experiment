@@ -78,40 +78,66 @@ final class KeychainService {
         }
     }
     
-    // MARK: - Credentials Storage
-    
-    func saveCredentials(email: String, password: String) throws {
-        let credentials = "\(email):\(password)"
-        guard let data = credentials.data(using: .utf8) else {
+    // MARK: - Email Storage (for display purposes, not sensitive)
+
+    func saveEmail(_ email: String) throws {
+        guard let data = email.data(using: .utf8) else {
             throw KeychainError.invalidData
         }
-        
-        try? deleteCredentials()
-        
+
+        try? deleteEmail()
+
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
-            kSecAttrAccount as String: "credentials",
+            kSecAttrAccount as String: "email",
             kSecValueData as String: data,
             kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         ]
-        
+
         let status = SecItemAdd(query as CFDictionary, nil)
-        
+
         guard status == errSecSuccess else {
             throw KeychainError.unknown(status)
         }
     }
-    
-    func deleteCredentials() throws {
+
+    func getEmail() throws -> String {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
-            kSecAttrAccount as String: "credentials"
+            kSecAttrAccount as String: "email",
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
         ]
-        
+
+        var result: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+
+        guard status == errSecSuccess else {
+            if status == errSecItemNotFound {
+                throw KeychainError.notFound
+            }
+            throw KeychainError.unknown(status)
+        }
+
+        guard let data = result as? Data,
+              let email = String(data: data, encoding: .utf8) else {
+            throw KeychainError.invalidData
+        }
+
+        return email
+    }
+
+    func deleteEmail() throws {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: "email"
+        ]
+
         let status = SecItemDelete(query as CFDictionary)
-        
+
         guard status == errSecSuccess || status == errSecItemNotFound else {
             throw KeychainError.unknown(status)
         }

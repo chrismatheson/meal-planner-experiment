@@ -3,16 +3,38 @@ import SwiftUI
 /// Root view that handles authentication routing
 struct RootView: View {
     @Environment(AppState.self) private var appState
-    
+
     var body: some View {
         Group {
-            if appState.isAuthenticated {
+            if appState.isRestoringSession {
+                // Show splash while checking for stored session
+                SplashView()
+            } else if appState.isAuthenticated {
                 MainTabView()
             } else {
                 LoginView()
             }
         }
         .animation(.easeInOut, value: appState.isAuthenticated)
+        .animation(.easeInOut, value: appState.isRestoringSession)
+    }
+}
+
+/// Splash screen shown during session restoration
+struct SplashView: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "fork.knife")
+                .font(.system(size: 60))
+                .foregroundColor(.paprikaPrimary)
+
+            Text("MealPlanner")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+
+            ProgressView()
+                .tint(.paprikaPrimary)
+        }
     }
 }
 

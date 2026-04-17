@@ -9,14 +9,28 @@ actor PaprikaClient {
     private let userAgent = "Paprika Recipe Manager 3/3.7.4 (iOS 17.0; iPhone)"
     
     init() {
-        // Token stored in memory for now
-        // TODO: Add Keychain storage once app is properly signed
+        // Token can be set externally via setToken() for session restoration
     }
-    
+
     init(keychain: KeychainService) {
         // Legacy init for compatibility
     }
-    
+
+    /// Sets the authentication token (for session restoration from Keychain)
+    /// Using nonisolated to allow calling from non-async context
+    nonisolated func setToken(_ token: String) async {
+        await setTokenInternal(token)
+    }
+
+    private func setTokenInternal(_ token: String) {
+        self.token = token
+    }
+
+    /// Returns whether the client has a valid token set
+    var hasToken: Bool {
+        token != nil
+    }
+
     // MARK: - Authentication
     
     func login(email: String, password: String) async throws -> String {
