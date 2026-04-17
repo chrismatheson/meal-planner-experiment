@@ -20,6 +20,7 @@ let package = Package(
             path: "MealPlanner"),
         .testTarget(
             name: "MealPlannerTests",
-            dependencies: ["MealPlanner"]),
+            dependencies: ["MealPlanner"],
+            path: "MealPlannerTests"),
     ]
 )

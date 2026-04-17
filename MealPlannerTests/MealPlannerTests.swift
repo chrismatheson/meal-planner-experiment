@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import MealPlanner
 
 final class MealPlannerTests: XCTestCase {
