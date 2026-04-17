@@ -30,18 +30,43 @@ creation feature.
 
 ## Workflow Templates
 
+### 🔍 Discovery Workflow (Before Building)
+
+```mermaid
+sequenceDiagram
+    participant PM as Product Manager
+    participant Res as Researcher
+    participant Arch as Architect
+    participant Des as Designer
+
+    PM->>Res: What integration do we need?
+    Res->>Res: Investigate API/technology
+    Res->>Arch: Here's what's possible
+    Arch->>Arch: Design with real constraints
+    PM->>Des: Audit target app's design
+    Des->>Des: Extract design system
+```
+
+**Use this workflow when:**
+- Integrating with external APIs (especially undocumented)
+- Evaluating new technologies
+- Starting a new product area
+
 ### 🆕 New Feature Workflow
 
 ```mermaid
 sequenceDiagram
     participant PM as Product Manager
-    participant Arch as Architect  
+    participant Res as Researcher
+    participant Arch as Architect
     participant Des as Designer
     participant Dev as Developer
     participant QA as QA
     participant Sec as Security
 
     PM->>PM: Write feature spec
+    PM->>Res: Any unknowns to research?
+    Res->>Arch: Research findings
     PM->>Arch: Review for feasibility
     Arch->>Arch: Design solution
     Arch->>Des: Collaborate on UX

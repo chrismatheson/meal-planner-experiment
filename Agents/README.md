@@ -7,17 +7,23 @@ A collaborative AI agent system designed to build top-class iOS applications usi
 | Agent | Role | Primary Focus |
 |-------|------|---------------|
 | **Product Manager** | Vision Keeper | Features, roadmap, user stories, acceptance criteria |
+| **Researcher** | Discovery Lead | API investigation, tech evaluation, feasibility |
 | **Architect** | System Designer | Patterns, data flow, module boundaries, scalability |
 | **Developer** | Implementation | Swift, SwiftUI, clean code, Apple frameworks |
 | **QA** | Quality Guardian | Testing strategies, automation, edge cases, regression |
 | **Security** | Risk Mitigator | Threat modeling, secure coding, data protection |
-| **Designer** | UX Champion | UI patterns, accessibility, Human Interface Guidelines |
+| **Designer** | UX Champion | UI patterns, accessibility, Paprika alignment |
 
 ## Workflow
 
 ```
 ┌─────────────────┐
 │ Product Manager │ ← Defines WHAT and WHY
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│   Researcher    │ ← Investigates unknowns (APIs, tech)
 └────────┬────────┘
          │
          ▼
