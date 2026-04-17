@@ -20,6 +20,14 @@ targets:
       - path: MealPlanner
         excludes:
           - "**/*.md"
+    info:
+      path: MealPlanner/Info.plist
+      properties:
+        NSAppTransportSecurity:
+          NSExceptionDomains:
+            s3.amazonaws.com:
+              NSExceptionAllowsInsecureHTTPLoads: true
+              NSIncludesSubdomains: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app

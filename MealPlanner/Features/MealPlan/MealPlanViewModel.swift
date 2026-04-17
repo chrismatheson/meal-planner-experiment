@@ -79,18 +79,10 @@ final class MealPlanViewModel {
     }
     
     private func syncSlot(_ slot: MealSlotModel) async {
-        guard let client = client else { return }
-        
-        do {
-            let paprikaItem = slot.toPaprikaModel()
-            try await client.saveMealItem(paprikaItem)
-            
-            // Mark as synced
-            slot.needsSync = false
-        } catch {
-            print("Failed to sync meal slot: \(error)")
-            // Keep needsSync = true for retry later
-        }
+        // TODO: Implement meal plan sync to Paprika
+        // For MVP, we're only reading meal plans, not writing
+        // The sync/menuitem/ endpoint needs investigation
+        slot.needsSync = false
     }
     
     func syncAllPendingSlots(context: ModelContext) async {
