@@ -208,5 +208,6 @@ struct DayRow: View {
 
 #Preview {
     MealPlanView()
+        .environment(AppState())
         .modelContainer(for: [RecipeModel.self, MealSlotModel.self], inMemory: true)
 }

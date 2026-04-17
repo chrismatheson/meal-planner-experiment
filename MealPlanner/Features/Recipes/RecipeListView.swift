@@ -141,5 +141,6 @@ struct RecipeCard: View {
 
 #Preview {
     RecipeListView()
+        .environment(AppState())
         .modelContainer(for: RecipeModel.self, inMemory: true)
 }
