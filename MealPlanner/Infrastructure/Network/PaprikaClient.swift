@@ -116,6 +116,10 @@ actor PaprikaClient {
     func saveMealItem(_ item: PaprikaMealItem) async throws {
         try await postSyncRequest(endpoint: "sync/menuitem/\(item.uid)/", body: item)
     }
+
+    func deleteMealItem(uid: String) async throws {
+        try await deleteRequest(endpoint: "sync/menuitem/\(uid)/")
+    }
     
     // MARK: - Private Helpers
     
@@ -157,7 +161,7 @@ actor PaprikaClient {
         guard let token = token else {
             throw PaprikaError.notAuthenticated
         }
-        
+
         let url = baseURL.appendingPathComponent(endpoint)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -165,9 +169,28 @@ actor PaprikaClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.httpBody = try JSONEncoder().encode(body)
-        
+
         let (_, response) = try await URLSession.shared.data(for: request)
-        
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw PaprikaError.serverError((response as? HTTPURLResponse)?.statusCode ?? 0)
+        }
+    }
+
+    private func deleteRequest(endpoint: String) async throws {
+        guard let token = token else {
+            throw PaprikaError.notAuthenticated
+        }
+
+        let url = baseURL.appendingPathComponent(endpoint)
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+
+        let (_, response) = try await URLSession.shared.data(for: request)
+
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {
             throw PaprikaError.serverError((response as? HTTPURLResponse)?.statusCode ?? 0)

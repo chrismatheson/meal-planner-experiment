@@ -30,8 +30,8 @@ final class PaprikaIntegrationTests: XCTestCase {
     /// This test would have caught the User-Agent issue!
     func test_apiConnection_withUserAgent_isAccepted() async throws {
         // This test verifies we're not rejected as "Unrecognized client"
-        let client = PaprikaClient(keychain: MockKeychainService())
-        
+        let client = PaprikaClient()
+
         // Even with invalid credentials, we should get "invalid credentials"
         // NOT "Unrecognized client" (which means User-Agent is wrong)
         do {
@@ -54,23 +54,23 @@ final class PaprikaIntegrationTests: XCTestCase {
             XCTFail("Unexpected error: \(error)")
         }
     }
-    
+
     /// Tests login with valid credentials
     /// Only runs if PAPRIKA_EMAIL and PAPRIKA_PASSWORD are set
     func test_login_withValidCredentials_returnsToken() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
-        
-        let client = PaprikaClient(keychain: MockKeychainService())
-        
+
+        let client = PaprikaClient()
+
         let token = try await client.login(email: testEmail, password: testPassword)
-        
+
         XCTAssertFalse(token.isEmpty, "Token should not be empty")
         print("✅ Successfully logged in, token length: \(token.count)")
     }
-    
+
     /// Tests that invalid credentials fail gracefully
     func test_login_withInvalidCredentials_throwsInvalidCredentials() async throws {
-        let client = PaprikaClient(keychain: MockKeychainService())
+        let client = PaprikaClient()
         
         do {
             _ = try await client.login(email: "invalid@example.com", password: "wrongpassword")
@@ -85,38 +85,85 @@ final class PaprikaIntegrationTests: XCTestCase {
     /// Tests fetching recipes after successful login
     func test_fetchRecipes_afterLogin_returnsRecipes() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
-        
-        let keychain = MockKeychainService()
-        let client = PaprikaClient(keychain: keychain)
-        
+
+        let client = PaprikaClient()
+
         // First login
         _ = try await client.login(email: testEmail, password: testPassword)
-        
+
         // Then fetch recipes
         let recipes = try await client.fetchRecipes()
-        
+
         print("✅ Fetched \(recipes.count) recipes")
         // User may have 0 recipes, so just verify no crash
     }
-}
 
-// MARK: - Mock Keychain for Testing
+    // MARK: - Meal Plan Write-back Tests
 
-private class MockKeychainService: KeychainService {
-    private var storedToken: String?
-    
-    override func saveToken(_ token: String) throws {
-        storedToken = token
-    }
-    
-    override func getToken() throws -> String {
-        guard let token = storedToken else {
-            throw KeychainError.notFound
+    /// Tests that we can save a meal item to Paprika
+    func test_saveMealItem_createsNewMealInPaprika() async throws {
+        try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+
+        let client = PaprikaClient()
+
+        // Login first
+        _ = try await client.login(email: testEmail, password: testPassword)
+
+        // Get a recipe to assign
+        let recipes = try await client.fetchRecipes(limit: 1)
+        guard let recipe = recipes.first else {
+            throw XCTSkip("No recipes available to test with")
         }
-        return token
+
+        // Create a meal item for tomorrow (to avoid messing with today's plan)
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+        let mealItem = PaprikaMealItem.create(for: tomorrow, recipe: recipe)
+
+        // Save it
+        try await client.saveMealItem(mealItem)
+
+        // Verify by fetching meal items back
+        let mealItems = try await client.fetchMealItems()
+        let savedItem = mealItems.first { $0.uid == mealItem.uid }
+
+        XCTAssertNotNil(savedItem, "Meal item should be saved to Paprika")
+        XCTAssertEqual(savedItem?.name, recipe.name)
+
+        print("✅ Successfully saved meal item: \(recipe.name) for \(mealItem.date)")
+
+        // Clean up: delete the test meal item
+        try await client.deleteMealItem(uid: mealItem.uid)
+        print("✅ Cleaned up test meal item")
     }
-    
-    override func deleteToken() throws {
-        storedToken = nil
+
+    /// Tests that we can delete a meal item from Paprika
+    func test_deleteMealItem_removesMealFromPaprika() async throws {
+        try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+
+        let client = PaprikaClient()
+
+        // Login first
+        _ = try await client.login(email: testEmail, password: testPassword)
+
+        // Get a recipe to assign
+        let recipes = try await client.fetchRecipes(limit: 1)
+        guard let recipe = recipes.first else {
+            throw XCTSkip("No recipes available to test with")
+        }
+
+        // Create and save a meal item
+        let futureDate = Calendar.current.date(byAdding: .day, value: 7, to: Date())!
+        let mealItem = PaprikaMealItem.create(for: futureDate, recipe: recipe)
+        try await client.saveMealItem(mealItem)
+
+        // Delete it
+        try await client.deleteMealItem(uid: mealItem.uid)
+
+        // Verify it's gone
+        let mealItems = try await client.fetchMealItems()
+        let deletedItem = mealItems.first { $0.uid == mealItem.uid }
+
+        XCTAssertNil(deletedItem, "Meal item should be deleted from Paprika")
+        print("✅ Successfully deleted meal item")
     }
 }
