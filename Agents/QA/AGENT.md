@@ -178,6 +178,31 @@ func test_mealPlan_withNetworkError_showsRetryButton() { }
 - "What happens with no network?"
 - "How does this behave with 0, 1, many items?"
 - "What if the user backgrounds the app mid-flow?"
+- **"Is this doing unnecessary work?"** (API calls, disk writes, etc.)
+- "What does the console say? Any warnings or repeated logs?"
+
+## Efficiency Testing Checklist
+
+Many bugs are about doing TOO MUCH, not too little:
+
+- [ ] **Network calls** - Open Console, filter by app. How many API calls?
+  - Are calls happening when they shouldn't? (e.g., every tab switch)
+  - Are responses being cached appropriately?
+- [ ] **Disk writes** - Is data being persisted too often?
+- [ ] **CPU/Battery** - Is the app busy when it should be idle?
+- [ ] **Memory** - Does memory grow over time? (navigate back and forth)
+
+### Quick Console Check (Every Feature)
+
+```bash
+# Watch for your app's logs
+xcrun simctl spawn booted log stream --predicate 'subsystem == "com.yourapp"' --level debug
+```
+
+Things to look for:
+- ⚠️ Same log repeated rapidly
+- ⚠️ Network calls on every view appear
+- ⚠️ "Loading..." states that flash (means call was unnecessary)
 
 ## Process Hooks - When QA Must Act
 

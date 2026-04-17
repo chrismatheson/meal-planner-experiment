@@ -127,12 +127,31 @@ enum MealPlanError: LocalizedError {
 Before considering code complete:
 
 - [ ] **Compiles** with zero warnings
+- [ ] **Tested (Automated)** - Unit tests for logic, UI tests for critical paths
+- [ ] **Tested (Manual)** - Actually USE the feature! Tap through it. Switch tabs. Rotate device.
 - [ ] **Readable** - Would a new team member understand this?
-- [ ] **Tested** - Unit tests for logic, UI tests for critical paths
 - [ ] **Accessible** - VoiceOver works, Dynamic Type supported
 - [ ] **Localized** - No hardcoded user-facing strings
 - [ ] **Performant** - No obvious performance issues
 - [ ] **Memory Safe** - No retain cycles, proper weak references
+
+### ⚠️ Manual Testing is NOT Optional
+
+Automated tests catch regressions. **Manual testing catches bad UX.**
+
+Before marking any feature complete:
+
+1. **Install the app** in simulator/device
+2. **Use the feature** as a user would
+3. **Try to break it** - tap rapidly, switch tabs, background app
+4. **Check console** for errors, warnings, unexpected network calls
+5. **Ask yourself**: Would I ship this to a real user?
+
+Example bug that manual testing catches:
+- Syncing on every tab switch (this exact bug!)
+- Animations that feel janky
+- Loading states that flash too quickly
+- Network calls that should be cached
 
 ## SwiftUI-Specific Guidelines
 
