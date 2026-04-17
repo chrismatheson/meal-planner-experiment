@@ -48,7 +48,7 @@ A native iOS app that enhances the Paprika Recipe Manager experience with better
 
 ### 🚀 MVP (v1.0)
 
-**Goal**: Usable app that syncs with Paprika and allows meal planning
+**Goal**: Usable app that syncs with Paprika and allows meal planning - works offline
 **Status**: In Progress
 
 - [x] User can login with Paprika credentials
@@ -56,9 +56,11 @@ A native iOS app that enhances the Paprika Recipe Manager experience with better
 - [ ] User can assign recipes to meal plan slots
 - [ ] Changes sync back to Paprika
 - [ ] User stays logged in between sessions
-- [ ] App caches data for faster launch
+- [ ] App caches recipes locally (SwiftData)
+- [ ] App works offline with cached data
+- [ ] Syncs changes when connectivity restored
 
-**Success Criteria**: User can plan a week of meals and see it in Paprika
+**Success Criteria**: User can plan a week of meals offline, and changes appear in Paprika when back online
 
 ### 📈 v1.1 - Enhanced Experience
 
@@ -70,16 +72,24 @@ A native iOS app that enhances the Paprika Recipe Manager experience with better
 - [ ] Accessibility audit and fixes
 - [ ] Loading states and error handling polish
 
-### 🌟 v2.0 - Smart Features
+### 🌟 v2.0 - Auto-populate (Simple)
 
-**Goal**: Features that go beyond Paprika's native app
+**Goal**: Reduce manual meal planning effort with basic automation
 
-- [ ] Meal suggestions (based on history, ingredients)
-- [ ] automatic population
-  - Constraint based. 
-  - Dietry rules
-  - randomised 
-  - habbit based (take away fridays, quick meal on tuesdays, sunday Roast etc)
+- [ ] "Fill my week" button - randomly assigns recipes to empty slots
+- [ ] Basic exclusions (e.g., "not this recipe again this week")
+- [ ] Respects any manually-placed meals
+
+**Philosophy**: Ship simple randomisation, see how it holds up in real life before adding complexity.
+
+### 🔮 v2.1 - Smart Constraints
+
+**Goal**: Intelligent meal planning based on rules and habits
+
+- [ ] Dietary rules (vegetarian Mondays, no nuts, etc.)
+- [ ] Habit patterns (takeaway Fridays, Sunday roast, quick meals on busy days)
+- [ ] Ingredient-aware suggestions (use what's in the fridge)
+- [ ] Meal history awareness (don't repeat too often)
 
 ### 🔮 v3.0+ Vision
 
@@ -141,11 +151,20 @@ A native iOS app that enhances the Paprika Recipe Manager experience with better
 | [Idea 1] | [Source] | [#] | Evaluating |
 | [Idea 2] | [Source] | [#] | Needs research |
 
+### Parked (not seeing benefit yet)
+
+| Idea | Notes | Revisit When |
+|------|-------|--------------|
+| Grocery list generation | Paprika already does this reasonably well | If users request |
+| Nutrition tracking | Adds complexity, unclear user need | After v2.0 feedback |
+| iOS Widgets | Nice-to-have, not core value prop | v2.0+ polish phase |
+| Apple Watch | Limited screen, unclear use case vs phone | After tvOS validated |
+
 ### Declined (with rationale)
 
 | Idea | Reason |
 |------|--------|
-| [Idea 1] | [Why not] |
+| - | - |
 
 ---
 
@@ -170,5 +189,6 @@ A native iOS app that enhances the Paprika Recipe Manager experience with better
 
 | Date | Changes |
 |------|---------|
+| 2026-04-17 | PO review: offline added to v1.0, v2.0 split into simple/smart phases, parked grocery/nutrition/widgets |
 | 2026-04-17 | Updated with actual MVP status, PO priorities, long-term vision |
 | YYYY-MM-DD | Initial roadmap template |
