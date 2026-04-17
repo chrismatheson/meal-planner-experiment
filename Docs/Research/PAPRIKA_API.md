@@ -62,12 +62,14 @@ struct PaprikaAuth {
 
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
-| `/api/v2/sync/recipes/` | POST | List all recipes (returns UIDs + metadata) |
-| `/api/v2/sync/recipe/{uuid}/` | POST | Get/update single recipe |
-| `/api/v2/sync/menuitems/` | POST | **Meal plan entries** ⭐ |
-| `/api/v2/sync/menus/` | POST | Menu/meal plan collections |
-| `/api/v2/sync/categories/` | POST | Recipe categories |
-| `/api/v2/sync/groceryitems/` | POST | Shopping list items |
+| `/api/v2/sync/recipes/` | **GET** | List all recipes (returns UIDs + metadata) |
+| `/api/v2/sync/recipe/{uuid}/` | GET/POST | Get/update single recipe |
+| `/api/v2/sync/menuitems/` | **GET** | **Meal plan entries** ⭐ |
+| `/api/v2/sync/menus/` | GET | Menu/meal plan collections |
+| `/api/v2/sync/categories/` | GET | Recipe categories |
+| `/api/v2/sync/groceryitems/` | GET | Shopping list items |
+
+> ⚠️ **Note**: Sync endpoints use GET not POST! Original research was incorrect.
 
 ### Request Format
 

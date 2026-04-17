@@ -79,6 +79,18 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.tests
         GENERATE_INFOPLIST_FILE: YES
 
+  MealPlannerTests-macOS:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: MealPlannerTests
+    dependencies:
+      - target: MealPlanner-macOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.tests
+        GENERATE_INFOPLIST_FILE: YES
+
 schemes:
   MealPlanner-iOS:
     build:
@@ -101,8 +113,13 @@ schemes:
     build:
       targets:
         MealPlanner-macOS: all
+        MealPlannerTests-macOS: [test]
     run:
       config: Debug
+    test:
+      config: Debug
+      targets:
+        - MealPlannerTests-macOS
     profile:
       config: Release
     analyze:

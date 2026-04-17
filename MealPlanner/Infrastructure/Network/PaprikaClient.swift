@@ -6,8 +6,8 @@ actor PaprikaClient {
     private let keychain: KeychainService
     private var token: String?
     
-    // Must identify as Paprika client
-    private let userAgent = "Paprika Recipe Manager 3/3.7.4"
+    // Must identify as Paprika client with platform info
+    private let userAgent = "Paprika Recipe Manager 3/3.7.4 (iOS 17.0; iPhone)"
     
     init(keychain: KeychainService) {
         self.keychain = keychain
@@ -106,17 +106,21 @@ actor PaprikaClient {
         
         let url = baseURL.appendingPathComponent(endpoint)
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"  // Sync endpoints use GET, not POST
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
-        request.httpBody = "{}".data(using: .utf8)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw PaprikaError.invalidResponse
         }
+        
+        #if DEBUG
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print("API Response (\(endpoint)): \(jsonString.prefix(200))...")
+        }
+        #endif
         
         if httpResponse.statusCode == 401 {
             throw PaprikaError.notAuthenticated
