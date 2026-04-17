@@ -35,7 +35,7 @@ struct MainTabView: View {
                     Label("Settings", systemImage: "gear")
                 }
         }
-        .tint(.paprikaPrimary)
+        .tint(Color.paprikaPrimary)
     }
 }
 

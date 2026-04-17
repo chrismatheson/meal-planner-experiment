@@ -88,9 +88,11 @@ extension View {
 // MARK: - Recipe Card Style
 
 struct RecipeCardStyle: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+    
     func body(content: Content) -> some View {
         content
-            .background(Color(.systemBackground))
+            .background(colorScheme == .dark ? Color.black : Color.white)
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
     }

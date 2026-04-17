@@ -67,7 +67,7 @@ struct RecipeListView: View {
                 }
             }
             .buttonStyle(.borderedProminent)
-            .tint(.paprikaPrimary)
+            .tint(Color.paprikaPrimary)
         }
     }
 }
@@ -133,7 +133,7 @@ struct RecipeCard: View {
             .overlay {
                 Image(systemName: "fork.knife")
                     .font(.largeTitle)
-                    .foregroundStyle(.paprikaPrimary.opacity(0.5))
+                    .foregroundStyle(Color.paprikaPrimary.opacity(0.5))
             }
     }
 }

@@ -21,7 +21,7 @@ struct LoginView: View {
                     VStack(spacing: Spacing.md) {
                         Image(systemName: "fork.knife.circle.fill")
                             .font(.system(size: 80))
-                            .foregroundStyle(.paprikaPrimary)
+                            .foregroundStyle(Color.paprikaPrimary)
                         
                         Text("MealPlanner")
                             .font(.largeTitle)
@@ -43,8 +43,10 @@ struct LoginView: View {
                         VStack(spacing: Spacing.sm) {
                             TextField("Email", text: $email)
                                 .textContentType(.emailAddress)
+                                #if os(iOS)
                                 .keyboardType(.emailAddress)
                                 .autocapitalization(.none)
+                                #endif
                                 .textFieldStyle(.roundedBorder)
                             
                             SecureField("Password", text: $password)
@@ -80,7 +82,9 @@ struct LoginView: View {
                     .padding(.top, Spacing.md)
                 }
             }
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
         }
         .alert("Sign In Error", isPresented: $showError) {
             Button("OK") { }

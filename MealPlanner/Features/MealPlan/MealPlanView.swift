@@ -19,7 +19,7 @@ struct MealPlanView: View {
             }
             .navigationTitle("Meal Plan")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         selectedDate = .now
                     } label: {
@@ -141,12 +141,12 @@ struct DayRow: View {
                 Text(dayName.prefix(3).uppercased())
                     .font(.caption)
                     .fontWeight(.medium)
-                    .foregroundStyle(isToday ? .paprikaPrimary : .secondary)
+                    .foregroundStyle(isToday ? Color.paprikaPrimary : Color.secondary)
                 
                 Text(dayNumber)
                     .font(.title2)
                     .fontWeight(isToday ? .bold : .regular)
-                    .foregroundStyle(isToday ? .paprikaPrimary : .primary)
+                    .foregroundStyle(isToday ? Color.paprikaPrimary : Color.primary)
             }
             .frame(width: 50)
             
@@ -167,7 +167,7 @@ struct DayRow: View {
             .font(.body)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(Spacing.md)
-            .background(Color(.secondarySystemBackground))
+            .background(.regularMaterial)
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             .swipeActions(edge: .trailing) {
                 Button("Replace", systemImage: "arrow.triangle.2.circlepath") {

@@ -36,10 +36,12 @@ struct RecipePickerView: View {
                 }
             }
             .navigationTitle("Choose Recipe")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .searchable(text: $searchText, prompt: "Search recipes")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
                     }
@@ -104,7 +106,7 @@ struct RecipePickerCard: View {
             }
         }
         .padding(Spacing.sm)
-        .background(Color(.secondarySystemBackground))
+        .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
     }
     
@@ -115,7 +117,7 @@ struct RecipePickerCard: View {
             .overlay {
                 Image(systemName: "fork.knife")
                     .font(.title)
-                    .foregroundStyle(.paprikaPrimary.opacity(0.5))
+                    .foregroundStyle(Color.paprikaPrimary.opacity(0.5))
             }
     }
 }
