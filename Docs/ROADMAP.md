@@ -189,6 +189,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Accept → 
 
 | Date | Changes |
 |------|---------|
+| 2026-04-17 | **Major pivot**: Generate-first vision. Cut manual assignment UI. User steers via regenerate. |
 | 2026-04-17 | PO review: offline added to v1.0, v2.0 split into simple/smart phases, parked grocery/nutrition/widgets |
 | 2026-04-17 | Updated with actual MVP status, PO priorities, long-term vision |
 | YYYY-MM-DD | Initial roadmap template |

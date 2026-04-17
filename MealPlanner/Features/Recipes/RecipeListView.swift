@@ -34,13 +34,21 @@ struct RecipeListView: View {
             }
             .navigationTitle("Recipes")
             .searchable(text: $searchText, prompt: "Search recipes")
+            .toolbar {
+                if viewModel.isOffline {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Label("Offline", systemImage: "wifi.slash")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
             .refreshable {
                 await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
             }
             .task {
-                if recipes.isEmpty {
-                    await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
-                }
+                // Always trigger a sync when view appears
+                // Cached data shows immediately via @Query, this refreshes in background
+                await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
             }
         }
     }

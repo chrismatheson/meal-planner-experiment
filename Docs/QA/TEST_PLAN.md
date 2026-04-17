@@ -7,16 +7,23 @@
 
 This document contains **acceptance criteria as test cases**.
 - For planning/priorities, see [ROADMAP.md](../ROADMAP.md)
-- Status here reflects what's **actually verified working**
+- Status reflects what's **actually verified working**
+
+## v1.0 Core Flow
+
+```
+Login → "Plan My Week" → Review 7 dinners → Regenerate any → Accept → Synced
+```
 
 ## Test Summary
 
 | Feature | Unit Tests | UI Tests | Manual Tests | Status |
 |---------|------------|----------|--------------|--------|
 | Authentication | ✅ | ⚪ | 🟢 | Working (no persistence) |
-| Recipe Library | ✅ | ⚪ | 🟢 | Working (first 50) |
-| Meal Planning | ⚪ | ⚪ | ⚪ | Not Started |
-| Sync (write-back) | ⚪ | ⚪ | ⚪ | Not Started |
+| Recipe Fetching | ✅ | ⚪ | 🟢 | Working |
+| Plan Generation | ⚪ | ⚪ | ⚪ | Not Started |
+| Review & Regenerate | ⚪ | ⚪ | ⚪ | Not Started |
+| Sync to Paprika | ⚪ | ⚪ | ⚪ | Not Started |
 | Offline Operation | ⚪ | ⚪ | ⚪ | Not Started |
 
 ---
@@ -43,7 +50,7 @@ This document contains **acceptance criteria as test cases**.
 
 ---
 
-## Feature 2: Recipe Library
+## Feature 2: Recipe Fetching
 
 ### Unit Tests
 
@@ -52,72 +59,98 @@ This document contains **acceptance criteria as test cases**.
 | REC-001 | Recipe JSON decoding works | ✅ |
 | REC-002 | Recipe displayTime prefers totalTime | ✅ |
 | REC-003 | Recipe displayTime falls back to cookTime | ✅ |
-| REC-004 | Recipes sync from API to SwiftData | ⚪ |
+| REC-004 | Recipes cached in SwiftData | ⚪ |
 
 ### Manual Test Cases
 
 | Test ID | Steps | Expected | Status |
 |---------|-------|----------|--------|
-| REC-M01 | 1. Sign in<br>2. View Recipes tab | Grid of recipes appears | 🟢 Done |
-| REC-M02 | 1. Pull to refresh | Recipes sync from Paprika | ⚪ |
-| REC-M03 | 1. Type in search<br>2. Search for recipe | Filtered results shown | ⚪ |
-| REC-M04 | 1. Disable network<br>2. Launch app | Cached recipes display | ⚪ (needs offline) |
+| REC-M01 | 1. Sign in | Recipes fetched from Paprika | 🟢 Done |
 
 ---
 
-## Feature 3: Meal Planning
+## Feature 3: Plan Generation
+
+### Acceptance Criteria
+
+- [ ] "Plan My Week" button generates 7 dinners
+- [ ] Random selection from recipe library
+- [ ] No duplicate recipes within the week
+- [ ] Generation < 2 seconds
 
 ### Unit Tests
 
 | Test ID | Description | Status |
 |---------|-------------|--------|
-| MEAL-001 | MealItem JSON decoding works | ✅ |
-| MEAL-002 | MealItem date parsing works | ✅ |
-| MEAL-003 | Assigning recipe creates MealSlot | ⚪ |
-| MEAL-004 | Removing meal deletes MealSlot | ⚪ |
+| GEN-001 | Generator produces 7 recipes | ⚪ |
+| GEN-002 | Generated week has no duplicates | ⚪ |
+| GEN-003 | Generator excludes specified recipes | ⚪ |
 
 ### Manual Test Cases
 
 | Test ID | Steps | Expected | Status |
 |---------|-------|----------|--------|
-| MEAL-M01 | 1. Go to Meal Plan tab | Current week shown | ⚪ |
-| MEAL-M02 | 1. Tap empty slot<br>2. Select recipe | Recipe assigned to day | ⚪ |
-| MEAL-M03 | 1. Swipe left on meal<br>2. Tap Replace | Picker opens, can swap | ⚪ |
-| MEAL-M04 | 1. Swipe right on meal<br>2. Tap Remove | Slot becomes empty | ⚪ |
-| MEAL-M05 | 1. Navigate to next week | Week advances | ⚪ |
-| MEAL-M06 | 1. Tap "Today" button | Returns to current week | ⚪ |
+| GEN-M01 | 1. Tap "Plan My Week" | 7 days shown with recipes | ⚪ |
+| GEN-M02 | 1. Generate with 7+ recipes | No duplicates in week | ⚪ |
+| GEN-M03 | 1. Generate with < 7 recipes | Graceful handling | ⚪ |
 
 ---
 
-## Feature 4: Sync (Write-back)
-
-### Manual Test Cases
-
-| Test ID | Steps | Expected | Status |
-|---------|-------|----------|--------|
-| SYNC-M01 | 1. Assign recipe<br>2. Open Paprika app | Meal appears in Paprika | ⚪ |
-| SYNC-M02 | 1. Disable network<br>2. Assign recipe<br>3. Enable network | Syncs when online | ⚪ |
-
----
-
-## Feature 5: Offline Operation
+## Feature 4: Review & Regenerate
 
 ### Acceptance Criteria
 
-- [ ] App launches without network and shows cached recipes
-- [ ] User can browse cached recipes offline
-- [ ] User can assign meals offline (queued locally)
-- [ ] Changes sync automatically when connectivity restored
-- [ ] Clear indication of offline state to user
+- [ ] Review shows 7 cards: day + recipe name + photo
+- [ ] "↻ Another" replaces one day's recipe
+- [ ] Rejected recipe excluded for rest of session
+- [ ] "↻ Regenerate All" replaces entire week
+- [ ] "Use This Plan" accepts the week
 
 ### Manual Test Cases
 
 | Test ID | Steps | Expected | Status |
 |---------|-------|----------|--------|
-| OFFLINE-M01 | 1. Sign in with network<br>2. Kill app<br>3. Enable airplane mode<br>4. Relaunch | Cached recipes display | ⚪ |
-| OFFLINE-M02 | 1. While offline, assign recipe to meal slot | Assignment saved locally | ⚪ |
-| OFFLINE-M03 | 1. While offline, make changes<br>2. Disable airplane mode | Changes sync to Paprika | ⚪ |
-| OFFLINE-M04 | 1. Launch with no network, no cache | Appropriate empty/error state | ⚪ |
+| REV-M01 | 1. Generate<br>2. View review | 7 cards with day + recipe + photo | ⚪ |
+| REV-M02 | 1. Tap "↻ Another" on Monday | Monday gets new recipe, others unchanged | ⚪ |
+| REV-M03 | 1. Reject recipe A<br>2. Regenerate multiple times | Recipe A never reappears this session | ⚪ |
+| REV-M04 | 1. Tap "↻ Regenerate All" | All 7 days get new recipes | ⚪ |
+| REV-M05 | 1. Review<br>2. Tap "Use This Plan" | Proceeds to sync | ⚪ |
+
+---
+
+## Feature 5: Sync to Paprika
+
+### Acceptance Criteria
+
+- [ ] "Use This Plan" sends 7 meals to Paprika
+- [ ] Meals appear in Paprika meal planner
+- [ ] Confirmation shown on success
+
+### Manual Test Cases
+
+| Test ID | Steps | Expected | Status |
+|---------|-------|----------|--------|
+| SYNC-M01 | 1. Accept plan<br>2. Open Paprika | All 7 meals in Paprika | ⚪ |
+| SYNC-M02 | 1. Accept with poor network | Retry or error message | ⚪ |
+
+---
+
+## Feature 6: Offline Operation
+
+### Acceptance Criteria
+
+- [ ] App launches offline with cached recipes
+- [ ] Can generate plan offline
+- [ ] Plan queued and syncs when online
+- [ ] Clear offline indicator
+
+### Manual Test Cases
+
+| Test ID | Steps | Expected | Status |
+|---------|-------|----------|--------|
+| OFFLINE-M01 | 1. Sign in online<br>2. Kill app<br>3. Airplane mode<br>4. Relaunch | Can generate plan | ⚪ |
+| OFFLINE-M02 | 1. Accept plan offline<br>2. Restore network | Plan syncs to Paprika | ⚪ |
+| OFFLINE-M03 | 1. Launch offline, no cache | "Connect to sync recipes" message | ⚪ |
 
 ---
 
