@@ -190,6 +190,25 @@ Agents should reference these shared documents:
 | `Docs/DESIGN_SYSTEM.md` | UI components | Designer |
 | `Docs/SECURITY.md` | Security requirements | Security |
 
+## Background Activities
+
+Some work can run in parallel with active development:
+
+| Activity | When to Run | Owner |
+|----------|-------------|-------|
+| Roadmap refinement | Ongoing, after user feedback | PM |
+| Technical debt tracking | After each sprint | Architect |
+| Security threat modeling | When new features planned | Security |
+| Test coverage analysis | After major features | QA |
+
+### Running Background Tasks
+
+Background activities should not block development but inform future priorities.
+Use the PM agent to periodically review and update the roadmap based on:
+- User/PO feedback
+- Technical discoveries
+- Market changes
+
 ## Best Practices
 
 1. **Start with PM** - Features without specs drift
@@ -197,6 +216,7 @@ Agents should reference these shared documents:
 3. **Security by design** - Bolt-on security fails
 4. **QA throughout** - Not just at the end
 5. **Document decisions** - Future you will thank you
+6. **Commit often** - At reasonable checkpoints, not just at the end
 
 ## Conflict Resolution
 
