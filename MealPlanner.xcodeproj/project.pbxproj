@@ -32,6 +32,7 @@
 		40415DE993C66754389CA911 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E88D239D4B88DDF6D76EF /* KeychainService.swift */; };
 		43EFCFBC5D8DE0A9508B67C0 /* MealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */; };
 		48D5EC8DE9115CBCEC4FAC92 /* PaprikaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0369ED671AEAE3161AB91611 /* PaprikaModels.swift */; };
+		49BA4122A7903F4A0BE8054A /* RecipeListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */; };
 		50EA27261C45970EBC101A0C /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B961CB18A0E84013A469BE9 /* Theme.swift */; };
 		5F7D9D4129FFFF6164A6122E /* PaprikaClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3847B7674E57F6ACC8D943D9 /* PaprikaClient.swift */; };
 		6338E54F18C588BE219E3738 /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */; };
@@ -102,6 +103,7 @@
 		BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerApp.swift; sourceTree = "<group>"; };
 		C087FE6B4DEAF4C67C5869E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C1FE69B94175D7B924932AB6 /* MealPlanner-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = "MealPlanner-iOS.app"; path = MealPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeListViewModelTests.swift; path = MealPlannerTests/RecipeListViewModelTests.swift; sourceTree = SOURCE_ROOT; };
 		DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerTests.swift; sourceTree = "<group>"; };
 		E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaIntegrationTests.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			children = (
 				E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */,
 				E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */,
+				D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */,
 			);
 			path = MealPlannerTests;
 			sourceTree = "<group>";
@@ -389,11 +392,11 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					F6D128C0B47960EBAD3C09F7 = {
-						TestTargetID = EE5C568E4E48C57EC561AEB3;
+						TestTargetID = EE5C568E4E48C57EC561AEB3 /* MealPlanner-iOS */;
 					};
 				};
 			};
-			buildConfigurationList = 4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner" */;
+			buildConfigurationList = 4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner-iOS" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -456,6 +459,7 @@
 			files = (
 				1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */,
 				3F138BA0F1BCA0615CB15D4F /* PaprikaIntegrationTests.swift in Sources */,
+				49BA4122A7903F4A0BE8054A /* RecipeListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,7 +867,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner" */ = {
+		4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				25B2311705E811CE881F1B52 /* Debug */,

@@ -43,7 +43,8 @@ struct RecipeListView: View {
                 }
             }
             .refreshable {
-                await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
+                // Pull-to-refresh always forces a sync, bypassing throttle
+                await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient, force: true)
             }
             .task {
                 // Always trigger a sync when view appears

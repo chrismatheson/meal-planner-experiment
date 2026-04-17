@@ -8,10 +8,26 @@ final class RecipeListViewModel {
     var lastSyncTime: Date?
     var isOffline = false
 
+    /// Cooldown period between automatic syncs (5 minutes)
+    private let syncCooldown: TimeInterval = 300
+
+    /// Returns true if we've synced within the cooldown period
+    var hasSyncedRecently: Bool {
+        guard let lastSync = lastSyncTime else { return false }
+        return Date().timeIntervalSince(lastSync) < syncCooldown
+    }
+
     /// Sync recipes from Paprika API to local cache
     /// - If offline or API fails, cached data remains available
     /// - Shows loading state only on first load (when cache is empty)
-    func syncRecipes(context: ModelContext, client: PaprikaClient?) async {
+    /// - Throttled: won't sync again within cooldown period unless forced
+    func syncRecipes(context: ModelContext, client: PaprikaClient?, force: Bool = false) async {
+        // Skip if we synced recently (unless forced, e.g., pull-to-refresh)
+        if !force && hasSyncedRecently {
+            print("⏳ Skipping sync - synced \(Int(Date().timeIntervalSince(lastSyncTime!)))s ago")
+            return
+        }
+
         guard let client = client else {
             print("No authenticated client available")
             return
