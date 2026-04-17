@@ -10,12 +10,12 @@ let package = Package(
         .macOS(.v14)
     ],
     products: [
-        .library(
+        .executable(
             name: "MealPlanner",
             targets: ["MealPlanner"]),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "MealPlanner",
             path: "MealPlanner"),
         .testTarget(

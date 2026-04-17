@@ -6,6 +6,9 @@ actor PaprikaClient {
     private let keychain: KeychainService
     private var token: String?
     
+    // Must identify as Paprika client
+    private let userAgent = "Paprika Recipe Manager 3/3.7.4"
+    
     init(keychain: KeychainService) {
         self.keychain = keychain
         self.token = try? keychain.getToken()
@@ -21,6 +24,7 @@ actor PaprikaClient {
         // Build multipart form data
         let boundary = UUID().uuidString
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         
         var body = Data()
         body.appendMultipart(name: "email", value: email, boundary: boundary)
@@ -41,16 +45,33 @@ actor PaprikaClient {
             throw PaprikaError.serverError(httpResponse.statusCode)
         }
         
-        let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-        
-        guard let token = loginResponse.result.token else {
-            throw PaprikaError.invalidCredentials
+        // Debug: Print raw response to understand structure
+        #if DEBUG
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print("Login response: \(jsonString)")
         }
+        #endif
         
-        self.token = token
-        try keychain.saveToken(token)
-        
-        return token
+        // Try to decode - the API returns {"result": {"token": "..."}} 
+        // but may also return {"result": "token_string"} directly
+        do {
+            let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+            guard let token = loginResponse.result.token else {
+                throw PaprikaError.invalidCredentials
+            }
+            self.token = token
+            try keychain.saveToken(token)
+            return token
+        } catch {
+            // Try alternate format where result is the token directly
+            struct DirectTokenResponse: Decodable {
+                let result: String
+            }
+            let directResponse = try JSONDecoder().decode(DirectTokenResponse.self, from: data)
+            self.token = directResponse.result
+            try keychain.saveToken(directResponse.result)
+            return directResponse.result
+        }
     }
     
     // MARK: - Recipes
@@ -88,6 +109,7 @@ actor PaprikaClient {
         request.httpMethod = "POST"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.httpBody = "{}".data(using: .utf8)
         
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -117,6 +139,7 @@ actor PaprikaClient {
         request.httpMethod = "POST"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.httpBody = try JSONEncoder().encode(body)
         
         let (_, response) = try await URLSession.shared.data(for: request)

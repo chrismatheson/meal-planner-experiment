@@ -171,8 +171,40 @@ Call the Researcher **before** the Architect designs, when:
 
 ## Current Research Queue
 
-<!-- Track ongoing research tasks here -->
-
 | Topic | Status | Priority | Assignee |
 |-------|--------|----------|----------|
-| Paprika Sync API | ⚪ Not Started | P0 | Researcher |
+| Paprika Sync API | ✅ Complete | P0 | Researcher |
+
+---
+
+## MANDATORY: Integration Checklist
+
+**Every API research MUST produce this checklist for Developer/QA:**
+
+```markdown
+## Integration Checklist: [API Name]
+
+### Required Headers
+- [ ] `User-Agent`: [exact value required]
+- [ ] `Authorization`: [format]
+- [ ] `Content-Type`: [format]
+
+### Authentication Gotchas
+- [ ] [Any special requirements]
+
+### Verification Test
+To verify integration works, run:
+1. [Step 1]
+2. [Step 2]
+Expected result: [what success looks like]
+
+### Common Errors
+| Error | Cause | Fix |
+|-------|-------|-----|
+| "Unrecognized client" | Wrong/missing User-Agent | Add proper User-Agent header |
+```
+
+### Paprika API Checklist (Example)
+- [x] `User-Agent`: `Paprika Recipe Manager 3/3.7.4` **← REQUIRED, API rejects without this!**
+- [x] `Authorization`: `Bearer {token}` for authenticated requests
+- [x] `Content-Type`: `multipart/form-data` for login, `application/json` for sync
