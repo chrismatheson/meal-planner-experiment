@@ -1,16 +1,23 @@
 # MVP Test Plan
 
-> *Maintained by: QA Agent*  
+> *Maintained by: QA Agent*
 > *Last Updated: 2026-04-17*
+
+## Purpose
+
+This document contains **acceptance criteria as test cases**.
+- For planning/priorities, see [ROADMAP.md](../ROADMAP.md)
+- Status here reflects what's **actually verified working**
 
 ## Test Summary
 
 | Feature | Unit Tests | UI Tests | Manual Tests | Status |
 |---------|------------|----------|--------------|--------|
-| Authentication | ✅ | ⚪ | ⚪ | Partial |
-| Recipe Library | ✅ | ⚪ | ⚪ | Partial |
+| Authentication | ✅ | ⚪ | 🟢 | Working (no persistence) |
+| Recipe Library | ✅ | ⚪ | 🟢 | Working (first 50) |
 | Meal Planning | ⚪ | ⚪ | ⚪ | Not Started |
-| Sync | ⚪ | ⚪ | ⚪ | Not Started |
+| Sync (write-back) | ⚪ | ⚪ | ⚪ | Not Started |
+| Offline Operation | ⚪ | ⚪ | ⚪ | Not Started |
 
 ---
 
@@ -30,9 +37,9 @@
 
 | Test ID | Steps | Expected | Status |
 |---------|-------|----------|--------|
-| AUTH-M01 | 1. Launch app<br>2. Enter valid credentials<br>3. Tap Sign In | Navigates to Recipe List | ⚪ |
+| AUTH-M01 | 1. Launch app<br>2. Enter valid credentials<br>3. Tap Sign In | Navigates to Recipe List | 🟢 Done |
 | AUTH-M02 | 1. Launch app<br>2. Enter invalid credentials<br>3. Tap Sign In | Shows error alert | ⚪ |
-| AUTH-M03 | 1. Sign in<br>2. Kill app<br>3. Relaunch | Remains signed in | ⚪ |
+| AUTH-M03 | 1. Sign in<br>2. Kill app<br>3. Relaunch | Remains signed in | ⚪ (needs token persistence) |
 
 ---
 
@@ -51,10 +58,10 @@
 
 | Test ID | Steps | Expected | Status |
 |---------|-------|----------|--------|
-| REC-M01 | 1. Sign in<br>2. View Recipes tab | Grid of recipes appears | ⚪ |
+| REC-M01 | 1. Sign in<br>2. View Recipes tab | Grid of recipes appears | 🟢 Done |
 | REC-M02 | 1. Pull to refresh | Recipes sync from Paprika | ⚪ |
 | REC-M03 | 1. Type in search<br>2. Search for recipe | Filtered results shown | ⚪ |
-| REC-M04 | 1. Disable network<br>2. Launch app | Cached recipes display | ⚪ |
+| REC-M04 | 1. Disable network<br>2. Launch app | Cached recipes display | ⚪ (needs offline) |
 
 ---
 
@@ -82,7 +89,7 @@
 
 ---
 
-## Feature 4: Sync
+## Feature 4: Sync (Write-back)
 
 ### Manual Test Cases
 
@@ -90,6 +97,27 @@
 |---------|-------|----------|--------|
 | SYNC-M01 | 1. Assign recipe<br>2. Open Paprika app | Meal appears in Paprika | ⚪ |
 | SYNC-M02 | 1. Disable network<br>2. Assign recipe<br>3. Enable network | Syncs when online | ⚪ |
+
+---
+
+## Feature 5: Offline Operation
+
+### Acceptance Criteria
+
+- [ ] App launches without network and shows cached recipes
+- [ ] User can browse cached recipes offline
+- [ ] User can assign meals offline (queued locally)
+- [ ] Changes sync automatically when connectivity restored
+- [ ] Clear indication of offline state to user
+
+### Manual Test Cases
+
+| Test ID | Steps | Expected | Status |
+|---------|-------|----------|--------|
+| OFFLINE-M01 | 1. Sign in with network<br>2. Kill app<br>3. Enable airplane mode<br>4. Relaunch | Cached recipes display | ⚪ |
+| OFFLINE-M02 | 1. While offline, assign recipe to meal slot | Assignment saved locally | ⚪ |
+| OFFLINE-M03 | 1. While offline, make changes<br>2. Disable airplane mode | Changes sync to Paprika | ⚪ |
+| OFFLINE-M04 | 1. Launch with no network, no cache | Appropriate empty/error state | ⚪ |
 
 ---
 
