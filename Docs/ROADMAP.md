@@ -74,15 +74,17 @@ A native iOS app that enhances the Paprika Recipe Manager experience with better
 
 **Goal**: Features that go beyond Paprika's native app
 
-- [ ] Grocery list generation from meal plan
-- [ ] Nutrition tracking integration
 - [ ] Meal suggestions (based on history, ingredients)
-- [ ] Widget support (today's meals)
-- [ ] Shopping list optimization
+- [ ] automatic population
+  - Constraint based. 
+  - Dietry rules
+  - randomised 
+  - habbit based (take away fridays, quick meal on tuesdays, sunday Roast etc)
 
 ### 🔮 v3.0+ Vision
 
-- [ ] Apple Watch companion
+- [ ] Apple TV companion
+  - it mihgt be a nice feature to have the kids involved in selecting meals, or maybe just making suggestions. But i dont want to stick them in front of an iPad or phone.
 - [ ] Siri Shortcuts integration
 - [ ] Family sharing / multi-user
 - [ ] Calendar integration
