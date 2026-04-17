@@ -170,6 +170,42 @@ Before considering code complete:
 - "Is this accessible?"
 - "Will this perform well with 1000 items?"
 
+## Commit Discipline
+
+**Commit at reasonable checkpoints** - Don't accumulate large uncommitted changes.
+
+### When to Commit
+
+- ✅ After a test passes (Red → Green → **Commit**)
+- ✅ After a refactor that keeps tests green
+- ✅ After fixing a bug (with clear commit message)
+- ✅ After completing a logical unit of work
+- ✅ Before switching to a different task
+- ✅ When MVP or feature milestone is verified working
+
+### Commit Message Format
+
+```
+<type>: <short description>
+
+<optional body explaining what and why>
+
+<optional: Known limitations, next steps>
+```
+
+Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
+
+### Example
+
+```
+feat: Add ATS exception for S3 recipe images
+
+Paprika serves images via HTTP from S3. Added NSAppTransportSecurity
+exception in Info.plist to allow these loads.
+
+Known limitation: Only allows s3.amazonaws.com, not arbitrary HTTP.
+```
+
 ## Collaboration Points
 
 - **With Architect**: Clarify design decisions, propose alternatives

@@ -1,35 +1,46 @@
 # Product Roadmap
 
 > *Maintained by: Product Manager*
+> *Last updated: 2026-04-17*
+
+## Vision
+
+A native iOS app that enhances the Paprika Recipe Manager experience with better meal planning UX, offline support, and smart features.
+
+---
 
 ## Current Focus
 
-### 🎯 Now (Current Sprint/Milestone)
+### 🎯 Now: MVP Completion
 
-**Theme**: [Current focus area]
+**Theme**: Get core meal planning workflow functional
 
-| Feature | Status | Owner | Target |
-|---------|--------|-------|--------|
-| [Feature 1] | 🟡 In Progress | [Name] | [Date] |
-| [Feature 2] | ⚪ Not Started | [Name] | [Date] |
-| [Feature 3] | 🟢 Complete | [Name] | [Date] |
+| Feature | Status | Priority | Notes |
+|---------|--------|----------|-------|
+| Paprika login | 🟢 Complete | - | Working with multipart form auth |
+| Recipe list display | 🟢 Complete | - | Grid UI with images |
+| **Write-back meal selections** | ⚪ Not Started | P0 | ← *PO Priority* |
+| **Token persistence** | ⚪ Not Started | P0 | ← *PO Priority* |
+| Recipe data caching | ⚪ Not Started | P1 | Faster subsequent launches |
 
-### 📋 Next (Next Sprint/Milestone)
+### 📋 Next: Polish & Full Sync
 
-**Theme**: [Next focus area]
+**Theme**: Complete v1.0 experience
 
 | Feature | Priority | Effort | Dependencies |
 |---------|----------|--------|--------------|
-| [Feature 1] | P0 | M | None |
-| [Feature 2] | P1 | L | Feature 1 |
-| [Feature 3] | P1 | S | None |
+| Full recipe sync (pagination) | P1 | M | Token persistence |
+| Meal plan week view | P1 | M | Write-back |
+| Offline recipe viewing | P1 | M | Data caching |
+| Error handling polish | P2 | S | None |
 
 ### 🔮 Later (Backlog)
 
 | Feature | Priority | Notes |
 |---------|----------|-------|
-| [Feature 1] | P2 | [Context] |
-| [Feature 2] | P3 | [Context] |
+| Recipe search/filter | P2 | In-app search of cached recipes |
+| Recipe detail view | P2 | Full recipe info, ingredients, steps |
+| Pull-to-refresh | P3 | Nice UX polish |
 
 ---
 
@@ -37,29 +48,45 @@
 
 ### 🚀 MVP (v1.0)
 
-**Goal**: [What MVP achieves]  
-**Target**: [Date]
+**Goal**: Usable app that syncs with Paprika and allows meal planning
+**Status**: In Progress
 
-- [ ] [Core feature 1]
-- [ ] [Core feature 2]
-- [ ] [Core feature 3]
+- [x] User can login with Paprika credentials
+- [x] User can view their recipes with images
+- [ ] User can assign recipes to meal plan slots
+- [ ] Changes sync back to Paprika
+- [ ] User stays logged in between sessions
+- [ ] App caches data for faster launch
 
-**Success Criteria**: [How we know MVP is ready]
+**Success Criteria**: User can plan a week of meals and see it in Paprika
 
-### 📈 v1.1
+### 📈 v1.1 - Enhanced Experience
 
-**Goal**: [What this version achieves]  
-**Target**: [Date]
+**Goal**: Polish and quality-of-life improvements
 
-- [ ] [Feature 1]
-- [ ] [Feature 2]
+- [ ] Recipe search and filtering
+- [ ] Recipe detail view
+- [ ] Meal plan week navigation
+- [ ] Accessibility audit and fixes
+- [ ] Loading states and error handling polish
 
-### 🌟 v2.0 (Vision)
+### 🌟 v2.0 - Smart Features
 
-**Goal**: [Longer-term vision]
+**Goal**: Features that go beyond Paprika's native app
 
-- [ ] [Future feature 1]
-- [ ] [Future feature 2]
+- [ ] Grocery list generation from meal plan
+- [ ] Nutrition tracking integration
+- [ ] Meal suggestions (based on history, ingredients)
+- [ ] Widget support (today's meals)
+- [ ] Shopping list optimization
+
+### 🔮 v3.0+ Vision
+
+- [ ] Apple Watch companion
+- [ ] Siri Shortcuts integration
+- [ ] Family sharing / multi-user
+- [ ] Calendar integration
+- [ ] Grocery delivery service integration
 
 ---
 
@@ -141,4 +168,5 @@
 
 | Date | Changes |
 |------|---------|
-| YYYY-MM-DD | Initial roadmap |
+| 2026-04-17 | Updated with actual MVP status, PO priorities, long-term vision |
+| YYYY-MM-DD | Initial roadmap template |
