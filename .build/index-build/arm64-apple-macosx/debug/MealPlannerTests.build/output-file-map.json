@@ -1,0 +1,19 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/primary.swiftdeps"
+  },
+  "/Users/chrismatheson/Code/MealPlanner/MealPlannerTests/MealPlannerTests.swift": {
+    "dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/MealPlannerTests.d",
+    "object": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/MealPlannerTests.swift.o",
+    "swiftmodule": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/MealPlannerTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/MealPlannerTests.swiftdeps",
+    "diagnostics": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/MealPlannerTests.dia"
+  },
+  "/Users/chrismatheson/Code/MealPlanner/MealPlannerTests/PaprikaIntegrationTests.swift": {
+    "dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/PaprikaIntegrationTests.d",
+    "object": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/PaprikaIntegrationTests.swift.o",
+    "swiftmodule": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/PaprikaIntegrationTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/PaprikaIntegrationTests.swiftdeps",
+    "diagnostics": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerTests.build/PaprikaIntegrationTests.dia"
+  }
+}

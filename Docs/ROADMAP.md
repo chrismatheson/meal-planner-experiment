@@ -11,19 +11,19 @@
 
 ## Current Focus
 
-### 🎯 Now: Generate-First MVP
+### 🎯 Now: Generate-First MVP (v0.9 - Read-only)
 
-**Theme**: App generates the plan, user just approves
+**Theme**: App generates the plan, user reviews - sync deferred
 
 | Feature | Status | Priority | Notes |
 |---------|--------|----------|-------|
 | Paprika login | 🟢 Complete | - | Working with multipart form auth |
 | Recipe fetching | 🟢 Complete | - | Can pull from Paprika |
+| Token persistence | 🟢 Complete | - | Stay logged in |
+| Recipe caching | 🟢 Complete | - | Offline generation works |
 | **"Plan My Week" generation** | ⚪ Not Started | P0 | Random, no duplicates |
 | **Review week UI** | ⚪ Not Started | P0 | 7 cards, regenerate per-day |
-| **Sync plan to Paprika** | ⚪ Not Started | P0 | Write back on Accept |
-| Token persistence | ⚪ Not Started | P1 | Stay logged in |
-| Recipe caching | ⚪ Not Started | P1 | Offline generation |
+| **Sync plan to Paprika** | 🔒 Blocked | P0→v1.0 | API endpoint unclear, deferred |
 
 ### ❌ Cut from v1.0 (not needed for generate-first)
 
@@ -38,33 +38,42 @@
 
 ## Milestones
 
-### 🚀 v1.0 - Generate-First MVP
+### 🚀 v0.9 - Generate-First (Read-only)
 
-**Goal**: Generate a week of dinners, steer with regenerate, sync to Paprika
+**Goal**: Generate a week of dinners, steer with regenerate - NO sync yet
 **Status**: In Progress
 
 **Core Flow:**
 ```
-Login → "Plan My Week" → Review 7 dinners → Regenerate any → Accept → Synced
+Login → "Plan My Week" → Review 7 dinners → Regenerate any → (sync deferred)
 ```
 
 **Checklist:**
 - [x] Paprika authentication
 - [x] Fetch recipes from Paprika
+- [x] Token persistence (stay logged in)
+- [x] Recipe caching (offline generation)
 - [ ] Generate 7-day plan (random, no duplicates in week)
 - [ ] Review UI: 7 cards (day + recipe + photo)
 - [ ] Per-day "↻ Another" (excluded-random)
 - [ ] "↻ Regenerate All"
-- [ ] "Use This Plan" → sync to Paprika
-- [ ] Token persistence (stay logged in)
-- [ ] Recipe caching (offline generation)
 
 **Scope:**
 - Dinner only (one meal per day)
 - Next 7 days (rolling, not calendar week)
 - Random generation (no "smart" yet)
+- **Read-only** - plan displays but doesn't sync
 
-**Success Criteria**: Generate → tweak → accept in under 60 seconds
+**Success Criteria**: Generate → tweak in under 30 seconds
+
+### 🚀 v1.0 - Full Sync
+
+**Goal**: Add write-back to Paprika
+
+**Checklist:**
+- [ ] Resolve Paprika write API (may need traffic capture)
+- [ ] "Use This Plan" → sync to Paprika
+- [ ] Confirmation of sync success
 
 ### 📈 v1.1 - Polish
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,14 @@
 		158DCE2BCC765FC93DF7ECA9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F77A096421405FAC62A30 /* RootView.swift */; };
 		1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */; };
 		1ABF1F08AAEB6B605E4993F4 /* MealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */; };
+		1BC32F382F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
+		1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
+		1BC32F3B2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
+		1BC32F3C2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
+		1BC32F3E2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
+		1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
+		1BC32F412F92814900DF473E /* DayPlanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F402F92814900DF473E /* DayPlanCard.swift */; };
+		1BC32F422F92814900DF473E /* DayPlanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F402F92814900DF473E /* DayPlanCard.swift */; };
 		1D462E460A4B90E13A280C01 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B961CB18A0E84013A469BE9 /* Theme.swift */; };
 		1E7C9827952ABCDDE5DD8AEC /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */; };
 		2380A16B0A1C956B82878857 /* MealPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */; };
@@ -72,6 +80,10 @@
 		0369ED671AEAE3161AB91611 /* PaprikaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaModels.swift; sourceTree = "<group>"; };
 		07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
 		0B961CB18A0E84013A469BE9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1BC32F372F92812400DF473E /* WeekPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPlan.swift; sourceTree = "<group>"; };
+		1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
+		1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
+		1BC32F402F92814900DF473E /* DayPlanCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPlanCard.swift; sourceTree = "<group>"; };
 		201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MealPlannerTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		314F77A096421405FAC62A30 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		321E88D239D4B88DDF6D76EF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
@@ -79,7 +91,7 @@
 		39E76B021A94C6C45471B80C /* RecipePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePickerView.swift; sourceTree = "<group>"; };
 		44D6FC38E4942D5CE0B08BC8 /* MealPlannerUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46807E03C78FB285683CC8C7 /* MealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanView.swift; sourceTree = "<group>"; };
-		590CA1E817DDDBFC28B47B82 /* MealPlanner-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MealPlanner-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		590CA1E817DDDBFC28B47B82 /* MealPlanner-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "MealPlanner-macOS.app"; path = MealPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		761C5C62CB8E5FE1796536E5 /* MealPlannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerUITests.swift; sourceTree = "<group>"; };
 		788CEC334B00A224FAC778D6 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
@@ -89,7 +101,7 @@
 		B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanViewModel.swift; sourceTree = "<group>"; };
 		BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerApp.swift; sourceTree = "<group>"; };
 		C087FE6B4DEAF4C67C5869E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		C1FE69B94175D7B924932AB6 /* MealPlanner-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "MealPlanner-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1FE69B94175D7B924932AB6 /* MealPlanner-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = "MealPlanner-iOS.app"; path = MealPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerTests.swift; sourceTree = "<group>"; };
 		E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaIntegrationTests.swift; sourceTree = "<group>"; };
@@ -113,6 +125,31 @@
 				314F77A096421405FAC62A30 /* RootView.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		1BC32F342F9280AC00DF473E /* PlanGeneration 2 */ = {
+			isa = PBXGroup;
+			children = (
+				1BC32F372F92812400DF473E /* WeekPlan.swift */,
+				1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */,
+				1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */,
+				1BC32F402F92814900DF473E /* DayPlanCard.swift */,
+			);
+			path = "PlanGeneration 2";
+			sourceTree = "<group>";
+		};
+		1BC32F352F9280CE00DF473E /* PlanGeneration 3 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "PlanGeneration 3";
+			sourceTree = "<group>";
+		};
+		1BC32F362F92811B00DF473E /* PlanGeneration 2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "PlanGeneration 2";
 			sourceTree = "<group>";
 		};
 		4E20C9215B2C58A5AB2C3A48 /* MealPlanner */ = {
@@ -188,6 +225,9 @@
 				5CBC6B72F6733856FD6220D8 /* Auth */,
 				64C39AD6A1A58C9089230E18 /* MealPlan */,
 				6B3F3AF3627C98CA4A1AD972 /* Recipes */,
+				1BC32F342F9280AC00DF473E /* PlanGeneration 2 */,
+				1BC32F352F9280CE00DF473E /* PlanGeneration 3 */,
+				1BC32F362F92811B00DF473E /* PlanGeneration 2 */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -363,7 +403,6 @@
 			);
 			mainGroup = 64F39675F1172FA47A6368CB;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -389,16 +428,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */,
 				A791ADCE09C55CA39D1CB5E0 /* AppState.swift in Sources */,
 				40415DE993C66754389CA911 /* KeychainService.swift in Sources */,
 				0D98A1CCF57FC062B46EA087 /* LoadingView.swift in Sources */,
 				904E584A4C763B72C0D2722D /* LoginView.swift in Sources */,
+				1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */,
 				95A8E2DED9CCE69507C47B4E /* MealPlanView.swift in Sources */,
 				43EFCFBC5D8DE0A9508B67C0 /* MealPlanViewModel.swift in Sources */,
 				0B48E41D4EA144D6616D324F /* MealPlannerApp.swift in Sources */,
 				5F7D9D4129FFFF6164A6122E /* PaprikaClient.swift in Sources */,
 				FFE95307A66C178FA2341979 /* PaprikaModels.swift in Sources */,
+				1BC32F412F92814900DF473E /* DayPlanCard.swift in Sources */,
 				1E7C9827952ABCDDE5DD8AEC /* RecipeListView.swift in Sources */,
+				1BC32F3C2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */,
 				26C2106D909CE5AADCF23DB9 /* RecipeListViewModel.swift in Sources */,
 				DCB030DAAB83241389BD5D88 /* RecipePickerView.swift in Sources */,
 				158DCE2BCC765FC93DF7ECA9 /* RootView.swift in Sources */,
@@ -429,16 +472,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BC32F382F92812400DF473E /* WeekPlan.swift in Sources */,
 				6F876A8E470789B18EFAC481 /* AppState.swift in Sources */,
 				1514880B1D5964448900EF83 /* KeychainService.swift in Sources */,
 				96309936B370B0046CD297CC /* LoadingView.swift in Sources */,
 				2740688B7CFB829B9678D87E /* LoginView.swift in Sources */,
+				1BC32F3E2F92813B00DF473E /* PlanGenerationView.swift in Sources */,
 				90262B0FD4427D3AB23AA873 /* MealPlanView.swift in Sources */,
 				1ABF1F08AAEB6B605E4993F4 /* MealPlanViewModel.swift in Sources */,
 				9AD9420A37EB623C5FC3DB7C /* MealPlannerApp.swift in Sources */,
 				04E8F766E87BE3404D5DF991 /* PaprikaClient.swift in Sources */,
 				48D5EC8DE9115CBCEC4FAC92 /* PaprikaModels.swift in Sources */,
+				1BC32F422F92814900DF473E /* DayPlanCard.swift in Sources */,
 				C6FF854702D571719D8B1B1F /* RecipeListView.swift in Sources */,
+				1BC32F3B2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */,
 				EA7455D9607D5847C2939CD8 /* RecipeListViewModel.swift in Sources */,
 				6CC467B6FB31D3878FE322D5 /* RecipePickerView.swift in Sources */,
 				CAF0729A645D709C27ECC893 /* RootView.swift in Sources */,

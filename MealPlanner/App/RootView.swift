@@ -42,16 +42,16 @@ struct SplashView: View {
 struct MainTabView: View {
     var body: some View {
         TabView {
+            PlanGenerationView()
+                .tabItem {
+                    Label("Plan", systemImage: "sparkles")
+                }
+
             RecipeListView()
                 .tabItem {
                     Label("Recipes", systemImage: "book")
                 }
-            
-            MealPlanView()
-                .tabItem {
-                    Label("Meal Plan", systemImage: "calendar")
-                }
-            
+
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")

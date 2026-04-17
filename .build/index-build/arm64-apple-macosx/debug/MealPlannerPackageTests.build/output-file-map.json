@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerPackageTests.build/primary.swiftdeps"
+  },
+  "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerPackageTests.build/runner.d",
+    "object": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/chrismatheson/Code/MealPlanner/.build/index-build/arm64-apple-macosx/debug/MealPlannerPackageTests.build/runner.dia"
+  }
+}
