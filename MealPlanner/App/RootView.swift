@@ -1,0 +1,69 @@
+import SwiftUI
+
+/// Root view that handles authentication routing
+struct RootView: View {
+    @Environment(AppState.self) private var appState
+    
+    var body: some View {
+        Group {
+            if appState.isAuthenticated {
+                MainTabView()
+            } else {
+                LoginView()
+            }
+        }
+        .animation(.easeInOut, value: appState.isAuthenticated)
+    }
+}
+
+/// Main tab navigation for authenticated users
+struct MainTabView: View {
+    var body: some View {
+        TabView {
+            RecipeListView()
+                .tabItem {
+                    Label("Recipes", systemImage: "book")
+                }
+            
+            MealPlanView()
+                .tabItem {
+                    Label("Meal Plan", systemImage: "calendar")
+                }
+            
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+        }
+        .tint(.paprikaPrimary)
+    }
+}
+
+/// Placeholder settings view
+struct SettingsView: View {
+    @Environment(AppState.self) private var appState
+    
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    if let user = appState.currentUser {
+                        Text(user.email)
+                    }
+                }
+                
+                Section {
+                    Button("Sign Out", role: .destructive) {
+                        appState.signOut()
+                    }
+                }
+            }
+            .navigationTitle("Settings")
+        }
+    }
+}
+
+#Preview {
+    RootView()
+        .environment(AppState())
+}
