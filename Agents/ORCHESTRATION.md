@@ -2,6 +2,23 @@
 
 How the agents collaborate to build great iOS applications.
 
+## ⚠️ Critical Gates
+
+**No phase is complete without evidence that it works.**
+
+See also:
+- [TESTING_PHILOSOPHY.md](TESTING_PHILOSOPHY.md) - TDD and mocking approach
+- [QUALITY_GATES.md](QUALITY_GATES.md) - Phase completion requirements
+
+### Definition of Done
+
+| Phase | Required Evidence |
+|-------|-------------------|
+| Feature Dev | Failing test → Passing test → Code committed |
+| Integration | Test hits real API and passes |
+| UI Complete | UI test runs and passes |
+| MVP Complete | Full app run-through with real credentials |
+
 ## Invocation Pattern
 
 When working on a feature, invoke agents using this prompt structure:
