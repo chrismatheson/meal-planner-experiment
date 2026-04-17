@@ -17,8 +17,11 @@
 
 | Data Type | Classification | Storage Location | Retention |
 |-----------|---------------|------------------|-----------|
-| [Data type 1] | [Level] | [Location] | [Duration] |
-| [Data type 2] | [Level] | [Location] | [Duration] |
+| Paprika JWT Token | **Restricted** | Keychain | Until logout |
+| User Email | Confidential | Memory only | Session |
+| Recipe Data | Internal | SwiftData (encrypted) | Cached |
+| Meal Plan Data | Internal | SwiftData (encrypted) | Cached |
+| User Password | **Restricted** | Never stored | Transient only |
 
 ---
 
@@ -26,11 +29,13 @@
 
 ### Authentication Requirements
 
-- [ ] Biometric authentication for sensitive features
-- [ ] Session timeout after **[X]** minutes of inactivity
-- [ ] Secure token storage in Keychain
-- [ ] Token refresh mechanism
-- [ ] Logout clears all sensitive data from device
+- [x] Credentials sent over HTTPS only (ATS enforced)
+- [x] JWT token stored in Keychain (KeychainService.swift)
+- [x] Logout clears token from Keychain
+- [x] Password never persisted, only used transiently
+- [ ] Biometric authentication (Future enhancement)
+- [ ] Session timeout after inactivity (Future)
+- [ ] Token refresh on 401 response (Partial implementation)
 
 ### Authorization Model
 
@@ -114,15 +119,17 @@ UserDefaults.standard.set(token, forKey: "authToken") // WRONG
 
 | Threat | Likelihood | Impact | Mitigation Status |
 |--------|------------|--------|-------------------|
-| Credential theft | Medium | High | ⚪ Not started |
-| Data leakage | Medium | Medium | ⚪ Not started |
-| Man-in-the-middle | Low | High | ⚪ Not started |
-| Local data access | Low | Medium | ⚪ Not started |
+| Credential theft | Medium | High | ✅ Keychain storage |
+| Data leakage | Low | Medium | ✅ iOS Data Protection |
+| Man-in-the-middle | Low | High | ✅ HTTPS enforced (ATS) |
+| Local data access | Low | Medium | ✅ Keychain protected |
+| Token replay | Low | Medium | ⚠️ No token expiry handling yet |
 
 ### Attack Surface
 
-- Network endpoints: [List]
-- Local storage: [List]
+- Network endpoints: `paprikaapp.com/api/v2/*` (HTTPS only)
+- Local storage: SwiftData (iOS Data Protection), Keychain
+- User input: Email, password fields (sanitized by iOS)
 - User input points: [List]
 - Third-party SDKs: [List]
 
