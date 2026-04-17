@@ -6,14 +6,16 @@ final class RecipeListViewModel {
     var isLoading = false
     var error: Error?
     
-    private let keychain = KeychainService()
-    
-    func syncRecipes(context: ModelContext) async {
+    func syncRecipes(context: ModelContext, client: PaprikaClient?) async {
+        guard let client = client else {
+            print("No authenticated client available")
+            return
+        }
+        
         isLoading = true
         defer { isLoading = false }
         
         do {
-            let client = PaprikaClient(keychain: keychain)
             let paprikaRecipes = try await client.fetchRecipes()
             
             // Fetch existing recipes for updating

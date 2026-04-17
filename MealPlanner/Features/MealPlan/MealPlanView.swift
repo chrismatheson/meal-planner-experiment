@@ -3,6 +3,7 @@ import SwiftData
 
 struct MealPlanView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(AppState.self) private var appState
     @State private var viewModel = MealPlanViewModel()
     @State private var selectedDate: Date = .now
     @State private var showingRecipePicker = false
@@ -36,6 +37,7 @@ struct MealPlanView: View {
                 }
             }
             .task {
+                viewModel.client = appState.paprikaClient
                 viewModel.loadMealSlots(for: weekDates, context: modelContext)
             }
             .onChange(of: selectedDate) { _, _ in

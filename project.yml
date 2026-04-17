@@ -91,17 +91,31 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.tests
         GENERATE_INFOPLIST_FILE: YES
 
+  MealPlannerUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: MealPlannerUITests
+    dependencies:
+      - target: MealPlanner-iOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.uitests
+        GENERATE_INFOPLIST_FILE: YES
+
 schemes:
   MealPlanner-iOS:
     build:
       targets:
         MealPlanner-iOS: all
+        MealPlannerUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
         - MealPlannerTests
+        - MealPlannerUITests
     profile:
       config: Release
     analyze:

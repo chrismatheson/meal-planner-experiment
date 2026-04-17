@@ -3,15 +3,18 @@ import Foundation
 /// Client for Paprika Recipe Manager API v2
 actor PaprikaClient {
     private let baseURL = URL(string: "https://www.paprikaapp.com/api/v2/")!
-    private let keychain: KeychainService
     private var token: String?
     
     // Must identify as Paprika client with platform info
     private let userAgent = "Paprika Recipe Manager 3/3.7.4 (iOS 17.0; iPhone)"
     
+    init() {
+        // Token stored in memory for now
+        // TODO: Add Keychain storage once app is properly signed
+    }
+    
     init(keychain: KeychainService) {
-        self.keychain = keychain
-        self.token = try? keychain.getToken()
+        // Legacy init for compatibility
     }
     
     // MARK: - Authentication
@@ -52,33 +55,50 @@ actor PaprikaClient {
         }
         #endif
         
-        // Try to decode - the API returns {"result": {"token": "..."}} 
-        // but may also return {"result": "token_string"} directly
-        do {
-            let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-            guard let token = loginResponse.result.token else {
-                throw PaprikaError.invalidCredentials
+        // Parse JSON manually for more control
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let result = json["result"] as? [String: Any],
+              let token = result["token"] as? String else {
+            // Check if there's an error in the response
+            if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let error = json["error"] as? [String: Any],
+               let message = error["message"] as? String {
+                print("API Error: \(message)")
+                if message.contains("Unrecognized") {
+                    throw PaprikaError.invalidResponse
+                }
             }
-            self.token = token
-            try keychain.saveToken(token)
-            return token
-        } catch {
-            // Try alternate format where result is the token directly
-            struct DirectTokenResponse: Decodable {
-                let result: String
-            }
-            let directResponse = try JSONDecoder().decode(DirectTokenResponse.self, from: data)
-            self.token = directResponse.result
-            try keychain.saveToken(directResponse.result)
-            return directResponse.result
+            throw PaprikaError.invalidCredentials
         }
+        
+        self.token = token
+        // Skip keychain for now - token stored in memory
+        return token
     }
     
     // MARK: - Recipes
     
-    func fetchRecipes() async throws -> [PaprikaRecipe] {
-        let response: RecipesResponse = try await syncRequest(endpoint: "sync/recipes/")
-        return response.result
+    /// Fetches recipes (list first, then details for each)
+    /// Limited to first 50 for performance - TODO: add pagination
+    func fetchRecipes(limit: Int = 50) async throws -> [PaprikaRecipe] {
+        // First get the list of recipe UIDs
+        let listResponse: RecipesListResponse = try await syncRequest(endpoint: "sync/recipes/")
+        
+        print("Found \(listResponse.result.count) recipes, fetching first \(min(limit, listResponse.result.count))...")
+        
+        // Fetch details for each (limited for performance)
+        var recipes: [PaprikaRecipe] = []
+        for stub in listResponse.result.prefix(limit) {
+            do {
+                let recipe = try await fetchRecipeDetail(uid: stub.uid)
+                recipes.append(recipe)
+                print("  Fetched: \(recipe.name)")
+            } catch {
+                print("  Failed to fetch recipe \(stub.uid): \(error)")
+            }
+        }
+        
+        return recipes
     }
     
     func fetchRecipeDetail(uid: String) async throws -> PaprikaRecipe {

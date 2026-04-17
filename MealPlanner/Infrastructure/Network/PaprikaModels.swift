@@ -37,10 +37,17 @@ struct LoginResult: Decodable {
     let error: String?
 }
 
-struct RecipesResponse: Decodable {
-    let result: [PaprikaRecipe]
+/// Response from /sync/recipes/ - returns UIDs and hashes only
+struct RecipesListResponse: Decodable {
+    let result: [RecipeStub]
 }
 
+struct RecipeStub: Decodable {
+    let uid: String
+    let hash: String
+}
+
+/// Response from /sync/recipe/{uid}/ - returns full recipe
 struct RecipeDetailResponse: Decodable {
     let result: PaprikaRecipe
 }

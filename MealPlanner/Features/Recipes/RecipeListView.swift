@@ -3,6 +3,7 @@ import SwiftData
 
 struct RecipeListView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(AppState.self) private var appState
     @Query(sort: \RecipeModel.name) private var recipes: [RecipeModel]
     
     @State private var viewModel = RecipeListViewModel()
@@ -34,11 +35,11 @@ struct RecipeListView: View {
             .navigationTitle("Recipes")
             .searchable(text: $searchText, prompt: "Search recipes")
             .refreshable {
-                await viewModel.syncRecipes(context: modelContext)
+                await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
             }
             .task {
                 if recipes.isEmpty {
-                    await viewModel.syncRecipes(context: modelContext)
+                    await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
                 }
             }
         }
@@ -63,7 +64,7 @@ struct RecipeListView: View {
         } actions: {
             Button("Sync Now") {
                 Task {
-                    await viewModel.syncRecipes(context: modelContext)
+                    await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
                 }
             }
             .buttonStyle(.borderedProminent)

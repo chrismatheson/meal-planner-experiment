@@ -6,8 +6,7 @@ final class MealPlanViewModel {
     var mealSlots: [Date: MealSlotModel] = [:]
     var isLoading = false
     var error: Error?
-    
-    private let keychain = KeychainService()
+    var client: PaprikaClient?
     
     func loadMealSlots(for dates: [Date], context: ModelContext) {
         let calendar = Calendar.current
@@ -80,8 +79,9 @@ final class MealPlanViewModel {
     }
     
     private func syncSlot(_ slot: MealSlotModel) async {
+        guard let client = client else { return }
+        
         do {
-            let client = PaprikaClient(keychain: keychain)
             let paprikaItem = slot.toPaprikaModel()
             try await client.saveMealItem(paprikaItem)
             
