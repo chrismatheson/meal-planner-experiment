@@ -59,7 +59,7 @@
 			containerPortal = 153CBAD90565AEE864DF4F46 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EE5C568E4E48C57EC561AEB3;
-			remoteInfo = "PaprikaPlanner";
+			remoteInfo = PaprikaPlanner;
 		};
 		AB8C16D510819429D644731F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -73,7 +73,7 @@
 			containerPortal = 153CBAD90565AEE864DF4F46 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EE5C568E4E48C57EC561AEB3;
-			remoteInfo = "PaprikaPlanner";
+			remoteInfo = PaprikaPlanner;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -121,7 +121,7 @@
 		B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanViewModel.swift; sourceTree = "<group>"; };
 		BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerApp.swift; sourceTree = "<group>"; };
 		C087FE6B4DEAF4C67C5869E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		C1FE69B94175D7B924932AB6 /* PaprikaPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaprikaPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1FE69B94175D7B924932AB6 /* paprikaplanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeListViewModelTests.swift; path = MealPlannerTests/RecipeListViewModelTests.swift; sourceTree = SOURCE_ROOT; };
 		DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerTests.swift; sourceTree = "<group>"; };
@@ -312,7 +312,7 @@
 		C3DD0896B3E521327766B279 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C1FE69B94175D7B924932AB6 /* PaprikaPlanner.app */,
+				C1FE69B94175D7B924932AB6 /* paprikaplanner.app */,
 				590CA1E817DDDBFC28B47B82 /* PaprikaPlanner.app */,
 				201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */,
 				DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */,
@@ -391,7 +391,7 @@
 			packageProductDependencies = (
 			);
 			productName = PaprikaPlanner;
-			productReference = C1FE69B94175D7B924932AB6 /* PaprikaPlanner.app */;
+			productReference = C1FE69B94175D7B924932AB6 /* paprikaplanner.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F6D128C0B47960EBAD3C09F7 /* MealPlannerUITests */ = {
@@ -739,7 +739,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
-				PRODUCT_NAME = PaprikaPlanner;
+				PRODUCT_NAME = paprikaplanner;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -804,7 +804,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "PaprikaPlanner";
+				TEST_TARGET_NAME = PaprikaPlanner;
 			};
 			name = Release;
 		};
@@ -855,7 +855,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "PaprikaPlanner";
+				TEST_TARGET_NAME = PaprikaPlanner;
 			};
 			name = Debug;
 		};
@@ -885,7 +885,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
-				PRODUCT_NAME = PaprikaPlanner;
+				PRODUCT_NAME = paprikaplanner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
