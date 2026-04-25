@@ -2,26 +2,57 @@ import XCTest
 
 /// UI Tests that verify the actual app works end-to-end
 /// These tests MUST pass before any release
-/// 
+///
 /// Set environment variables for testing:
 /// - PAPRIKA_TEST_EMAIL
 /// - PAPRIKA_TEST_PASSWORD
 final class MealPlannerUITests: XCTestCase {
-    
+
     var app: XCUIApplication!
-    
+
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
-        
+
         // Pass test credentials via environment
         if let email = ProcessInfo.processInfo.environment["PAPRIKA_TEST_EMAIL"],
            let password = ProcessInfo.processInfo.environment["PAPRIKA_TEST_PASSWORD"] {
             app.launchEnvironment["PAPRIKA_TEST_EMAIL"] = email
             app.launchEnvironment["PAPRIKA_TEST_PASSWORD"] = password
         }
-        
+
         app.launch()
+
+        // Sign out if already logged in (ensures clean state for login tests)
+        signOutIfNeeded()
+    }
+
+    /// Helper to sign out if currently logged in
+    private func signOutIfNeeded() {
+        // If tab bar exists, we're logged in
+        if app.tabBars.firstMatch.waitForExistence(timeout: 2) {
+            // Go to Settings and sign out
+            app.tabBars.buttons["Settings"].tap()
+            let signOutButton = app.buttons["Sign Out"]
+            if signOutButton.waitForExistence(timeout: 2) {
+                signOutButton.tap()
+                // Wait for login screen
+                _ = app.textFields["Email"].waitForExistence(timeout: 3)
+            }
+        }
+    }
+
+    /// Helper to sign in (handles already-logged-in state)
+    private func signInIfNeeded(email: String, password: String) {
+        if app.textFields["Email"].exists {
+            app.textFields["Email"].tap()
+            app.textFields["Email"].typeText(email)
+            app.secureTextFields["Password"].tap()
+            app.secureTextFields["Password"].typeText(password)
+            app.buttons["Sign In"].tap()
+        }
+        // Wait for login to complete
+        _ = app.tabBars.firstMatch.waitForExistence(timeout: 15)
     }
     
     // MARK: - Critical Path Tests (MUST PASS)
@@ -136,12 +167,14 @@ final class MealPlannerUITests: XCTestCase {
             print("🔍 Initial keychain status: \(keychainStatus.label)")
         }
 
-        // First sign in
-        app.textFields["Email"].tap()
-        app.textFields["Email"].typeText(testEmail)
-        app.secureTextFields["Password"].tap()
-        app.secureTextFields["Password"].typeText(testPassword)
-        app.buttons["Sign In"].tap()
+        // Sign in only if needed (might already be logged in from previous test)
+        if app.textFields["Email"].exists {
+            app.textFields["Email"].tap()
+            app.textFields["Email"].typeText(testEmail)
+            app.secureTextFields["Password"].tap()
+            app.secureTextFields["Password"].typeText(testPassword)
+            app.buttons["Sign In"].tap()
+        }
 
         // Wait for successful login - should see tab bar
         XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15),
@@ -231,14 +264,17 @@ final class MealPlannerUITests: XCTestCase {
 
     /// Verifies tapping countdown timer triggers sync
     func test_planGeneration_tapCountdown_triggersSync() throws {
-        // Login
-        app.textFields["Email"].tap()
-        app.textFields["Email"].typeText(testEmail)
-        app.secureTextFields["Password"].tap()
-        app.secureTextFields["Password"].typeText(testPassword)
-        app.buttons["Sign In"].tap()
+        // Check if we need to login (might already be logged in from previous test)
+        if app.textFields["Email"].exists {
+            // Login
+            app.textFields["Email"].tap()
+            app.textFields["Email"].typeText(testEmail)
+            app.secureTextFields["Password"].tap()
+            app.secureTextFields["Password"].typeText(testPassword)
+            app.buttons["Sign In"].tap()
+        }
 
-        // Wait for login to complete
+        // Wait for login to complete (tab bar indicates we're logged in)
         XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15))
 
         // Check keychain status in Settings before trying to sync

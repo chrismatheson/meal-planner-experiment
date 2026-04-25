@@ -113,27 +113,21 @@ final class PlanGenerationViewModel {
             print("🔑 Checking keychain for sync credentials...")
             print("🔑 hasStoredCredentials: \(keychain.hasStoredCredentials)")
 
-            // First try existing token
-            if let token = try? keychain.getToken() {
-                print("🔑 Found token in keychain, setting on client")
-                await paprikaClient.setToken(token)
-            } else {
-                print("🔑 No token found, attempting re-auth...")
-                // No token - try to re-authenticate with stored credentials
-                guard let email = try? keychain.getEmail(),
-                      let password = try? keychain.getPassword() else {
-                    print("❌ No email/password in keychain!")
-                    syncError = "Not logged in"
-                    isSyncing = false
-                    return
-                }
-
-                print("🔑 Re-authenticating as \(email)...")
-                // Re-authenticate
-                let newToken = try await paprikaClient.login(email: email, password: password)
-                try? keychain.saveToken(newToken)
-                print("🔑 Re-authenticated successfully")
+            // For syncing, we MUST have email/password because v1 sync API uses Basic Auth
+            // Bearer token is not enough for the saveMeals endpoint
+            guard let email = try? keychain.getEmail(),
+                  let password = try? keychain.getPassword() else {
+                print("❌ No email/password in keychain!")
+                syncError = "Not logged in"
+                isSyncing = false
+                return
             }
+
+            print("🔑 Authenticating as \(email) for sync...")
+            // Always login to ensure basicAuthHeader is set (needed for v1 sync API)
+            let newToken = try await paprikaClient.login(email: email, password: password)
+            try? keychain.saveToken(newToken)
+            print("🔑 Authenticated successfully")
 
             // Convert DayPlans to PaprikaMeals
             let meals: [PaprikaMeal] = weekPlan.days.compactMap { day in
