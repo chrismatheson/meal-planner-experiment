@@ -32,19 +32,24 @@ final class WeekPlan {
     func regenerateDay(at index: Int) {
         guard index >= 0 && index < days.count else { return }
         
+        // Exclude current recipe from future picks
         if let currentRecipe = days[index].recipe {
             excludedRecipeIds.insert(currentRecipe.uid)
         }
         
+        // Pick a new recipe
         days[index].recipe = pickRandomRecipe()
     }
     
+    /// Pick a random recipe that hasn't been used this week
     private func pickRandomRecipe() -> RecipeModel? {
+        // Get recipes not already in this week's plan and not excluded
         let usedIds = Set(days.compactMap { $0.recipe?.uid })
         let available = allRecipes.filter { recipe in
             !usedIds.contains(recipe.uid) && !excludedRecipeIds.contains(recipe.uid)
         }
         
+        // If we've exhausted all recipes, reset exclusions (but keep week duplicates blocked)
         if available.isEmpty {
             excludedRecipeIds.removeAll()
             let stillAvailable = allRecipes.filter { !usedIds.contains($0.uid) }
@@ -67,6 +72,7 @@ final class DayPlan: Identifiable {
         self.recipe = recipe
     }
     
+    /// Formatted day name (e.g., "Monday" or "Today")
     var dayName: String {
         let calendar = Calendar.current
         if calendar.isDateInToday(date) {
@@ -80,6 +86,7 @@ final class DayPlan: Identifiable {
         }
     }
     
+    /// Short date (e.g., "Apr 17")
     var shortDate: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d"

@@ -5,7 +5,7 @@ import SwiftData
 struct PlanGenerationView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = PlanGenerationViewModel()
-    
+
     var body: some View {
         NavigationStack {
             Group {
@@ -15,9 +15,8 @@ struct PlanGenerationView: View {
                         onRegenerateDay: { index in
                             viewModel.regenerateDay(at: index)
                         },
-                        onRegenerateAll: {
-                            viewModel.regenerateAll()
-                        }
+                        hasSynced: viewModel.hasSynced,
+                        syncError: viewModel.syncError
                     )
                 } else {
                     GeneratePromptView(
@@ -29,6 +28,44 @@ struct PlanGenerationView: View {
                 }
             }
             .navigationTitle("Meal Plan")
+            .toolbar {
+                // Only show toolbar when plan is generated
+                if viewModel.hasGenerated {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        // Countdown / Sync button
+                        Button {
+                            Task {
+                                await viewModel.syncNow()
+                            }
+                        } label: {
+                            if viewModel.isSyncing {
+                                ProgressView()
+                            } else if viewModel.hasSynced {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundStyle(.green)
+                            } else {
+                                Label {
+                                    Text("\(viewModel.countdownSeconds)")
+                                } icon: {
+                                    Image(systemName: "paperplane.fill")
+                                }
+                                .foregroundStyle(Color.paprikaPrimary)
+                            }
+                        }
+                        .disabled(viewModel.isSyncing || viewModel.hasSynced)
+                        .accessibilityIdentifier("SyncButton")
+
+                        // Regenerate all button
+                        Button {
+                            viewModel.regenerateAll()
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                        }
+                        .disabled(viewModel.isSyncing || viewModel.hasSynced)
+                        .accessibilityIdentifier("RegenerateButton")
+                    }
+                }
+            }
         }
     }
 }
@@ -85,11 +122,36 @@ struct GeneratePromptView: View {
 struct WeekPlanReviewView: View {
     @Bindable var weekPlan: WeekPlan
     let onRegenerateDay: (Int) -> Void
-    let onRegenerateAll: () -> Void
-    
+    let hasSynced: Bool
+    let syncError: String?
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
+                // Show error at top if any
+                if let error = syncError {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundStyle(.white)
+                        .padding(8)
+                        .background(Color.red.opacity(0.8))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+
+                // Show synced confirmation
+                if hasSynced {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                        Text("Synced to Paprika!")
+                    }
+                    .font(.headline)
+                    .foregroundStyle(.green)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+
                 ForEach(Array(weekPlan.days.enumerated()), id: \.element.id) { index, day in
                     DayPlanCard(
                         day: day,
@@ -99,12 +161,10 @@ struct WeekPlanReviewView: View {
             }
             .padding()
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button(action: onRegenerateAll) {
-                    Label("Regenerate All", systemImage: "arrow.clockwise")
-                }
-            }
-        }
     }
+}
+
+#Preview {
+    PlanGenerationView()
+        .modelContainer(for: RecipeModel.self, inMemory: true)
 }

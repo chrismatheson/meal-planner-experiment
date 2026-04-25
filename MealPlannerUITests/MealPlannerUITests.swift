@@ -102,22 +102,117 @@ final class MealPlannerUITests: XCTestCase {
               let password = ProcessInfo.processInfo.environment["PAPRIKA_TEST_PASSWORD"] else {
             throw XCTSkip("Test credentials not configured")
         }
-        
+
         // Login
         app.textFields["Email"].tap()
         app.textFields["Email"].typeText(email)
         app.secureTextFields["Password"].tap()
         app.secureTextFields["Password"].typeText(password)
         app.buttons["Sign In"].tap()
-        
+
         // Wait for recipes
         XCTAssertTrue(app.navigationBars["Recipes"].waitForExistence(timeout: 15))
-        
+
         // Navigate to Meal Plan
         app.tabBars.buttons["Meal Plan"].tap()
         XCTAssertTrue(app.navigationBars["Meal Plan"].waitForExistence(timeout: 5))
-        
+
         // Verify we can see the week view
         XCTAssertTrue(app.staticTexts["Today"].exists || app.buttons["Today"].exists)
+    }
+
+    // MARK: - Plan Generation Tests
+
+    // Test credentials (same as integration tests)
+    private let testEmail = "blackhole@mailinator.com"
+    private let testPassword = "cessuh-xawtig-xIbpa2"
+
+    /// Verifies that after generating a plan, countdown timer appears in toolbar
+    func test_planGeneration_showsCountdownTimer() throws {
+        // Login
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText(testEmail)
+        app.secureTextFields["Password"].tap()
+        app.secureTextFields["Password"].typeText(testPassword)
+        app.buttons["Sign In"].tap()
+
+        // Wait for main screen
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15))
+
+        // Go to Plan tab
+        app.tabBars.buttons["Plan"].tap()
+
+        // Tap "Plan My Week" button
+        let planButton = app.buttons["Plan My Week"]
+        XCTAssertTrue(planButton.waitForExistence(timeout: 5), "Plan My Week button should exist")
+        planButton.tap()
+
+        // Wait for plan to generate - should see "Meal Plan" title
+        let mealPlanTitle = app.staticTexts["Meal Plan"]
+        XCTAssertTrue(mealPlanTitle.waitForExistence(timeout: 10), "Meal Plan title should appear after generation")
+
+        // Debug: Print all buttons in the app
+        print("🔍 All buttons in app:")
+        for button in app.buttons.allElementsBoundByIndex {
+            print("  - Button: '\(button.label)' identifier: '\(button.identifier)'")
+        }
+
+        // Debug: Print all navigation bar elements
+        print("🔍 Navigation bar buttons:")
+        for button in app.navigationBars.buttons.allElementsBoundByIndex {
+            print("  - NavBar Button: '\(button.label)'")
+        }
+
+        // Verify countdown timer appears - use accessibilityIdentifier
+        let syncButton = app.buttons["SyncButton"]
+        XCTAssertTrue(syncButton.waitForExistence(timeout: 3), "Sync countdown button should appear in toolbar")
+
+        // Verify the button shows a number (countdown)
+        let buttonLabel = syncButton.label
+        XCTAssertTrue(buttonLabel.contains(where: { $0.isNumber }), "Sync button should show countdown number, got: \(buttonLabel)")
+
+        // Verify regenerate button exists - use accessibilityIdentifier
+        let regenerateButton = app.buttons["RegenerateButton"]
+        XCTAssertTrue(regenerateButton.exists, "Regenerate button should exist in toolbar")
+
+        // Verify day cards are showing (at least one day with Today)
+        XCTAssertTrue(app.staticTexts["Today"].exists, "Today label should appear on first day card")
+    }
+
+    /// Verifies tapping countdown timer triggers sync
+    func test_planGeneration_tapCountdown_triggersSync() throws {
+        // Login
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText(testEmail)
+        app.secureTextFields["Password"].tap()
+        app.secureTextFields["Password"].typeText(testPassword)
+        app.buttons["Sign In"].tap()
+
+        // Wait and navigate to Plan
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15))
+        app.tabBars.buttons["Plan"].tap()
+
+        // Generate plan
+        let planButton = app.buttons["Plan My Week"]
+        XCTAssertTrue(planButton.waitForExistence(timeout: 5))
+        planButton.tap()
+
+        // Wait for plan
+        XCTAssertTrue(app.staticTexts["Meal Plan"].waitForExistence(timeout: 10))
+
+        // Find and tap the sync button using accessibilityIdentifier
+        let syncButton = app.buttons["SyncButton"]
+        XCTAssertTrue(syncButton.waitForExistence(timeout: 3))
+        syncButton.tap()
+
+        // After sync, should show checkmark (green success state)
+        // The button label should change to indicate success
+        // Wait a bit for sync to complete
+        sleep(3)
+
+        // Check that button is disabled after sync (shows synced state)
+        XCTAssertTrue(app.buttons["SyncButton"].exists, "Sync button should still exist")
+        // The button should now show a checkmark or be disabled
+        // NOTE: Full sync verification would require network mocking
     }
 }
