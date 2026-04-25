@@ -726,6 +726,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
+				INFOPLIST_KEY_CFBundleName = PaprikaPlanner;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -871,6 +872,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
+				INFOPLIST_KEY_CFBundleName = PaprikaPlanner;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
