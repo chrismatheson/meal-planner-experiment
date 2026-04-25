@@ -94,6 +94,7 @@
 		B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanViewModel.swift; sourceTree = "<group>"; };
 		BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerApp.swift; sourceTree = "<group>"; };
 		C087FE6B4DEAF4C67C5869E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		PRIV4CY1NF0000000000001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C1FE69B94175D7B924932AB6 /* paprikaplanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeListViewModelTests.swift; path = MealPlannerTests/RecipeListViewModelTests.swift; sourceTree = SOURCE_ROOT; };
 		DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +165,7 @@
 			children = (
 				C087FE6B4DEAF4C67C5869E6 /* Info.plist */,
 				B37B42D32BF6FC0918DACBFC /* MealPlanner.entitlements */,
+				PRIV4CY1NF0000000000001 /* PrivacyInfo.xcprivacy */,
 				BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */,
 				04218F005462452530D4B62A /* App */,
 				99EA41A7A7567AF94D871E24 /* DesignSystem */,
