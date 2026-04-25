@@ -81,6 +81,25 @@
 		0369ED671AEAE3161AB91611 /* PaprikaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaModels.swift; sourceTree = "<group>"; };
 		07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
 		0B961CB18A0E84013A469BE9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1BB5D76E2F9D33CE0098C60A /* Contents.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
+		1BB5D76F2F9D33CE0098C60A /* Icon-AppStore-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-AppStore-1024.png"; sourceTree = "<group>"; };
+		1BB5D7702F9D33CE0098C60A /* Icon-ipad-20x20@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-20x20@1x.png"; sourceTree = "<group>"; };
+		1BB5D7712F9D33CE0098C60A /* Icon-ipad-20x20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-20x20@2x.png"; sourceTree = "<group>"; };
+		1BB5D7722F9D33CE0098C60A /* Icon-ipad-29x29@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-29x29@1x.png"; sourceTree = "<group>"; };
+		1BB5D7732F9D33CE0098C60A /* Icon-ipad-29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-29x29@2x.png"; sourceTree = "<group>"; };
+		1BB5D7742F9D33CE0098C60A /* Icon-ipad-40x40@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-40x40@1x.png"; sourceTree = "<group>"; };
+		1BB5D7752F9D33CE0098C60A /* Icon-ipad-40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-40x40@2x.png"; sourceTree = "<group>"; };
+		1BB5D7762F9D33CE0098C60A /* Icon-ipad-76x76@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-76x76@1x.png"; sourceTree = "<group>"; };
+		1BB5D7772F9D33CE0098C60A /* Icon-ipad-76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-76x76@2x.png"; sourceTree = "<group>"; };
+		1BB5D7782F9D33CE0098C60A /* Icon-ipad-83_5x83_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-83_5x83_5@2x.png"; sourceTree = "<group>"; };
+		1BB5D7792F9D33CE0098C60A /* Icon-iphone-20x20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-20x20@2x.png"; sourceTree = "<group>"; };
+		1BB5D77A2F9D33CE0098C60A /* Icon-iphone-20x20@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-20x20@3x.png"; sourceTree = "<group>"; };
+		1BB5D77B2F9D33CE0098C60A /* Icon-iphone-29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-29x29@2x.png"; sourceTree = "<group>"; };
+		1BB5D77C2F9D33CE0098C60A /* Icon-iphone-29x29@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-29x29@3x.png"; sourceTree = "<group>"; };
+		1BB5D77D2F9D33CE0098C60A /* Icon-iphone-40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-40x40@2x.png"; sourceTree = "<group>"; };
+		1BB5D77E2F9D33CE0098C60A /* Icon-iphone-40x40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-40x40@3x.png"; sourceTree = "<group>"; };
+		1BB5D77F2F9D33CE0098C60A /* Icon-iphone-60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-60x60@2x.png"; sourceTree = "<group>"; };
+		1BB5D7802F9D33CE0098C60A /* Icon-iphone-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-60x60@3x.png"; sourceTree = "<group>"; };
 		1BC32F372F92812400DF473E /* WeekPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPlan.swift; sourceTree = "<group>"; };
 		1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
 		1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
@@ -92,7 +111,7 @@
 		39E76B021A94C6C45471B80C /* RecipePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePickerView.swift; sourceTree = "<group>"; };
 		44D6FC38E4942D5CE0B08BC8 /* MealPlannerUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46807E03C78FB285683CC8C7 /* MealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanView.swift; sourceTree = "<group>"; };
-		590CA1E817DDDBFC28B47B82 /* MealPlanner-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "MealPlanner-macOS.app"; path = MealPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		590CA1E817DDDBFC28B47B82 /* PaprikaPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaprikaPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		761C5C62CB8E5FE1796536E5 /* MealPlannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerUITests.swift; sourceTree = "<group>"; };
 		788CEC334B00A224FAC778D6 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
@@ -102,7 +121,7 @@
 		B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanViewModel.swift; sourceTree = "<group>"; };
 		BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerApp.swift; sourceTree = "<group>"; };
 		C087FE6B4DEAF4C67C5869E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		C1FE69B94175D7B924932AB6 /* MealPlanner-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = "MealPlanner-iOS.app"; path = MealPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1FE69B94175D7B924932AB6 /* PaprikaPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaprikaPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeListViewModelTests.swift; path = MealPlannerTests/RecipeListViewModelTests.swift; sourceTree = SOURCE_ROOT; };
 		DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerTests.swift; sourceTree = "<group>"; };
@@ -130,6 +149,32 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		1BB5D7812F9D33CE0098C60A /* AppIcon.appiconset */ = {
+			isa = PBXGroup;
+			children = (
+				1BB5D76E2F9D33CE0098C60A /* Contents.json */,
+				1BB5D76F2F9D33CE0098C60A /* Icon-AppStore-1024.png */,
+				1BB5D7702F9D33CE0098C60A /* Icon-ipad-20x20@1x.png */,
+				1BB5D7712F9D33CE0098C60A /* Icon-ipad-20x20@2x.png */,
+				1BB5D7722F9D33CE0098C60A /* Icon-ipad-29x29@1x.png */,
+				1BB5D7732F9D33CE0098C60A /* Icon-ipad-29x29@2x.png */,
+				1BB5D7742F9D33CE0098C60A /* Icon-ipad-40x40@1x.png */,
+				1BB5D7752F9D33CE0098C60A /* Icon-ipad-40x40@2x.png */,
+				1BB5D7762F9D33CE0098C60A /* Icon-ipad-76x76@1x.png */,
+				1BB5D7772F9D33CE0098C60A /* Icon-ipad-76x76@2x.png */,
+				1BB5D7782F9D33CE0098C60A /* Icon-ipad-83_5x83_5@2x.png */,
+				1BB5D7792F9D33CE0098C60A /* Icon-iphone-20x20@2x.png */,
+				1BB5D77A2F9D33CE0098C60A /* Icon-iphone-20x20@3x.png */,
+				1BB5D77B2F9D33CE0098C60A /* Icon-iphone-29x29@2x.png */,
+				1BB5D77C2F9D33CE0098C60A /* Icon-iphone-29x29@3x.png */,
+				1BB5D77D2F9D33CE0098C60A /* Icon-iphone-40x40@2x.png */,
+				1BB5D77E2F9D33CE0098C60A /* Icon-iphone-40x40@3x.png */,
+				1BB5D77F2F9D33CE0098C60A /* Icon-iphone-60x60@2x.png */,
+				1BB5D7802F9D33CE0098C60A /* Icon-iphone-60x60@3x.png */,
+			);
+			path = AppIcon.appiconset;
+			sourceTree = "<group>";
+		};
 		1BC32F342F9280AC00DF473E /* PlanGeneration 2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,20 +182,6 @@
 				1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */,
 				1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */,
 				1BC32F402F92814900DF473E /* DayPlanCard.swift */,
-			);
-			path = "PlanGeneration 2";
-			sourceTree = "<group>";
-		};
-		1BC32F352F9280CE00DF473E /* PlanGeneration 3 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "PlanGeneration 3";
-			sourceTree = "<group>";
-		};
-		1BC32F362F92811B00DF473E /* PlanGeneration 2 */ = {
-			isa = PBXGroup;
-			children = (
 			);
 			path = "PlanGeneration 2";
 			sourceTree = "<group>";
@@ -165,6 +196,7 @@
 				99EA41A7A7567AF94D871E24 /* DesignSystem */,
 				81B5888666C39C91B815F781 /* Features */,
 				A6BA0615B4A4FEFFEEA9A5AE /* Infrastructure */,
+				1BB5D7812F9D33CE0098C60A /* AppIcon.appiconset */,
 			);
 			path = MealPlanner;
 			sourceTree = "<group>";
@@ -229,8 +261,6 @@
 				64C39AD6A1A58C9089230E18 /* MealPlan */,
 				6B3F3AF3627C98CA4A1AD972 /* Recipes */,
 				1BC32F342F9280AC00DF473E /* PlanGeneration 2 */,
-				1BC32F352F9280CE00DF473E /* PlanGeneration 3 */,
-				1BC32F362F92811B00DF473E /* PlanGeneration 2 */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -282,8 +312,8 @@
 		C3DD0896B3E521327766B279 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C1FE69B94175D7B924932AB6 /* MealPlanner-iOS.app */,
-				590CA1E817DDDBFC28B47B82 /* MealPlanner-macOS.app */,
+				C1FE69B94175D7B924932AB6 /* PaprikaPlanner.app */,
+				590CA1E817DDDBFC28B47B82 /* PaprikaPlanner.app */,
 				201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */,
 				DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */,
 				44D6FC38E4942D5CE0B08BC8 /* MealPlannerUITests.xctest */,
@@ -308,7 +338,7 @@
 			packageProductDependencies = (
 			);
 			productName = "MealPlanner-macOS";
-			productReference = 590CA1E817DDDBFC28B47B82 /* MealPlanner-macOS.app */;
+			productReference = 590CA1E817DDDBFC28B47B82 /* PaprikaPlanner.app */;
 			productType = "com.apple.product-type.application";
 		};
 		CEA61082DED552DCA82D29F5 /* MealPlannerTests-macOS */ = {
@@ -361,7 +391,7 @@
 			packageProductDependencies = (
 			);
 			productName = "MealPlanner-iOS";
-			productReference = C1FE69B94175D7B924932AB6 /* MealPlanner-iOS.app */;
+			productReference = C1FE69B94175D7B924932AB6 /* PaprikaPlanner.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F6D128C0B47960EBAD3C09F7 /* MealPlannerUITests */ = {
@@ -392,11 +422,11 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					F6D128C0B47960EBAD3C09F7 = {
-						TestTargetID = EE5C568E4E48C57EC561AEB3 /* MealPlanner-iOS */;
+						TestTargetID = EE5C568E4E48C57EC561AEB3;
 					};
 				};
 			};
-			buildConfigurationList = 4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner-iOS" */;
+			buildConfigurationList = 4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -542,9 +572,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
@@ -556,6 +589,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner;
 				PRODUCT_NAME = PaprikaPlanner;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -683,10 +717,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
@@ -732,9 +768,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
@@ -746,6 +785,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner;
 				PRODUCT_NAME = PaprikaPlanner;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -822,11 +862,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
@@ -843,6 +884,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner;
 				PRODUCT_NAME = PaprikaPlanner;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -870,7 +912,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner-iOS" */ = {
+		4AD4CE0F9F30F553F4722450 /* Build configuration list for PBXProject "MealPlanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				25B2311705E811CE881F1B52 /* Debug */,
