@@ -1,7 +1,7 @@
 # Product Roadmap
 
 > *Maintained by: Product Manager*
-> *Last updated: 2026-04-17*
+> *Last updated: 2026-04-25*
 
 ## Vision
 
@@ -11,19 +11,20 @@
 
 ## Current Focus
 
-### 🎯 Now: Generate-First MVP (v0.9 - Read-only)
+### 🎯 Now: v1.0 MVP - Generate & Sync
 
-**Theme**: App generates the plan, user reviews - sync deferred
+**Theme**: App generates the plan, user reviews, auto-syncs to Paprika
 
 | Feature | Status | Priority | Notes |
 |---------|--------|----------|-------|
 | Paprika login | 🟢 Complete | - | Working with multipart form auth |
 | Recipe fetching | 🟢 Complete | - | Can pull from Paprika |
-| Token persistence | 🟢 Complete | - | Stay logged in |
+| Token persistence | 🟢 Complete | - | Stay logged in across app restarts |
 | Recipe caching | 🟢 Complete | - | Offline generation works |
-| **"Plan My Week" generation** | ⚪ Not Started | P0 | Random, no duplicates |
-| **Review week UI** | ⚪ Not Started | P0 | 7 cards, regenerate per-day |
-| **Sync plan to Paprika** | 🔒 Blocked | P0→v1.0 | API endpoint unclear, deferred |
+| **"Plan My Week" generation** | 🟢 Complete | - | Random, no duplicates in week |
+| **Review week UI** | 🟢 Complete | - | 7 cards with photo, regenerate per-day |
+| **20s countdown auto-sync** | 🟢 Complete | - | Tap to sync early or wait |
+| **Sync plan to Paprika** | 🟡 Needs Verify | P0 | v1 API with gzip - **verify in Paprika app** |
 
 ### ❌ Cut from v1.0 (not needed for generate-first)
 
@@ -38,14 +39,14 @@
 
 ## Milestones
 
-### 🚀 v0.9 - Generate-First (Read-only)
+### 🚀 v1.0 - Full MVP (Current)
 
-**Goal**: Generate a week of dinners, steer with regenerate - NO sync yet
-**Status**: In Progress
+**Goal**: Generate a week of dinners, auto-sync to Paprika
+**Status**: Feature-complete, needs manual verification
 
 **Core Flow:**
 ```
-Login → "Plan My Week" → Review 7 dinners → Regenerate any → (sync deferred)
+Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (20s) → ✓ Synced
 ```
 
 **Checklist:**
@@ -53,27 +54,22 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → (sync defer
 - [x] Fetch recipes from Paprika
 - [x] Token persistence (stay logged in)
 - [x] Recipe caching (offline generation)
-- [ ] Generate 7-day plan (random, no duplicates in week)
-- [ ] Review UI: 7 cards (day + recipe + photo)
-- [ ] Per-day "↻ Another" (excluded-random)
-- [ ] "↻ Regenerate All"
+- [x] Generate 7-day plan (random, no duplicates in week)
+- [x] Review UI: 7 cards (day + recipe + photo)
+- [x] Per-day "↻ Another" regenerate button
+- [x] "↻ Regenerate All" in toolbar
+- [x] 20s countdown timer with auto-sync
+- [x] Tap countdown to sync immediately
+- [x] Green checkmark on sync success
+- [ ] **VERIFY**: Meals appear in Paprika app
 
 **Scope:**
 - Dinner only (one meal per day)
 - Next 7 days (rolling, not calendar week)
 - Random generation (no "smart" yet)
-- **Read-only** - plan displays but doesn't sync
+- Sync via Paprika v1 API with gzip compression
 
-**Success Criteria**: Generate → tweak in under 30 seconds
-
-### 🚀 v1.0 - Full Sync
-
-**Goal**: Add write-back to Paprika
-
-**Checklist:**
-- [ ] Resolve Paprika write API (may need traffic capture)
-- [ ] "Use This Plan" → sync to Paprika
-- [ ] Confirmation of sync success
+**Success Criteria**: Generate → tweak → synced in under 30 seconds
 
 ### 📈 v1.1 - Polish
 
