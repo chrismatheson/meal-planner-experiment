@@ -59,7 +59,7 @@
 			containerPortal = 153CBAD90565AEE864DF4F46 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EE5C568E4E48C57EC561AEB3;
-			remoteInfo = "MealPlanner-iOS";
+			remoteInfo = "PaprikaPlanner";
 		};
 		AB8C16D510819429D644731F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -73,7 +73,7 @@
 			containerPortal = 153CBAD90565AEE864DF4F46 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EE5C568E4E48C57EC561AEB3;
-			remoteInfo = "MealPlanner-iOS";
+			remoteInfo = "PaprikaPlanner";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -377,9 +377,9 @@
 			productReference = DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		EE5C568E4E48C57EC561AEB3 /* MealPlanner-iOS */ = {
+		EE5C568E4E48C57EC561AEB3 /* PaprikaPlanner */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E8762928D3FB90340FAB0459 /* Build configuration list for PBXNativeTarget "MealPlanner-iOS" */;
+			buildConfigurationList = E8762928D3FB90340FAB0459 /* Build configuration list for PBXNativeTarget "PaprikaPlanner" */;
 			buildPhases = (
 				26140E960DAF57562A194413 /* Sources */,
 			);
@@ -387,10 +387,10 @@
 			);
 			dependencies = (
 			);
-			name = "MealPlanner-iOS";
+			name = PaprikaPlanner;
 			packageProductDependencies = (
 			);
-			productName = "MealPlanner-iOS";
+			productName = PaprikaPlanner;
 			productReference = C1FE69B94175D7B924932AB6 /* PaprikaPlanner.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -439,7 +439,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EE5C568E4E48C57EC561AEB3 /* MealPlanner-iOS */,
+				EE5C568E4E48C57EC561AEB3 /* PaprikaPlanner */,
 				51C9B810106AEE025B2EBCCE /* MealPlanner-macOS */,
 				E984B9AF50D9EA68CC2DE46F /* MealPlannerTests */,
 				CEA61082DED552DCA82D29F5 /* MealPlannerTests-macOS */,
@@ -538,12 +538,12 @@
 		};
 		3A284C99CD791ACEAA0AC851 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EE5C568E4E48C57EC561AEB3 /* MealPlanner-iOS */;
+			target = EE5C568E4E48C57EC561AEB3 /* PaprikaPlanner */;
 			targetProxy = CEAEA34CDFC16EF9A68B14AD /* PBXContainerItemProxy */;
 		};
 		D215DAAEBD35F9963D7365EA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EE5C568E4E48C57EC561AEB3 /* MealPlanner-iOS */;
+			target = EE5C568E4E48C57EC561AEB3 /* PaprikaPlanner */;
 			targetProxy = 60623C8D746C8C5FC1AE8FAA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -803,7 +803,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "MealPlanner-iOS";
+				TEST_TARGET_NAME = "PaprikaPlanner";
 			};
 			name = Release;
 		};
@@ -854,7 +854,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "MealPlanner-iOS";
+				TEST_TARGET_NAME = "PaprikaPlanner";
 			};
 			name = Debug;
 		};
@@ -930,7 +930,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		E8762928D3FB90340FAB0459 /* Build configuration list for PBXNativeTarget "MealPlanner-iOS" */ = {
+		E8762928D3FB90340FAB0459 /* Build configuration list for PBXNativeTarget "PaprikaPlanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				45866250AB097083614DE32A /* Debug */,

@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EE5C568E4E48C57EC561AEB3"
                BuildableName = "PaprikaPlanner.app"
-               BlueprintName = "MealPlanner-iOS"
+               BlueprintName = "PaprikaPlanner"
                ReferencedContainer = "container:MealPlanner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,7 +46,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EE5C568E4E48C57EC561AEB3"
             BuildableName = "PaprikaPlanner.app"
-            BlueprintName = "MealPlanner-iOS"
+            BlueprintName = "PaprikaPlanner"
             ReferencedContainer = "container:MealPlanner.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -90,7 +90,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EE5C568E4E48C57EC561AEB3"
             BuildableName = "PaprikaPlanner.app"
-            BlueprintName = "MealPlanner-iOS"
+            BlueprintName = "PaprikaPlanner"
             ReferencedContainer = "container:MealPlanner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -107,7 +107,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EE5C568E4E48C57EC561AEB3"
             BuildableName = "PaprikaPlanner.app"
-            BlueprintName = "MealPlanner-iOS"
+            BlueprintName = "PaprikaPlanner"
             ReferencedContainer = "container:MealPlanner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
