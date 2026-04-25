@@ -2,6 +2,45 @@
 
 How the agents collaborate to build great iOS applications.
 
+## Agent Identity Markers
+
+**All output MUST clearly show which agent is "speaking":**
+
+| Marker | Agent | Role |
+|--------|-------|------|
+| 🔧 **DEV:** | Developer | Implementation, debugging, coding |
+| 🧪 **QA:** | Quality Assurance | Testing, verification, skepticism |
+| 📋 **PO:** | Product Owner | Priorities, acceptance, scope |
+| 🎯 **ORCH:** | Orchestrator | Handoffs, coordination, user escalation |
+
+### Example Output Flow
+```
+🎯 ORCH: Starting work on "Credential Persistence". DEV taking over.
+
+🔧 DEV: Writing failing test for keychain storage...
+🔧 DEV: Test written. Implementing feature...
+🔧 DEV: Implementation complete. Handing to QA.
+
+🧪 QA: Verifying keychain storage...
+🧪 QA: ❌ FAIL - Keychain save returns error -34018
+🧪 QA: Returning to DEV with findings.
+
+🔧 DEV: Investigating keychain error...
+```
+
+## User Escalation Rules
+
+**Only escalate to user when:**
+1. ✅ Work package is **truly complete** (QA signed off)
+2. ❌ **Blocked** on user decision or external dependency
+3. ⚠️ **Critical failure** that needs direction
+4. ❓ **Ambiguous requirements** that need clarification
+
+**Do NOT escalate for:**
+- Routine handoffs between agents
+- Test failures being investigated
+- Implementation details
+
 ## ⚠️ Critical Gates
 
 **No phase is complete without evidence that it works.**
@@ -19,6 +58,13 @@ See also:
 | UI Complete | UI test runs and passes | QA verifies, updates TEST_PLAN.md |
 | MVP Complete | Full app run-through with real credentials | QA runs all manual tests, updates TEST_PLAN.md |
 | **Handoff to User/PO** | QA sign-off required | QA audits TEST_PLAN.md reflects reality |
+
+### PO Constraints
+
+**PO CANNOT mark features complete without:**
+1. QA sign-off on TEST_PLAN.md
+2. Manual test evidence (screenshot, video, or log)
+3. All automated tests passing
 
 ## Invocation Pattern
 

@@ -64,7 +64,8 @@ struct MainTabView: View {
 /// Placeholder settings view
 struct SettingsView: View {
     @Environment(AppState.self) private var appState
-    
+    @State private var keychainStatus = "Checking..."
+
     var body: some View {
         NavigationStack {
             List {
@@ -73,7 +74,26 @@ struct SettingsView: View {
                         Text(user.email)
                     }
                 }
-                
+
+                #if DEBUG
+                Section("Debug: Keychain Status") {
+                    Text(keychainStatus)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .accessibilityIdentifier("SettingsKeychainStatus")
+
+                    if let error = KeychainService.lastError {
+                        Text("Last Error: \(error)")
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                    }
+
+                    Button("Refresh Status") {
+                        refreshKeychainStatus()
+                    }
+                }
+                #endif
+
                 Section {
                     Button("Sign Out", role: .destructive) {
                         appState.signOut()
@@ -81,7 +101,35 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .onAppear {
+                refreshKeychainStatus()
+            }
         }
+    }
+
+    private func refreshKeychainStatus() {
+        let keychain = KeychainService()
+        var parts: [String] = []
+
+        if let email = try? keychain.getEmail() {
+            parts.append("✓ email: \(email)")
+        } else {
+            parts.append("✗ email")
+        }
+
+        if (try? keychain.getPassword()) != nil {
+            parts.append("✓ password")
+        } else {
+            parts.append("✗ password")
+        }
+
+        if (try? keychain.getToken()) != nil {
+            parts.append("✓ token")
+        } else {
+            parts.append("✗ token")
+        }
+
+        keychainStatus = parts.joined(separator: " | ")
     }
 }
 

@@ -238,8 +238,24 @@ final class MealPlannerUITests: XCTestCase {
         app.secureTextFields["Password"].typeText(testPassword)
         app.buttons["Sign In"].tap()
 
-        // Wait and navigate to Plan
+        // Wait for login to complete
         XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15))
+
+        // Check keychain status in Settings before trying to sync
+        app.tabBars.buttons["Settings"].tap()
+        sleep(1)
+        let keychainStatusLabel = app.staticTexts["SettingsKeychainStatus"]
+        if keychainStatusLabel.exists {
+            print("🔑 Keychain status after login: \(keychainStatusLabel.label)")
+        }
+
+        // Check for keychain error
+        let keychainErrorLabel = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Last Error'")).firstMatch
+        if keychainErrorLabel.exists {
+            print("❌ Keychain error: \(keychainErrorLabel.label)")
+        }
+
+        // Navigate to Plan
         app.tabBars.buttons["Plan"].tap()
 
         // Generate plan
@@ -255,14 +271,24 @@ final class MealPlannerUITests: XCTestCase {
         XCTAssertTrue(syncButton.waitForExistence(timeout: 3))
         syncButton.tap()
 
-        // After sync, should show checkmark (green success state)
-        // The button label should change to indicate success
-        // Wait a bit for sync to complete
-        sleep(3)
+        // Wait for sync to complete
+        sleep(5)
 
-        // Check that button is disabled after sync (shows synced state)
+        // Check for sync error - look for "Not logged in" or other error messages
+        let errorTexts = app.staticTexts.allElementsBoundByIndex.filter {
+            $0.label.lowercased().contains("error") ||
+            $0.label.lowercased().contains("not logged") ||
+            $0.label.lowercased().contains("failed")
+        }
+
+        if !errorTexts.isEmpty {
+            for errorText in errorTexts {
+                print("❌ Found error text: '\(errorText.label)'")
+            }
+            XCTFail("Sync showed error: \(errorTexts.first?.label ?? "unknown")")
+        }
+
+        // Check that button is still there (either synced or still syncing)
         XCTAssertTrue(app.buttons["SyncButton"].exists, "Sync button should still exist")
-        // The button should now show a checkmark or be disabled
-        // NOTE: Full sync verification would require network mocking
     }
 }
