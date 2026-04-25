@@ -7,47 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04E8F766E87BE3404D5DF991 /* PaprikaClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3847B7674E57F6ACC8D943D9 /* PaprikaClient.swift */; };
 		0B48E41D4EA144D6616D324F /* MealPlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */; };
 		0D98A1CCF57FC062B46EA087 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95446E528A48CD0DD5393A9D /* LoadingView.swift */; };
-		1514880B1D5964448900EF83 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E88D239D4B88DDF6D76EF /* KeychainService.swift */; };
 		158DCE2BCC765FC93DF7ECA9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F77A096421405FAC62A30 /* RootView.swift */; };
 		1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */; };
-		1ABF1F08AAEB6B605E4993F4 /* MealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */; };
-		1BC32F382F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
 		1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
-		1BC32F3B2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
 		1BC32F3C2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
-		1BC32F3E2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
 		1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
 		1BC32F412F92814900DF473E /* DayPlanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F402F92814900DF473E /* DayPlanCard.swift */; };
-		1BC32F422F92814900DF473E /* DayPlanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F402F92814900DF473E /* DayPlanCard.swift */; };
-		1D462E460A4B90E13A280C01 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B961CB18A0E84013A469BE9 /* Theme.swift */; };
 		1E7C9827952ABCDDE5DD8AEC /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */; };
 		2380A16B0A1C956B82878857 /* MealPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */; };
 		26C2106D909CE5AADCF23DB9 /* RecipeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826B5F30FAC90E540982E4ED /* RecipeListViewModel.swift */; };
-		2740688B7CFB829B9678D87E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15307B6A01785962025A4A9 /* LoginView.swift */; };
-		313788871DC7B4CAC01FD85E /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */; };
 		3F138BA0F1BCA0615CB15D4F /* PaprikaIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */; };
 		40415DE993C66754389CA911 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E88D239D4B88DDF6D76EF /* KeychainService.swift */; };
 		43EFCFBC5D8DE0A9508B67C0 /* MealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */; };
-		48D5EC8DE9115CBCEC4FAC92 /* PaprikaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0369ED671AEAE3161AB91611 /* PaprikaModels.swift */; };
 		49BA4122A7903F4A0BE8054A /* RecipeListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */; };
 		50EA27261C45970EBC101A0C /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B961CB18A0E84013A469BE9 /* Theme.swift */; };
 		5F7D9D4129FFFF6164A6122E /* PaprikaClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3847B7674E57F6ACC8D943D9 /* PaprikaClient.swift */; };
 		6338E54F18C588BE219E3738 /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */; };
-		6CC467B6FB31D3878FE322D5 /* RecipePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E76B021A94C6C45471B80C /* RecipePickerView.swift */; };
-		6F876A8E470789B18EFAC481 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788CEC334B00A224FAC778D6 /* AppState.swift */; };
-		90262B0FD4427D3AB23AA873 /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46807E03C78FB285683CC8C7 /* MealPlanView.swift */; };
 		904E584A4C763B72C0D2722D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15307B6A01785962025A4A9 /* LoginView.swift */; };
 		95A8E2DED9CCE69507C47B4E /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46807E03C78FB285683CC8C7 /* MealPlanView.swift */; };
-		96309936B370B0046CD297CC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95446E528A48CD0DD5393A9D /* LoadingView.swift */; };
-		9AD9420A37EB623C5FC3DB7C /* MealPlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */; };
 		A791ADCE09C55CA39D1CB5E0 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788CEC334B00A224FAC778D6 /* AppState.swift */; };
-		C6FF854702D571719D8B1B1F /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */; };
-		CAF0729A645D709C27ECC893 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F77A096421405FAC62A30 /* RootView.swift */; };
 		DCB030DAAB83241389BD5D88 /* RecipePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E76B021A94C6C45471B80C /* RecipePickerView.swift */; };
-		EA7455D9607D5847C2939CD8 /* RecipeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826B5F30FAC90E540982E4ED /* RecipeListViewModel.swift */; };
 		F76CC2E09E954B1B8921ED8E /* MealPlannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761C5C62CB8E5FE1796536E5 /* MealPlannerUITests.swift */; };
 		FBCD4B491094152184FF2966 /* PaprikaIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */; };
 		FFE95307A66C178FA2341979 /* PaprikaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0369ED671AEAE3161AB91611 /* PaprikaModels.swift */; };
@@ -60,13 +41,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = EE5C568E4E48C57EC561AEB3;
 			remoteInfo = PaprikaPlanner;
-		};
-		AB8C16D510819429D644731F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 153CBAD90565AEE864DF4F46 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 51C9B810106AEE025B2EBCCE;
-			remoteInfo = "MealPlanner-macOS";
 		};
 		CEAEA34CDFC16EF9A68B14AD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -111,7 +85,6 @@
 		39E76B021A94C6C45471B80C /* RecipePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePickerView.swift; sourceTree = "<group>"; };
 		44D6FC38E4942D5CE0B08BC8 /* MealPlannerUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46807E03C78FB285683CC8C7 /* MealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanView.swift; sourceTree = "<group>"; };
-		590CA1E817DDDBFC28B47B82 /* PaprikaPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaprikaPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		761C5C62CB8E5FE1796536E5 /* MealPlannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerUITests.swift; sourceTree = "<group>"; };
 		788CEC334B00A224FAC778D6 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
@@ -313,7 +286,6 @@
 			isa = PBXGroup;
 			children = (
 				C1FE69B94175D7B924932AB6 /* paprikaplanner.app */,
-				590CA1E817DDDBFC28B47B82 /* PaprikaPlanner.app */,
 				201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */,
 				DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */,
 				44D6FC38E4942D5CE0B08BC8 /* MealPlannerUITests.xctest */,
@@ -324,23 +296,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		51C9B810106AEE025B2EBCCE /* MealPlanner-macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E95F32E7ED356EC9CDDBA9F3 /* Build configuration list for PBXNativeTarget "MealPlanner-macOS" */;
-			buildPhases = (
-				CDABDE840A420FD151FF0588 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "MealPlanner-macOS";
-			packageProductDependencies = (
-			);
-			productName = "MealPlanner-macOS";
-			productReference = 590CA1E817DDDBFC28B47B82 /* PaprikaPlanner.app */;
-			productType = "com.apple.product-type.application";
-		};
 		CEA61082DED552DCA82D29F5 /* MealPlannerTests-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 272F591BA7295D571875104F /* Build configuration list for PBXNativeTarget "MealPlannerTests-macOS" */;
@@ -350,7 +305,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				39DFD91B994A66053316301E /* PBXTargetDependency */,
 			);
 			name = "MealPlannerTests-macOS";
 			packageProductDependencies = (
@@ -440,7 +394,6 @@
 			projectRoot = "";
 			targets = (
 				EE5C568E4E48C57EC561AEB3 /* PaprikaPlanner */,
-				51C9B810106AEE025B2EBCCE /* MealPlanner-macOS */,
 				E984B9AF50D9EA68CC2DE46F /* MealPlannerTests */,
 				CEA61082DED552DCA82D29F5 /* MealPlannerTests-macOS */,
 				F6D128C0B47960EBAD3C09F7 /* MealPlannerUITests */,
@@ -502,40 +455,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CDABDE840A420FD151FF0588 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1BC32F382F92812400DF473E /* WeekPlan.swift in Sources */,
-				6F876A8E470789B18EFAC481 /* AppState.swift in Sources */,
-				1514880B1D5964448900EF83 /* KeychainService.swift in Sources */,
-				96309936B370B0046CD297CC /* LoadingView.swift in Sources */,
-				2740688B7CFB829B9678D87E /* LoginView.swift in Sources */,
-				1BC32F3E2F92813B00DF473E /* PlanGenerationView.swift in Sources */,
-				90262B0FD4427D3AB23AA873 /* MealPlanView.swift in Sources */,
-				1ABF1F08AAEB6B605E4993F4 /* MealPlanViewModel.swift in Sources */,
-				9AD9420A37EB623C5FC3DB7C /* MealPlannerApp.swift in Sources */,
-				04E8F766E87BE3404D5DF991 /* PaprikaClient.swift in Sources */,
-				48D5EC8DE9115CBCEC4FAC92 /* PaprikaModels.swift in Sources */,
-				1BC32F422F92814900DF473E /* DayPlanCard.swift in Sources */,
-				C6FF854702D571719D8B1B1F /* RecipeListView.swift in Sources */,
-				1BC32F3B2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */,
-				EA7455D9607D5847C2939CD8 /* RecipeListViewModel.swift in Sources */,
-				6CC467B6FB31D3878FE322D5 /* RecipePickerView.swift in Sources */,
-				CAF0729A645D709C27ECC893 /* RootView.swift in Sources */,
-				313788871DC7B4CAC01FD85E /* SwiftDataModels.swift in Sources */,
-				1D462E460A4B90E13A280C01 /* Theme.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		39DFD91B994A66053316301E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 51C9B810106AEE025B2EBCCE /* MealPlanner-macOS */;
-			targetProxy = AB8C16D510819429D644731F /* PBXContainerItemProxy */;
-		};
 		3A284C99CD791ACEAA0AC851 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EE5C568E4E48C57EC561AEB3 /* PaprikaPlanner */;
@@ -563,34 +485,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MealPlanner-macOS.app/Contents/MacOS/MealPlanner-macOS";
-			};
-			name = Release;
-		};
-		16BBA3FE3FF2DFD9316FC50B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_REQUIRED = NO;
-				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HH2SVYXX2D;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MealPlanner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
-				PRODUCT_NAME = PaprikaPlanner;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -763,34 +657,6 @@
 			};
 			name = Release;
 		};
-		815E60A96EF3F3EC7FC63A77 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_REQUIRED = NO;
-				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HH2SVYXX2D;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MealPlanner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PaprikaPlanner;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
-				PRODUCT_NAME = PaprikaPlanner;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
 		88BFF8DA601EA2942842D849 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -937,15 +803,6 @@
 			buildConfigurations = (
 				45866250AB097083614DE32A /* Debug */,
 				E4AB2960EF839A14470307C4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		E95F32E7ED356EC9CDDBA9F3 /* Build configuration list for PBXNativeTarget "MealPlanner-macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				815E60A96EF3F3EC7FC63A77 /* Debug */,
-				16BBA3FE3FF2DFD9316FC50B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
