@@ -168,6 +168,17 @@ struct PaprikaMeal: Codable, Identifiable {
         self.type = type
         self.deleted = false
     }
+
+    /// Direct memberwise initializer for creating from cached data
+    init(uid: String, recipeUid: String?, date: String, name: String, orderFlag: Int, type: Int, deleted: Bool) {
+        self.uid = uid
+        self.recipeUid = recipeUid
+        self.date = date
+        self.name = name
+        self.orderFlag = orderFlag
+        self.type = type
+        self.deleted = deleted
+    }
 }
 
 struct MealsResponse: Decodable {

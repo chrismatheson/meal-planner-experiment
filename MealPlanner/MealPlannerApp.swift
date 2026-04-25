@@ -11,6 +11,7 @@ struct MealPlannerApp: App {
             let schema = Schema([
                 RecipeModel.self,
                 MealSlotModel.self,
+                CachedMealModel.self,
             ])
             let config = ModelConfiguration(isStoredInMemoryOnly: false)
             container = try ModelContainer(for: schema, configurations: config)

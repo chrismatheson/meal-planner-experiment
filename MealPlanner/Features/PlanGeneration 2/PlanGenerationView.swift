@@ -9,18 +9,24 @@ struct PlanGenerationView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.hasGenerated, let weekPlan = viewModel.weekPlan {
+                if viewModel.isLoadingExisting {
+                    // Loading existing meals
+                    LoadingExistingView()
+                } else if viewModel.hasGenerated, let weekPlan = viewModel.weekPlan {
                     WeekPlanReviewView(
                         weekPlan: weekPlan,
                         onRegenerateDay: { index in
                             viewModel.regenerateDay(at: index)
                         },
                         hasSynced: viewModel.hasSynced,
-                        syncError: viewModel.syncError
+                        syncError: viewModel.syncError,
+                        isFromCache: viewModel.isFromCache,
+                        isOffline: viewModel.isOffline
                     )
                 } else {
                     GeneratePromptView(
                         isGenerating: viewModel.isGenerating,
+                        isOffline: viewModel.isOffline,
                         onGenerate: {
                             viewModel.generatePlan(context: modelContext)
                         }
@@ -29,6 +35,18 @@ struct PlanGenerationView: View {
             }
             .navigationTitle("Meal Plan")
             .toolbar {
+                // Offline indicator (leading)
+                if viewModel.isOffline || viewModel.forceOffline {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Label("Offline", systemImage: viewModel.forceOffline ? "airplane" : "wifi.slash")
+                            .foregroundStyle(.orange)
+                            .onLongPressGesture {
+                                viewModel.toggleForceOffline()
+                            }
+                            .accessibilityIdentifier("OfflineIndicator")
+                    }
+                }
+
                 // Only show toolbar when plan is generated
                 if viewModel.hasGenerated {
                     ToolbarItemGroup(placement: .topBarTrailing) {
@@ -52,7 +70,7 @@ struct PlanGenerationView: View {
                                 .foregroundStyle(Color.paprikaPrimary)
                             }
                         }
-                        .disabled(viewModel.isSyncing || viewModel.hasSynced)
+                        .disabled(viewModel.isSyncing || viewModel.hasSynced || viewModel.isOffline)
                         .accessibilityIdentifier("SyncButton")
 
                         // Regenerate all button
@@ -66,6 +84,26 @@ struct PlanGenerationView: View {
                     }
                 }
             }
+            .task {
+                // Load existing meals on appear
+                await viewModel.loadExistingMeals(context: modelContext)
+            }
+            // Long press anywhere to toggle offline mode (for testing)
+            .onLongPressGesture(minimumDuration: 1.5) {
+                viewModel.toggleForceOffline()
+            }
+        }
+    }
+}
+
+/// Loading indicator while fetching existing meals
+struct LoadingExistingView: View {
+    var body: some View {
+        VStack(spacing: 16) {
+            ProgressView()
+                .scaleEffect(1.5)
+            Text("Loading your meal plan...")
+                .foregroundStyle(.secondary)
         }
     }
 }
@@ -73,25 +111,32 @@ struct PlanGenerationView: View {
 /// Initial prompt to generate a plan
 struct GeneratePromptView: View {
     let isGenerating: Bool
+    let isOffline: Bool
     let onGenerate: () -> Void
-    
+
     var body: some View {
         VStack(spacing: 24) {
             Spacer()
-            
+
             Image(systemName: "sparkles")
                 .font(.system(size: 60))
                 .foregroundStyle(Color.paprikaPrimary)
-            
+
             Text("Plan Your Week")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            
+
             Text("Generate 7 dinners from your\nPaprika recipes")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            
+
+            if isOffline {
+                Label("Offline - using cached recipes", systemImage: "wifi.slash")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+
             Button(action: onGenerate) {
                 HStack {
                     if isGenerating {
@@ -111,7 +156,7 @@ struct GeneratePromptView: View {
             }
             .disabled(isGenerating)
             .padding(.horizontal, 40)
-            
+
             Spacer()
             Spacer()
         }
@@ -124,10 +169,25 @@ struct WeekPlanReviewView: View {
     let onRegenerateDay: (Int) -> Void
     let hasSynced: Bool
     let syncError: String?
+    var isFromCache: Bool = false
+    var isOffline: Bool = false
 
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
+                // Show cache indicator
+                if isFromCache && !hasSynced {
+                    HStack {
+                        Image(systemName: "clock.arrow.circlepath")
+                        Text("Showing cached plan")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(8)
+                    .background(Color.secondary.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+
                 // Show error at top if any
                 if let error = syncError {
                     Text(error)
