@@ -560,7 +560,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MealPlanner-macOS.app/Contents/MacOS/MealPlanner-macOS";
 			};
@@ -587,7 +587,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_NAME = PaprikaPlanner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
@@ -738,7 +738,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_NAME = PaprikaPlanner;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -756,7 +756,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MealPlanner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MealPlanner";
@@ -784,7 +784,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_NAME = PaprikaPlanner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
@@ -801,7 +801,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "PaprikaPlanner";
@@ -819,7 +819,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MealPlanner-macOS.app/Contents/MacOS/MealPlanner-macOS";
 			};
@@ -835,7 +835,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MealPlanner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MealPlanner";
@@ -852,7 +852,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "PaprikaPlanner";
@@ -884,7 +884,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = it.matheson.paprikaplanner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_NAME = PaprikaPlanner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
