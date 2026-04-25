@@ -55,25 +55,7 @@
 		0369ED671AEAE3161AB91611 /* PaprikaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaModels.swift; sourceTree = "<group>"; };
 		07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
 		0B961CB18A0E84013A469BE9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		1BB5D76E2F9D33CE0098C60A /* Contents.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
-		1BB5D76F2F9D33CE0098C60A /* Icon-AppStore-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-AppStore-1024.png"; sourceTree = "<group>"; };
-		1BB5D7702F9D33CE0098C60A /* Icon-ipad-20x20@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-20x20@1x.png"; sourceTree = "<group>"; };
-		1BB5D7712F9D33CE0098C60A /* Icon-ipad-20x20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-20x20@2x.png"; sourceTree = "<group>"; };
-		1BB5D7722F9D33CE0098C60A /* Icon-ipad-29x29@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-29x29@1x.png"; sourceTree = "<group>"; };
-		1BB5D7732F9D33CE0098C60A /* Icon-ipad-29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-29x29@2x.png"; sourceTree = "<group>"; };
-		1BB5D7742F9D33CE0098C60A /* Icon-ipad-40x40@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-40x40@1x.png"; sourceTree = "<group>"; };
-		1BB5D7752F9D33CE0098C60A /* Icon-ipad-40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-40x40@2x.png"; sourceTree = "<group>"; };
-		1BB5D7762F9D33CE0098C60A /* Icon-ipad-76x76@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-76x76@1x.png"; sourceTree = "<group>"; };
-		1BB5D7772F9D33CE0098C60A /* Icon-ipad-76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-76x76@2x.png"; sourceTree = "<group>"; };
-		1BB5D7782F9D33CE0098C60A /* Icon-ipad-83_5x83_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ipad-83_5x83_5@2x.png"; sourceTree = "<group>"; };
-		1BB5D7792F9D33CE0098C60A /* Icon-iphone-20x20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-20x20@2x.png"; sourceTree = "<group>"; };
-		1BB5D77A2F9D33CE0098C60A /* Icon-iphone-20x20@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-20x20@3x.png"; sourceTree = "<group>"; };
-		1BB5D77B2F9D33CE0098C60A /* Icon-iphone-29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-29x29@2x.png"; sourceTree = "<group>"; };
-		1BB5D77C2F9D33CE0098C60A /* Icon-iphone-29x29@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-29x29@3x.png"; sourceTree = "<group>"; };
-		1BB5D77D2F9D33CE0098C60A /* Icon-iphone-40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-40x40@2x.png"; sourceTree = "<group>"; };
-		1BB5D77E2F9D33CE0098C60A /* Icon-iphone-40x40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-40x40@3x.png"; sourceTree = "<group>"; };
-		1BB5D77F2F9D33CE0098C60A /* Icon-iphone-60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-60x60@2x.png"; sourceTree = "<group>"; };
-		1BB5D7802F9D33CE0098C60A /* Icon-iphone-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iphone-60x60@3x.png"; sourceTree = "<group>"; };
+		1B4013AF2F9D69CF00367976 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BC32F372F92812400DF473E /* WeekPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPlan.swift; sourceTree = "<group>"; };
 		1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
 		1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
@@ -94,13 +76,13 @@
 		B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanViewModel.swift; sourceTree = "<group>"; };
 		BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerApp.swift; sourceTree = "<group>"; };
 		C087FE6B4DEAF4C67C5869E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		PRIV4CY1NF0000000000001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C1FE69B94175D7B924932AB6 /* paprikaplanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E34972BD45388A2ECF83FB /* RecipeListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeListViewModelTests.swift; path = MealPlannerTests/RecipeListViewModelTests.swift; sourceTree = SOURCE_ROOT; };
 		DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerTests.swift; sourceTree = "<group>"; };
 		E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaIntegrationTests.swift; sourceTree = "<group>"; };
 		F15307B6A01785962025A4A9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		PRIV4CY1NF0000000000001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -123,32 +105,6 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		1BB5D7812F9D33CE0098C60A /* AppIcon.appiconset */ = {
-			isa = PBXGroup;
-			children = (
-				1BB5D76E2F9D33CE0098C60A /* Contents.json */,
-				1BB5D76F2F9D33CE0098C60A /* Icon-AppStore-1024.png */,
-				1BB5D7702F9D33CE0098C60A /* Icon-ipad-20x20@1x.png */,
-				1BB5D7712F9D33CE0098C60A /* Icon-ipad-20x20@2x.png */,
-				1BB5D7722F9D33CE0098C60A /* Icon-ipad-29x29@1x.png */,
-				1BB5D7732F9D33CE0098C60A /* Icon-ipad-29x29@2x.png */,
-				1BB5D7742F9D33CE0098C60A /* Icon-ipad-40x40@1x.png */,
-				1BB5D7752F9D33CE0098C60A /* Icon-ipad-40x40@2x.png */,
-				1BB5D7762F9D33CE0098C60A /* Icon-ipad-76x76@1x.png */,
-				1BB5D7772F9D33CE0098C60A /* Icon-ipad-76x76@2x.png */,
-				1BB5D7782F9D33CE0098C60A /* Icon-ipad-83_5x83_5@2x.png */,
-				1BB5D7792F9D33CE0098C60A /* Icon-iphone-20x20@2x.png */,
-				1BB5D77A2F9D33CE0098C60A /* Icon-iphone-20x20@3x.png */,
-				1BB5D77B2F9D33CE0098C60A /* Icon-iphone-29x29@2x.png */,
-				1BB5D77C2F9D33CE0098C60A /* Icon-iphone-29x29@3x.png */,
-				1BB5D77D2F9D33CE0098C60A /* Icon-iphone-40x40@2x.png */,
-				1BB5D77E2F9D33CE0098C60A /* Icon-iphone-40x40@3x.png */,
-				1BB5D77F2F9D33CE0098C60A /* Icon-iphone-60x60@2x.png */,
-				1BB5D7802F9D33CE0098C60A /* Icon-iphone-60x60@3x.png */,
-			);
-			path = AppIcon.appiconset;
-			sourceTree = "<group>";
-		};
 		1BC32F342F9280AC00DF473E /* PlanGeneration 2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +119,7 @@
 		4E20C9215B2C58A5AB2C3A48 /* MealPlanner */ = {
 			isa = PBXGroup;
 			children = (
+				1B4013AF2F9D69CF00367976 /* Assets.xcassets */,
 				C087FE6B4DEAF4C67C5869E6 /* Info.plist */,
 				B37B42D32BF6FC0918DACBFC /* MealPlanner.entitlements */,
 				PRIV4CY1NF0000000000001 /* PrivacyInfo.xcprivacy */,
@@ -171,7 +128,6 @@
 				99EA41A7A7567AF94D871E24 /* DesignSystem */,
 				81B5888666C39C91B815F781 /* Features */,
 				A6BA0615B4A4FEFFEEA9A5AE /* Infrastructure */,
-				1BB5D7812F9D33CE0098C60A /* AppIcon.appiconset */,
 			);
 			path = MealPlanner;
 			sourceTree = "<group>";
@@ -613,7 +569,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -731,7 +687,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
