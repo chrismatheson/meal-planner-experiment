@@ -176,18 +176,25 @@ extension Calendar {
 
 extension PaprikaMeal {
     /// Parse the date string to a Date object
+    /// Uses local timezone for consistency with calendar operations
     var dateValue: Date? {
         // Try full datetime format first
         let fullFormatter = DateFormatter()
         fullFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        fullFormatter.timeZone = .current  // Interpret as local time
         if let date = fullFormatter.date(from: self.date) {
             return date
         }
 
-        // Fall back to date-only
+        // Fall back to date-only (set to noon to avoid day boundary issues)
         let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        return dateOnlyFormatter.date(from: String(self.date.prefix(10)))
+        dateOnlyFormatter.timeZone = .current  // Interpret as local time
+        if let date = dateOnlyFormatter.date(from: String(self.date.prefix(10))) {
+            // Add 12 hours to avoid day boundary issues with timezones
+            return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: date)
+        }
+        return nil
     }
 }
 

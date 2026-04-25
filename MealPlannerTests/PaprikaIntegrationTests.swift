@@ -138,4 +138,28 @@ final class PaprikaIntegrationTests: XCTestCase {
         XCTAssertNil(deletedMeal, "Meal should be deleted from Paprika")
         print("🧹 Cleaned up test meal")
     }
+
+    /// Debug test: List all meals in Paprika with their dates
+    func test_debug_listAllMeals() async throws {
+        try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+
+        let client = PaprikaClient()
+        _ = try await client.login(email: testEmail, password: testPassword)
+
+        let meals = try await client.fetchMeals()
+        print("📋 All meals in Paprika (\(meals.count) total):")
+
+        let sortedMeals = meals.sorted { $0.date < $1.date }
+        for meal in sortedMeals {
+            let weekInfo: String
+            if let date = meal.dateValue {
+                let cal = Calendar(identifier: .iso8601)
+                let comps = cal.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+                weekInfo = "Week \(comps.weekOfYear ?? 0)"
+            } else {
+                weekInfo = "???"
+            }
+            print("   \(meal.date) | \(weekInfo) | \(meal.name)")
+        }
+    }
 }

@@ -11,7 +11,7 @@ struct PlanGenerationView: View {
             Group {
                 if viewModel.isLoadingExisting {
                     // Loading existing meals
-                    LoadingExistingView()
+                    LoadingExistingView(status: viewModel.loadingStatus)
                 } else if viewModel.hasGenerated, let weekPlan = viewModel.weekPlan {
                     WeekPlanReviewView(
                         weekPlan: weekPlan,
@@ -21,7 +21,8 @@ struct PlanGenerationView: View {
                         hasSynced: viewModel.hasSynced,
                         syncError: viewModel.syncError,
                         isFromCache: viewModel.isFromCache,
-                        isOffline: viewModel.isOffline
+                        isOffline: viewModel.isOffline,
+                        loadingStatus: viewModel.loadingStatus
                     )
                 } else {
                     GeneratePromptView(
@@ -98,12 +99,17 @@ struct PlanGenerationView: View {
 
 /// Loading indicator while fetching existing meals
 struct LoadingExistingView: View {
+    var status: String = "Loading..."
+
     var body: some View {
         VStack(spacing: 16) {
             ProgressView()
                 .scaleEffect(1.5)
             Text("Loading your meal plan...")
                 .foregroundStyle(.secondary)
+            Text(status)
+                .font(.caption)
+                .foregroundStyle(.tertiary)
         }
     }
 }
@@ -171,10 +177,28 @@ struct WeekPlanReviewView: View {
     let syncError: String?
     var isFromCache: Bool = false
     var isOffline: Bool = false
+    var loadingStatus: String = ""
 
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
+                // Week info header
+                let (year, week) = Calendar.currentISOWeek
+                Text("Week \(week) of \(year)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                // Debug status
+                if !loadingStatus.isEmpty {
+                    Text(loadingStatus)
+                        .font(.caption2)
+                        .foregroundStyle(.blue)
+                        .padding(4)
+                        .background(Color.blue.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                        .accessibilityIdentifier("LoadingStatus")
+                }
+
                 // Show cache indicator
                 if isFromCache && !hasSynced {
                     HStack {

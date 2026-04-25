@@ -34,9 +34,14 @@ final class PlanGenerationViewModel {
 
     // MARK: - Load Existing Meals
 
+    /// Debug status message for UI
+    var loadingStatus: String = ""
+
     /// Load existing meals for current week from cache, then refresh from API
     func loadExistingMeals(context: ModelContext) async {
         isLoadingExisting = true
+        loadingStatus = "Loading..."
+        print("🍽️ loadExistingMeals: Starting for week \(currentWeekNumber) of \(currentWeekYear)")
 
         // 1. First, load from cache (fast, works offline)
         let cachedMeals = loadFromCache(context: context)
@@ -44,12 +49,18 @@ final class PlanGenerationViewModel {
             await buildWeekPlanFromMeals(cachedMeals, context: context)
             isFromCache = true
             hasGenerated = true
+            loadingStatus = "From cache: \(cachedMeals.count) meals"
             print("📦 Loaded \(cachedMeals.count) meals from cache for week \(currentWeekNumber)")
+        } else {
+            loadingStatus = "Cache empty, fetching..."
+            print("📦 Cache empty for week \(currentWeekNumber)")
         }
 
         // 2. Then, refresh from API if online
         if !forceOffline {
             await refreshFromAPI(context: context)
+        } else {
+            loadingStatus = "Offline mode"
         }
 
         isLoadingExisting = false
@@ -82,24 +93,47 @@ final class PlanGenerationViewModel {
         guard let email = try? keychain.getEmail(),
               let password = try? keychain.getPassword() else {
             print("⚠️ No credentials, staying with cached data")
+            loadingStatus = "No credentials"
             isOffline = true
             return
         }
 
         do {
+            loadingStatus = "Authenticating..."
+            print("🔄 Authenticating with \(email)...")
+
             // Authenticate
             let token = try await paprikaClient.login(email: email, password: password)
             try? keychain.saveToken(token)
 
+            loadingStatus = "Fetching meals..."
+            print("🔄 Fetching meals from Paprika API...")
+
             // Fetch all meals from API
             let apiMeals = try await paprikaClient.fetchMeals()
+            print("🔄 Got \(apiMeals.count) total meals from API")
 
-            // Filter to current week and cache them
-            let currentWeekMeals = apiMeals.filter { meal in
-                guard let date = meal.dateValue else { return false }
-                let (year, week) = Calendar.isoWeek(for: date)
-                return year == currentWeekYear && week == currentWeekNumber
+            // Log all meals for debugging
+            for meal in apiMeals.prefix(10) {
+                print("   📅 \(meal.name) - \(meal.date)")
             }
+
+            // Filter to current week AND year
+            print("🔄 Looking for meals in week \(currentWeekNumber) of year \(currentWeekYear)")
+            let currentWeekMeals = apiMeals.filter { meal in
+                guard let date = meal.dateValue else {
+                    print("   ⚠️ Could not parse date: \(meal.date)")
+                    return false
+                }
+                let (year, week) = Calendar.isoWeek(for: date)
+                let matches = year == currentWeekYear && week == currentWeekNumber
+                if matches {
+                    print("   ✅ Match: \(meal.name) (\(meal.date)) - Week \(week)/\(year)")
+                }
+                return matches
+            }
+
+            print("🔄 Found \(currentWeekMeals.count) meals for week \(currentWeekNumber)/\(currentWeekYear)")
 
             // Update cache
             await updateCache(with: currentWeekMeals, context: context)
@@ -110,13 +144,17 @@ final class PlanGenerationViewModel {
                 await buildWeekPlanFromMeals(freshCachedMeals, context: context)
                 isFromCache = false
                 hasGenerated = true
+                loadingStatus = "Loaded \(freshCachedMeals.count) meals from API"
+            } else {
+                loadingStatus = "No meals for this week"
             }
 
             isOffline = false
             print("🔄 Refreshed \(currentWeekMeals.count) meals from API for week \(currentWeekNumber)")
 
         } catch {
-            print("⚠️ API refresh failed, using cache: \(error)")
+            print("⚠️ API refresh failed: \(error)")
+            loadingStatus = "API error: \(error.localizedDescription)"
             isOffline = true
         }
     }
@@ -124,44 +162,56 @@ final class PlanGenerationViewModel {
     /// Update cache with meals from API
     @MainActor
     private func updateCache(with meals: [PaprikaMeal], context: ModelContext) {
-        for meal in meals {
-            // Check if already cached
-            let uid = meal.uid
-            let descriptor = FetchDescriptor<CachedMealModel>(
-                predicate: #Predicate { $0.uid == uid }
-            )
-
-            do {
-                let existing = try context.fetch(descriptor)
-                if existing.isEmpty {
-                    // Insert new
-                    let cached = CachedMealModel(from: meal)
-                    context.insert(cached)
-                }
-                // Note: We could update existing here if needed
-            } catch {
-                print("❌ Cache update error: \(error)")
+        // First, clear old cached meals for this week (to avoid stale data)
+        let year = currentWeekYear
+        let week = currentWeekNumber
+        let oldMeals = FetchDescriptor<CachedMealModel>(
+            predicate: #Predicate { meal in
+                meal.isoWeekYear == year && meal.isoWeekNumber == week
             }
+        )
+
+        do {
+            let existing = try context.fetch(oldMeals)
+            print("🗑️ Clearing \(existing.count) old cached meals for week \(week)/\(year)")
+            for old in existing {
+                context.delete(old)
+            }
+        } catch {
+            print("⚠️ Failed to clear old cache: \(error)")
+        }
+
+        // Now insert fresh meals
+        for meal in meals {
+            let cached = CachedMealModel(from: meal)
+            context.insert(cached)
+            print("   💾 Cached: \(meal.name) for \(meal.date)")
         }
 
         try? context.save()
+        print("✅ Cached \(meals.count) meals for week \(week)/\(year)")
     }
 
     /// Build WeekPlan from cached meals, filling gaps with recipes
     @MainActor
     private func buildWeekPlanFromMeals(_ meals: [CachedMealModel], context: ModelContext) {
+        print("🍽️ buildWeekPlanFromMeals: Building from \(meals.count) cached meals")
+
         // Fetch recipes for lookup
         let recipeDescriptor = FetchDescriptor<RecipeModel>()
         let recipes = (try? context.fetch(recipeDescriptor)) ?? []
         let recipesByUid = Dictionary(uniqueKeysWithValues: recipes.map { ($0.uid, $0) })
+        print("🍽️ Have \(recipes.count) recipes in local cache")
 
         // Create WeekPlan with available recipes
         weekPlan = WeekPlan(recipes: recipes)
 
         // Build days for current week
         guard let (monday, _) = Calendar.dateRange(forISOWeek: currentWeekNumber, year: currentWeekYear) else {
+            print("❌ Could not get date range for week \(currentWeekNumber)")
             return
         }
+        print("🍽️ Week starts: \(monday)")
 
         var days: [DayPlan] = []
         for dayOffset in 0..<7 {
@@ -173,16 +223,32 @@ final class PlanGenerationViewModel {
             }
 
             let recipe: RecipeModel?
-            if let meal = mealForDay, let recipeUid = meal.recipeUid {
-                recipe = recipesByUid[recipeUid]
+            let mealName: String?
+
+            if let meal = mealForDay {
+                // We have a meal - try to find matching recipe
+                if let recipeUid = meal.recipeUid {
+                    recipe = recipesByUid[recipeUid]
+                    if recipe == nil {
+                        print("   ⚠️ Day \(dayOffset): Meal '\(meal.recipeName)' has recipeUid but no local recipe")
+                    }
+                } else {
+                    recipe = nil
+                }
+                // Always capture the meal name for display
+                mealName = meal.recipeName
+                print("   📅 Day \(dayOffset): \(meal.recipeName)")
             } else {
                 recipe = nil
+                mealName = nil
+                print("   📅 Day \(dayOffset): No meal")
             }
 
-            days.append(DayPlan(date: date, recipe: recipe))
+            days.append(DayPlan(date: date, recipe: recipe, mealName: mealName))
         }
 
         weekPlan?.days = days
+        print("🍽️ Built week plan with \(days.count) days")
     }
 
     /// Generate a new week plan from cached recipes (replaces existing)

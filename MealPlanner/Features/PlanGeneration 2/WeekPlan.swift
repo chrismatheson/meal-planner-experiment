@@ -66,12 +66,26 @@ final class DayPlan: Identifiable {
     let id = UUID()
     let date: Date
     var recipe: RecipeModel?
-    
-    init(date: Date, recipe: RecipeModel?) {
+
+    /// Meal name from API (shown when we have meal but no local recipe)
+    var mealName: String?
+
+    init(date: Date, recipe: RecipeModel?, mealName: String? = nil) {
         self.date = date
         self.recipe = recipe
+        self.mealName = mealName
     }
-    
+
+    /// Display name: prefer recipe name, fall back to meal name
+    var displayName: String {
+        recipe?.name ?? mealName ?? "No recipe"
+    }
+
+    /// Whether we have a meal assigned (either recipe or meal name)
+    var hasMeal: Bool {
+        recipe != nil || mealName != nil
+    }
+
     /// Formatted day name (e.g., "Monday" or "Today")
     var dayName: String {
         let calendar = Calendar.current
@@ -85,7 +99,7 @@ final class DayPlan: Identifiable {
             return formatter.string(from: date)
         }
     }
-    
+
     /// Short date (e.g., "Apr 17")
     var shortDate: String {
         let formatter = DateFormatter()

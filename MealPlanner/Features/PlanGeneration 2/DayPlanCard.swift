@@ -41,9 +41,10 @@ struct DayPlanCard: View {
                         .foregroundStyle(.secondary)
                 }
                 
-                Text(day.recipe?.name ?? "No recipe")
+                Text(day.displayName)
                     .font(.headline)
                     .lineLimit(2)
+                    .foregroundStyle(day.hasMeal ? .primary : .secondary)
                 
                 if let prepTime = day.recipe?.prepTime, !prepTime.isEmpty {
                     Label(prepTime, systemImage: "clock")
