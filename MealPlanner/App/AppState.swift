@@ -24,11 +24,15 @@ final class AppState {
     func tryRestoreSession() async {
         defer { isRestoringSession = false }
 
+        print("🔑 Checking for stored credentials...")
+
         // Check if we have stored credentials
         guard keychain.hasStoredCredentials else {
-            print("ℹ️ No stored credentials found")
+            print("ℹ️ No stored credentials found (hasStoredCredentials = false)")
             return
         }
+
+        print("🔑 Found stored credentials, attempting restore...")
 
         let storedEmail: String
         let storedPassword: String
@@ -88,12 +92,19 @@ final class AppState {
         let token = try await client.login(email: email, password: password)
 
         // Persist all credentials for silent re-auth on next launch
-        try? keychain.saveCredentials(email: email, password: password, token: token)
+        do {
+            try keychain.saveCredentials(email: email, password: password, token: token)
+            print("✅ Credentials saved to Keychain")
+            KeychainService.lastError = nil
+        } catch {
+            print("❌ Failed to save credentials to Keychain: \(error)")
+            KeychainService.lastError = error.localizedDescription
+        }
 
         self.paprikaClient = client
         currentUser = User(email: email)
         isAuthenticated = true
-        print("✅ Signed in and credentials saved to Keychain")
+        print("✅ Signed in successfully")
     }
 
     func signOut() {

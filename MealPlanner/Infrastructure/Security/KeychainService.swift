@@ -4,12 +4,25 @@ import Security
 /// Secure storage service using iOS Keychain
 final class KeychainService {
     private let service = "com.mealplanner.paprika"
-    
-    enum KeychainError: Error {
+    // Using default keychain (no access group needed for same-app access)
+
+    /// Last error for debugging
+    static var lastError: String?
+
+    enum KeychainError: Error, LocalizedError {
         case duplicateEntry
         case unknown(OSStatus)
         case notFound
         case invalidData
+
+        var errorDescription: String? {
+            switch self {
+            case .duplicateEntry: return "Duplicate entry"
+            case .unknown(let status): return "Unknown keychain error: \(status)"
+            case .notFound: return "Item not found"
+            case .invalidData: return "Invalid data"
+            }
+        }
     }
     
     // MARK: - Token Storage
@@ -27,7 +40,7 @@ final class KeychainService {
             kSecAttrService as String: service,
             kSecAttrAccount as String: "authToken",
             kSecValueData as String: data,
-            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock
         ]
         
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -92,7 +105,7 @@ final class KeychainService {
             kSecAttrService as String: service,
             kSecAttrAccount as String: "email",
             kSecValueData as String: data,
-            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock
         ]
 
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -157,7 +170,7 @@ final class KeychainService {
             kSecAttrService as String: service,
             kSecAttrAccount as String: "password",
             kSecValueData as String: data,
-            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock
         ]
 
         let status = SecItemAdd(query as CFDictionary, nil)

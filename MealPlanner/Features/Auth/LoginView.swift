@@ -80,6 +80,11 @@ struct LoginView: View {
                             .font(.footnote)
                     }
                     .padding(.top, Spacing.md)
+
+                    #if DEBUG
+                    // Debug: Show keychain status
+                    KeychainDebugView()
+                    #endif
                 }
             }
             #if os(iOS)
@@ -107,6 +112,41 @@ struct LoginView: View {
         isLoading = false
     }
 }
+
+#if DEBUG
+struct KeychainDebugView: View {
+    @State private var status = "Checking..."
+
+    var body: some View {
+        VStack(spacing: 4) {
+            Text(status)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .accessibilityIdentifier("KeychainStatus")
+
+            if let error = KeychainService.lastError {
+                Text("Error: \(error)")
+                    .font(.caption2)
+                    .foregroundStyle(.red)
+                    .accessibilityIdentifier("KeychainError")
+            }
+        }
+        .onAppear {
+            let keychain = KeychainService()
+            if keychain.hasStoredCredentials {
+                status = "Keychain: Has credentials"
+            } else {
+                // Try to get each piece and show which is missing
+                var missing: [String] = []
+                if (try? keychain.getEmail()) == nil { missing.append("email") }
+                if (try? keychain.getPassword()) == nil { missing.append("password") }
+                if (try? keychain.getToken()) == nil { missing.append("token") }
+                status = "Keychain: Empty (missing: \(missing.joined(separator: ", ")))"
+            }
+        }
+    }
+}
+#endif
 
 #Preview {
     LoginView()

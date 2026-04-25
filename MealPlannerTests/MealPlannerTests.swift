@@ -91,13 +91,65 @@ final class MealPlannerTests: XCTestCase {
     }
     
     // MARK: - Color Extension Tests
-    
+
     func testColorHexInitialization() {
         // Just verify it doesn't crash
         let color = Color(hex: "D94A3A")
         XCTAssertNotNil(color)
-        
+
         let color2 = Color(hex: "#8D0227")
         XCTAssertNotNil(color2)
+    }
+
+    // MARK: - Keychain Tests
+
+    func testKeychainService_saveAndRetrieveCredentials() throws {
+        let keychain = KeychainService()
+
+        // Clean up first
+        keychain.clearAll()
+
+        // Save credentials
+        try keychain.saveCredentials(
+            email: "test@example.com",
+            password: "testpassword123",
+            token: "testtoken456"
+        )
+
+        // Verify hasStoredCredentials
+        XCTAssertTrue(keychain.hasStoredCredentials, "Should have stored credentials")
+
+        // Retrieve and verify
+        XCTAssertEqual(try keychain.getEmail(), "test@example.com")
+        XCTAssertEqual(try keychain.getPassword(), "testpassword123")
+        XCTAssertEqual(try keychain.getToken(), "testtoken456")
+
+        // Clean up
+        keychain.clearAll()
+
+        // Verify cleared
+        XCTAssertFalse(keychain.hasStoredCredentials, "Credentials should be cleared")
+    }
+
+    func testKeychainService_persistsAcrossInstances() throws {
+        // Save with one instance
+        let keychain1 = KeychainService()
+        keychain1.clearAll()
+        try keychain1.saveCredentials(
+            email: "persist@test.com",
+            password: "persistpass",
+            token: "persisttoken"
+        )
+
+        // Retrieve with a NEW instance (simulates app relaunch)
+        let keychain2 = KeychainService()
+
+        XCTAssertTrue(keychain2.hasStoredCredentials, "New instance should see stored credentials")
+        XCTAssertEqual(try keychain2.getEmail(), "persist@test.com")
+        XCTAssertEqual(try keychain2.getPassword(), "persistpass")
+        XCTAssertEqual(try keychain2.getToken(), "persisttoken")
+
+        // Clean up
+        keychain2.clearAll()
     }
 }
