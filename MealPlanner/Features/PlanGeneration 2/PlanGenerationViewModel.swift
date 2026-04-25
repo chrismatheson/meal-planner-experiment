@@ -109,18 +109,23 @@ final class PlanGenerationViewModel {
         do {
             // Restore session from Keychain
             let keychain = KeychainService()
-            let token: String
 
-            do {
-                token = try keychain.getToken()
-            } catch {
-                syncError = "Not logged in"
-                isSyncing = false
-                return
+            // First try existing token
+            if let token = try? keychain.getToken() {
+                await paprikaClient.setToken(token)
+            } else {
+                // No token - try to re-authenticate with stored credentials
+                guard let email = try? keychain.getEmail(),
+                      let password = try? keychain.getPassword() else {
+                    syncError = "Not logged in"
+                    isSyncing = false
+                    return
+                }
+
+                // Re-authenticate
+                let newToken = try await paprikaClient.login(email: email, password: password)
+                try? keychain.saveToken(newToken)
             }
-
-            // Set the token for authentication
-            await paprikaClient.setToken(token)
 
             // Convert DayPlans to PaprikaMeals
             let meals: [PaprikaMeal] = weekPlan.days.compactMap { day in

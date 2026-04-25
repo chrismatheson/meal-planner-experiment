@@ -142,4 +142,96 @@ final class KeychainService {
             throw KeychainError.unknown(status)
         }
     }
+
+    // MARK: - Password Storage (for silent re-authentication)
+
+    func savePassword(_ password: String) throws {
+        guard let data = password.data(using: .utf8) else {
+            throw KeychainError.invalidData
+        }
+
+        try? deletePassword()
+
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: "password",
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+        ]
+
+        let status = SecItemAdd(query as CFDictionary, nil)
+
+        guard status == errSecSuccess else {
+            throw KeychainError.unknown(status)
+        }
+    }
+
+    func getPassword() throws -> String {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: "password",
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+
+        var result: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+
+        guard status == errSecSuccess else {
+            if status == errSecItemNotFound {
+                throw KeychainError.notFound
+            }
+            throw KeychainError.unknown(status)
+        }
+
+        guard let data = result as? Data,
+              let password = String(data: data, encoding: .utf8) else {
+            throw KeychainError.invalidData
+        }
+
+        return password
+    }
+
+    func deletePassword() throws {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: "password"
+        ]
+
+        let status = SecItemDelete(query as CFDictionary)
+
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            throw KeychainError.unknown(status)
+        }
+    }
+
+    // MARK: - Convenience Methods
+
+    /// Save all credentials after successful login
+    func saveCredentials(email: String, password: String, token: String) throws {
+        try saveEmail(email)
+        try savePassword(password)
+        try saveToken(token)
+    }
+
+    /// Clear all stored credentials on sign out
+    func clearAll() {
+        try? deleteEmail()
+        try? deletePassword()
+        try? deleteToken()
+    }
+
+    /// Check if we have stored credentials for silent re-auth
+    var hasStoredCredentials: Bool {
+        do {
+            _ = try getEmail()
+            _ = try getPassword()
+            return true
+        } catch {
+            return false
+        }
+    }
 }

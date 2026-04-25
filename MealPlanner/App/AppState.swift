@@ -19,43 +19,64 @@ final class AppState {
         }
     }
 
-    /// Attempts to restore a previous session using stored token
+    /// Attempts to restore a previous session using stored credentials
     @MainActor
     func tryRestoreSession() async {
         defer { isRestoringSession = false }
 
-        // Try to get stored credentials
-        let storedToken: String
-        let storedEmail: String
-
-        do {
-            storedToken = try keychain.getToken()
-            storedEmail = try keychain.getEmail()
-        } catch {
-            // No stored credentials - user needs to login
-            print("ℹ️ No stored session found")
+        // Check if we have stored credentials
+        guard keychain.hasStoredCredentials else {
+            print("ℹ️ No stored credentials found")
             return
         }
 
-        // Create client with stored token
-        let client = PaprikaClient()
-        await client.setToken(storedToken)
+        let storedEmail: String
+        let storedPassword: String
 
-        // Validate token by making a test request
-        // If this fails, the token is expired
         do {
-            _ = try await client.fetchRecipes(limit: 1)
+            storedEmail = try keychain.getEmail()
+            storedPassword = try keychain.getPassword()
+        } catch {
+            print("ℹ️ Could not retrieve stored credentials")
+            return
+        }
 
-            // Token is valid - restore session
+        // First try existing token if available
+        if let storedToken = try? keychain.getToken() {
+            let client = PaprikaClient()
+            await client.setToken(storedToken)
+
+            // Validate token by making a test request
+            do {
+                _ = try await client.fetchRecipes(limit: 1)
+
+                // Token is valid - restore session
+                self.paprikaClient = client
+                self.currentUser = User(email: storedEmail)
+                self.isAuthenticated = true
+                print("✅ Session restored from stored token")
+                return
+            } catch {
+                print("⚠️ Stored token invalid, will re-authenticate...")
+            }
+        }
+
+        // Token missing or expired - re-authenticate with stored credentials
+        do {
+            let client = PaprikaClient()
+            let newToken = try await client.login(email: storedEmail, password: storedPassword)
+
+            // Update stored token
+            try? keychain.saveToken(newToken)
+
             self.paprikaClient = client
             self.currentUser = User(email: storedEmail)
             self.isAuthenticated = true
-            print("✅ Session restored from Keychain")
+            print("✅ Session restored via re-authentication")
         } catch {
-            // Token invalid or expired - clear it
-            print("⚠️ Stored session invalid: \(error)")
-            try? keychain.deleteToken()
-            try? keychain.deleteEmail()
+            print("❌ Re-authentication failed: \(error)")
+            // Clear all credentials - user will need to login manually
+            keychain.clearAll()
         }
     }
 
@@ -66,23 +87,23 @@ final class AppState {
         let client = PaprikaClient()
         let token = try await client.login(email: email, password: password)
 
-        // Persist token and email for next launch
-        try? keychain.saveToken(token)
-        try? keychain.saveEmail(email)
+        // Persist all credentials for silent re-auth on next launch
+        try? keychain.saveCredentials(email: email, password: password, token: token)
 
         self.paprikaClient = client
         currentUser = User(email: email)
         isAuthenticated = true
+        print("✅ Signed in and credentials saved to Keychain")
     }
 
     func signOut() {
-        // Clear stored credentials
-        try? keychain.deleteToken()
-        try? keychain.deleteEmail()
+        // Clear all stored credentials
+        keychain.clearAll()
 
         paprikaClient = nil
         currentUser = nil
         isAuthenticated = false
+        print("👋 Signed out and credentials cleared")
     }
 }
 
