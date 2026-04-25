@@ -96,20 +96,82 @@ struct PaprikaRecipe: Codable, Identifiable {
 
 struct PaprikaMealItem: Codable, Identifiable {
     var id: String { uid }
-    
+
     let uid: String
     var recipeUid: String?
     var date: String  // Format: YYYY-MM-DD
     var orderFlag: Int
     var typeUid: String?
     var name: String
-    
+
     enum CodingKeys: String, CodingKey {
         case uid, date, name
         case recipeUid = "recipe_uid"
         case orderFlag = "order_flag"
         case typeUid = "type_uid"
     }
+}
+
+/// Meal model for v1 sync API (used for write-back)
+/// Format discovered from gist: mattdsteele/7386ec363badfdeaad05a418b9a1f30a
+struct PaprikaMeal: Codable, Identifiable {
+    var id: String { uid }
+
+    var uid: String
+    var recipeUid: String?
+    var date: String  // Format: "YYYY-MM-DD HH:MM:SS" (with time!)
+    var name: String
+    var orderFlag: Int
+    var type: Int  // 0=Breakfast, 1=Lunch, 2=Dinner
+    var deleted: Bool  // Required for POST, but may not be returned by GET
+
+    enum CodingKeys: String, CodingKey {
+        case uid, date, name, type, deleted
+        case recipeUid = "recipe_uid"
+        case orderFlag = "order_flag"
+    }
+
+    /// Custom decoder to handle optional `deleted` field from API responses
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        uid = try container.decode(String.self, forKey: .uid)
+        recipeUid = try container.decodeIfPresent(String.self, forKey: .recipeUid)
+        date = try container.decode(String.self, forKey: .date)
+        name = try container.decode(String.self, forKey: .name)
+        orderFlag = try container.decode(Int.self, forKey: .orderFlag)
+        type = try container.decode(Int.self, forKey: .type)
+        deleted = try container.decodeIfPresent(Bool.self, forKey: .deleted) ?? false
+    }
+
+    /// Create from a MealItem
+    init(from item: PaprikaMealItem) {
+        self.uid = item.uid
+        self.recipeUid = item.recipeUid
+        // Ensure date has time component
+        self.date = item.date.contains(" ") ? item.date : "\(item.date) 00:00:00"
+        self.name = item.name
+        self.orderFlag = item.orderFlag
+        self.type = 2  // Default to Dinner
+        self.deleted = false
+    }
+
+    /// Create for a specific date and recipe
+    init(uid: String = UUID().uuidString.uppercased(), date: Date, recipe: PaprikaRecipe, type: Int = 2) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  // Include time!
+
+        self.uid = uid
+        self.recipeUid = recipe.uid
+        self.date = formatter.string(from: date)
+        self.name = recipe.name
+        self.orderFlag = 0
+        self.type = type
+        self.deleted = false
+    }
+}
+
+struct MealsResponse: Decodable {
+    let result: [PaprikaMeal]
 }
 
 // MARK: - Convenience Extensions

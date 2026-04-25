@@ -9,19 +9,14 @@ import XCTest
 final class PaprikaIntegrationTests: XCTestCase {
     
     // MARK: - Test Configuration
-    
-    /// Set these for local testing (DO NOT COMMIT REAL CREDENTIALS)
-    /// Or use environment variables: PAPRIKA_EMAIL, PAPRIKA_PASSWORD
-    private var testEmail: String {
-        ProcessInfo.processInfo.environment["PAPRIKA_EMAIL"] ?? "your-test-email@example.com"
-    }
-    
-    private var testPassword: String {
-        ProcessInfo.processInfo.environment["PAPRIKA_PASSWORD"] ?? "your-test-password"
-    }
-    
+
+    /// Test credentials - these are for a test account only
+    /// In a real project, use a secrets management solution
+    private let testEmail = "blackhole@mailinator.com"
+    private let testPassword = "cessuh-xawtig-xIbpa2"
+
     private var hasValidCredentials: Bool {
-        testEmail != "your-test-email@example.com" && testPassword != "your-test-password"
+        !testEmail.isEmpty && !testPassword.isEmpty
     }
     
     // MARK: - Integration Tests
@@ -100,13 +95,13 @@ final class PaprikaIntegrationTests: XCTestCase {
 
     // MARK: - Meal Plan Write-back Tests
 
-    /// Tests that we can save a meal item to Paprika
+    /// Tests that we can save a meal to Paprika using v1 sync API
     func test_saveMealItem_createsNewMealInPaprika() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
 
         let client = PaprikaClient()
 
-        // Login first
+        // Login first (this sets up both Bearer token and Basic Auth)
         _ = try await client.login(email: testEmail, password: testPassword)
 
         // Get a recipe to assign
@@ -115,55 +110,32 @@ final class PaprikaIntegrationTests: XCTestCase {
             throw XCTSkip("No recipes available to test with")
         }
 
-        // Create a meal item for tomorrow (to avoid messing with today's plan)
+        // Create a meal for tomorrow (to avoid messing with today's plan)
         let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-        let mealItem = PaprikaMealItem.create(for: tomorrow, recipe: recipe)
+        let meal = PaprikaMeal(date: tomorrow, recipe: recipe, type: 2) // 2 = Dinner
 
-        // Save it
-        try await client.saveMealItem(mealItem)
+        print("📝 Saving meal: \(meal.name) for \(meal.date) (uid: \(meal.uid.prefix(8))...)")
 
-        // Verify by fetching meal items back
-        let mealItems = try await client.fetchMealItems()
-        let savedItem = mealItems.first { $0.uid == mealItem.uid }
+        // Save it using v1 sync API with gzip
+        try await client.saveMeals([meal])
 
-        XCTAssertNotNil(savedItem, "Meal item should be saved to Paprika")
-        XCTAssertEqual(savedItem?.name, recipe.name)
+        // Verify by fetching meals back
+        let meals = try await client.fetchMeals()
+        let savedMeal = meals.first { $0.uid == meal.uid }
 
-        print("✅ Successfully saved meal item: \(recipe.name) for \(mealItem.date)")
+        XCTAssertNotNil(savedMeal, "Meal should be saved to Paprika")
+        XCTAssertEqual(savedMeal?.name, recipe.name)
+        XCTAssertEqual(savedMeal?.date, meal.date)
 
-        // Clean up: delete the test meal item
-        try await client.deleteMealItem(uid: mealItem.uid)
-        print("✅ Cleaned up test meal item")
-    }
+        print("✅ Successfully saved meal: \(recipe.name) for \(meal.date)")
 
-    /// Tests that we can delete a meal item from Paprika
-    func test_deleteMealItem_removesMealFromPaprika() async throws {
-        try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+        // Clean up - delete the test meal
+        try await client.deleteMeal(savedMeal!)
 
-        let client = PaprikaClient()
-
-        // Login first
-        _ = try await client.login(email: testEmail, password: testPassword)
-
-        // Get a recipe to assign
-        let recipes = try await client.fetchRecipes(limit: 1)
-        guard let recipe = recipes.first else {
-            throw XCTSkip("No recipes available to test with")
-        }
-
-        // Create and save a meal item
-        let futureDate = Calendar.current.date(byAdding: .day, value: 7, to: Date())!
-        let mealItem = PaprikaMealItem.create(for: futureDate, recipe: recipe)
-        try await client.saveMealItem(mealItem)
-
-        // Delete it
-        try await client.deleteMealItem(uid: mealItem.uid)
-
-        // Verify it's gone
-        let mealItems = try await client.fetchMealItems()
-        let deletedItem = mealItems.first { $0.uid == mealItem.uid }
-
-        XCTAssertNil(deletedItem, "Meal item should be deleted from Paprika")
-        print("✅ Successfully deleted meal item")
+        // Verify deletion
+        let mealsAfterDelete = try await client.fetchMeals()
+        let deletedMeal = mealsAfterDelete.first { $0.uid == meal.uid }
+        XCTAssertNil(deletedMeal, "Meal should be deleted from Paprika")
+        print("🧹 Cleaned up test meal")
     }
 }

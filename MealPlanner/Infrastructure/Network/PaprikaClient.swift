@@ -1,10 +1,18 @@
 import Foundation
+import Compression
 
-/// Client for Paprika Recipe Manager API v2
+/// Client for Paprika Recipe Manager API
+/// Uses v2 for reads, v1/sync for writes (per working implementations)
 actor PaprikaClient {
-    private let baseURL = URL(string: "https://www.paprikaapp.com/api/v2/")!
+    private let baseURLv2 = URL(string: "https://www.paprikaapp.com/api/v2/")!
+    private let baseURLv1Sync = URL(string: "https://www.paprikaapp.com/api/v1/sync/")!
+
+    // Legacy alias for compatibility
+    private var baseURL: URL { baseURLv2 }
+
     private var token: String?
-    
+    private var basicAuthHeader: String?  // For v1 API writes
+
     // Must identify as Paprika client with platform info
     private let userAgent = "Paprika Recipe Manager 3/3.7.4 (iOS 17.0; iPhone)"
     
@@ -86,7 +94,13 @@ actor PaprikaClient {
         }
         
         self.token = token
-        // Skip keychain for now - token stored in memory
+
+        // Also store Basic Auth for v1 API writes
+        let credentials = "\(email):\(password)"
+        if let credData = credentials.data(using: .utf8) {
+            self.basicAuthHeader = "Basic \(credData.base64EncodedString())"
+        }
+
         return token
     }
     
@@ -121,14 +135,176 @@ actor PaprikaClient {
     }
     
     // MARK: - Meal Plans
-    
+
     func fetchMealItems() async throws -> [PaprikaMealItem] {
         let response: MealItemsResponse = try await syncRequest(endpoint: "sync/menuitems/")
         return response.result
     }
-    
+
+    /// Fetches meals from v1 API (uses date field, different from menuitems)
+    func fetchMeals() async throws -> [PaprikaMeal] {
+        let response: MealsResponse = try await syncRequest(endpoint: "sync/meals/")
+        return response.result
+    }
+
+    /// Save meal items using v1 sync API with gzip compression
+    /// This is the working approach discovered from paprika-mcp package
+    func saveMeals(_ meals: [PaprikaMeal]) async throws {
+        guard let authHeader = basicAuthHeader else {
+            throw PaprikaError.notAuthenticated
+        }
+
+        // Encode meals as JSON array
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(paprikaDateFormatter)
+        let jsonData = try encoder.encode(meals)
+
+        #if DEBUG
+        if let jsonStr = String(data: jsonData, encoding: .utf8) {
+            print("📦 Meal JSON: \(jsonStr)")
+        }
+        #endif
+
+        // Gzip compress the JSON (required by Paprika API)
+        let gzippedData = try gzipCompress(jsonData)
+
+        #if DEBUG
+        print("📦 Gzip size: \(gzippedData.count), header: \(gzippedData.prefix(2).map { String(format: "%02X", $0) }.joined())")
+        #endif
+
+        // Build multipart form data with gzipped payload
+        let boundary = UUID().uuidString
+        var body = Data()
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"data\"; filename=\"data.gz\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+        body.append(gzippedData)
+        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+
+        // POST to v1 sync API
+        let url = baseURLv1Sync.appendingPathComponent("meals/")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue(authHeader, forHTTPHeaderField: "Authorization")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+        request.httpBody = body
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw PaprikaError.invalidResponse
+        }
+
+        #if DEBUG
+        if let responseStr = String(data: data, encoding: .utf8) {
+            print("saveMeals response (\(httpResponse.statusCode)): \(responseStr)")
+        }
+        #endif
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw PaprikaError.serverError(httpResponse.statusCode)
+        }
+    }
+
+    /// Legacy single-item save (wraps saveMeals)
     func saveMealItem(_ item: PaprikaMealItem) async throws {
-        try await postSyncRequest(endpoint: "sync/menuitem/\(item.uid)/", body: item)
+        // Convert to PaprikaMeal format
+        let meal = PaprikaMeal(from: item)
+        try await saveMeals([meal])
+    }
+
+    // Date formatter matching Paprika's format
+    private var paprikaDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }
+
+    /// Gzip compress data using proper RFC 1952 format
+    private func gzipCompress(_ data: Data) throws -> Data {
+        // Use raw DEFLATE compression
+        guard let deflated = compressDeflate(data) else {
+            throw PaprikaError.invalidResponse
+        }
+
+        var gzipData = Data()
+
+        // Gzip header (10 bytes)
+        gzipData.append(contentsOf: [
+            0x1f, 0x8b,  // Magic number
+            0x08,        // Compression method (deflate)
+            0x00,        // Flags
+            0x00, 0x00, 0x00, 0x00,  // Modification time
+            0x00,        // Extra flags
+            0x03         // OS (Unix)
+        ])
+
+        gzipData.append(deflated)
+
+        // CRC32 of original data
+        let crc = crc32(data)
+        gzipData.append(contentsOf: withUnsafeBytes(of: crc.littleEndian) { Array($0) })
+
+        // Original size mod 2^32
+        let size = UInt32(truncatingIfNeeded: data.count)
+        gzipData.append(contentsOf: withUnsafeBytes(of: size.littleEndian) { Array($0) })
+
+        return gzipData
+    }
+
+    /// Raw DEFLATE compression
+    private func compressDeflate(_ data: Data) -> Data? {
+        let destBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count + 512)
+        defer { destBuffer.deallocate() }
+
+        let compressedSize = data.withUnsafeBytes { srcBuffer -> Int in
+            return compression_encode_buffer(
+                destBuffer, data.count + 512,
+                srcBuffer.baseAddress!.assumingMemoryBound(to: UInt8.self), data.count,
+                nil,
+                COMPRESSION_ZLIB
+            )
+        }
+
+        guard compressedSize > 0 else { return nil }
+        return Data(bytes: destBuffer, count: compressedSize)
+    }
+
+    /// CRC32 calculation for gzip footer
+    private func crc32(_ data: Data) -> UInt32 {
+        var crc: UInt32 = 0xFFFFFFFF
+        let polynomial: UInt32 = 0xEDB88320
+
+        for byte in data {
+            var temp = crc ^ UInt32(byte)
+            for _ in 0..<8 {
+                if temp & 1 == 1 {
+                    temp = (temp >> 1) ^ polynomial
+                } else {
+                    temp >>= 1
+                }
+            }
+            crc = temp
+        }
+
+        return ~crc
+    }
+
+    /// Delete a meal by setting deleted=true and re-syncing
+    func deleteMeal(_ meal: PaprikaMeal) async throws {
+        var deletedMeal = meal
+        deletedMeal.deleted = true
+        try await saveMeals([deletedMeal])
+    }
+
+    /// Delete a meal by UID (fetches meal first, then marks deleted)
+    func deleteMealByUid(_ uid: String) async throws {
+        let meals = try await fetchMeals()
+        guard let meal = meals.first(where: { $0.uid == uid }) else {
+            return  // Already deleted or doesn't exist
+        }
+        try await deleteMeal(meal)
     }
 
     func deleteMealItem(uid: String) async throws {
