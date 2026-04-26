@@ -83,7 +83,16 @@ struct CachedAsyncImage<Placeholder: View>: View {
         isLoading = true
 
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            // Use custom URLSession configuration that prefers cache
+            var request = URLRequest(url: url)
+            request.cachePolicy = .returnCacheDataElseLoad
+
+            let config = URLSessionConfiguration.default
+            config.urlCache = ImageCache.shared
+            config.requestCachePolicy = .returnCacheDataElseLoad
+            let session = URLSession(configuration: config)
+
+            let (data, response) = try await session.data(for: request)
 
             // Cache the response
             let cachedResponse = CachedURLResponse(response: response, data: data)
@@ -100,7 +109,16 @@ struct CachedAsyncImage<Placeholder: View>: View {
                 await MainActor.run { self.isLoading = false }
             }
         } catch {
-            await MainActor.run { self.isLoading = false }
+            // Network failed - check cache one more time (defensive)
+            if let cachedResponse = ImageCache.shared.cachedResponse(for: request),
+               let uiImage = UIImage(data: cachedResponse.data) {
+                await MainActor.run {
+                    self.image = uiImage
+                    self.isLoading = false
+                }
+            } else {
+                await MainActor.run { self.isLoading = false }
+            }
         }
     }
 }

@@ -21,6 +21,7 @@
 		1BBB364F2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */; };
 		1BBB36512F9E20DF00CC09E9 /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36502F9E20DF00CC09E9 /* RecipeDetailView.swift */; };
 		1BBB36552F9E39E600CC09E9 /* SyncStatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36542F9E39E600CC09E9 /* SyncStatusIndicator.swift */; };
+		1BBB36592F9E3BF800CC09E9 /* StalenessIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36582F9E3BF800CC09E9 /* StalenessIndicator.swift */; };
 		1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
 		1BC32F3C2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
 		1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
@@ -74,6 +75,7 @@
 		1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModelTests.swift; sourceTree = "<group>"; };
 		1BBB36502F9E20DF00CC09E9 /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		1BBB36542F9E39E600CC09E9 /* SyncStatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusIndicator.swift; sourceTree = "<group>"; };
+		1BBB36582F9E3BF800CC09E9 /* StalenessIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalenessIndicator.swift; sourceTree = "<group>"; };
 		1BC32F372F92812400DF473E /* WeekPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPlan.swift; sourceTree = "<group>"; };
 		1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
 		1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				95446E528A48CD0DD5393A9D /* LoadingView.swift */,
 				1B4013B62F9D6B0100367976 /* PullToRevealRefresh.swift */,
 				1B4013B92F9D6C0000367976 /* SkeletonView.swift */,
+				1BBB36582F9E3BF800CC09E9 /* StalenessIndicator.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BBB36592F9E3BF800CC09E9 /* StalenessIndicator.swift in Sources */,
 				1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */,
 				A791ADCE09C55CA39D1CB5E0 /* AppState.swift in Sources */,
 				40415DE993C66754389CA911 /* KeychainService.swift in Sources */,

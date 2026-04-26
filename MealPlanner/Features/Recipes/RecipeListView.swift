@@ -56,9 +56,17 @@ struct RecipeListView: View {
     
     private var recipeGrid: some View {
         ScrollView {
-            LazyVGrid(columns: columns, spacing: Spacing.sm) {
-                ForEach(filteredRecipes) { recipe in
-                    RecipeCard(recipe: recipe)
+            VStack(spacing: Spacing.sm) {
+                // Staleness indicator when offline
+                if viewModel.isOffline {
+                    StalenessIndicator(isOffline: true)
+                        .padding(.top, Spacing.sm)
+                }
+
+                LazyVGrid(columns: columns, spacing: Spacing.sm) {
+                    ForEach(filteredRecipes) { recipe in
+                        RecipeCard(recipe: recipe)
+                    }
                 }
             }
             .padding(Spacing.md)

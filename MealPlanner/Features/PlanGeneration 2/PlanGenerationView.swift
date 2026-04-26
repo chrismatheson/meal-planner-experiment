@@ -228,17 +228,9 @@ struct WeekPlanReviewView: View {
                         .accessibilityIdentifier("LoadingStatus")
                 }
 
-                // Show cache indicator
+                // Staleness indicator - shows when data was last refreshed
                 if isFromCache && !hasSynced {
-                    HStack {
-                        Image(systemName: "clock.arrow.circlepath")
-                        Text("Showing cached plan")
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(8)
-                    .background(Color.secondary.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    StalenessIndicator(isOffline: isOffline)
                 }
 
                 // Show error at top if any

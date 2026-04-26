@@ -48,7 +48,7 @@ final class PlanGenerationViewModel {
     var loadingStatus: String = ""
 
     /// Load existing meals for current week from cache, then refresh from API
-    /// Skips reload if we already have data for the current week
+    /// Uses stale-while-refresh: show cached data immediately, update in background
     func loadExistingMeals(context: ModelContext, forceRefresh: Bool = false) async {
         // Skip if we already have data for this week (unless forced)
         if !forceRefresh && hasGenerated && weekPlan?.days.count == 7 {
@@ -56,25 +56,31 @@ final class PlanGenerationViewModel {
             return
         }
 
-        isLoadingExisting = true
-        loadingStatus = "Loading..."
         print("🍽️ loadExistingMeals: Starting for week \(currentWeekNumber) of \(currentWeekYear)")
 
-        // 1. First, load from cache (fast, works offline)
+        // 1. STALE: Load from cache immediately (fast, works offline)
         let cachedMeals = loadFromCache(context: context)
-        if !cachedMeals.isEmpty {
+        let hasCachedData = !cachedMeals.isEmpty
+
+        if hasCachedData {
+            // Show cached data immediately - no loading spinner
             await buildWeekPlanFromMeals(cachedMeals, context: context)
             isFromCache = true
             hasGenerated = true
-            loadingStatus = "From cache: \(cachedMeals.count) meals"
+            loadingStatus = "Showing cached data"
             print("📦 Loaded \(cachedMeals.count) meals from cache for week \(currentWeekNumber)")
         } else {
-            loadingStatus = "Cache empty, fetching..."
+            // No cache - show loading state
+            isLoadingExisting = true
+            loadingStatus = "Loading meals..."
             print("📦 Cache empty for week \(currentWeekNumber)")
         }
 
-        // 2. Then, refresh from API if online
+        // 2. REFRESH: Update from API in background (if online)
         if !forceOffline {
+            if hasCachedData {
+                loadingStatus = "Updating..."
+            }
             await refreshFromAPI(context: context)
         } else {
             loadingStatus = "Offline mode"
