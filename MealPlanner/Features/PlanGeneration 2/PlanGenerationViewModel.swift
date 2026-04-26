@@ -44,7 +44,14 @@ final class PlanGenerationViewModel {
     var loadingStatus: String = ""
 
     /// Load existing meals for current week from cache, then refresh from API
-    func loadExistingMeals(context: ModelContext) async {
+    /// Skips reload if we already have data for the current week
+    func loadExistingMeals(context: ModelContext, forceRefresh: Bool = false) async {
+        // Skip if we already have data for this week (unless forced)
+        if !forceRefresh && hasGenerated && weekPlan?.days.count == 7 {
+            print("🍽️ loadExistingMeals: Already have data for week \(currentWeekNumber), skipping")
+            return
+        }
+
         isLoadingExisting = true
         loadingStatus = "Loading..."
         print("🍽️ loadExistingMeals: Starting for week \(currentWeekNumber) of \(currentWeekYear)")

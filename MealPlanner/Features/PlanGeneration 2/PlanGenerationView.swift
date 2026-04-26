@@ -24,7 +24,7 @@ struct PlanGenerationView: View {
                         isOffline: viewModel.isOffline,
                         loadingStatus: viewModel.loadingStatus,
                         onRefresh: {
-                            await viewModel.loadExistingMeals(context: modelContext)
+                            await viewModel.loadExistingMeals(context: modelContext, forceRefresh: true)
                         }
                     )
                 } else {
