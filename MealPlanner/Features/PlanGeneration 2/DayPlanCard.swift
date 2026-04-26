@@ -4,7 +4,7 @@ import SwiftUI
 struct DayPlanCard: View {
     let day: DayPlan
     let onRegenerate: () -> Void
-    
+
     var body: some View {
         HStack(spacing: 12) {
             // Recipe image with disk caching

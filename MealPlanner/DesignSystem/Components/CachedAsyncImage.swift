@@ -1,7 +1,7 @@
 import SwiftUI
 import os.log
 
-private let logger = Logger(subsystem: "PaprikaPlanner", category: "ImageCache")
+private let logger = Logger(subsystem: "com.curleybracketsengineering.paprikaplanner", category: "ImageCache")
 
 /// Shared image cache for recipe photos
 /// 50 MB memory, 200 MB disk
@@ -61,18 +61,20 @@ struct CachedAsyncImage<Placeholder: View>: View {
     }
 
     private func loadImage() async {
-        guard let url = url else {
-            logger.warning("⚠️ CachedAsyncImage: No URL provided")
-            return
-        }
+        guard var url = url else { return }
 
-        logger.info("🖼️ Loading image: \(url.absoluteString, privacy: .public)")
+        // Convert HTTP to HTTPS (iOS App Transport Security blocks HTTP)
+        if url.scheme == "http", var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            components.scheme = "https"
+            if let httpsURL = components.url {
+                url = httpsURL
+            }
+        }
 
         // Check cache first
         let request = URLRequest(url: url)
         if let cachedResponse = ImageCache.shared.cachedResponse(for: request),
            let uiImage = UIImage(data: cachedResponse.data) {
-            logger.debug("✓ Cache hit for \(url.lastPathComponent)")
             self.image = uiImage
             return
         }
@@ -83,14 +85,11 @@ struct CachedAsyncImage<Placeholder: View>: View {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
 
-            logger.debug("Downloaded \(data.count) bytes from \(url.lastPathComponent)")
-
             // Cache the response
             let cachedResponse = CachedURLResponse(response: response, data: data)
             ImageCache.shared.storeCachedResponse(cachedResponse, for: request)
 
             if let uiImage = UIImage(data: data) {
-                logger.debug("✓ Image decoded: \(url.lastPathComponent)")
                 await MainActor.run {
                     withAnimation(.easeIn(duration: 0.2)) {
                         self.image = uiImage
@@ -98,11 +97,9 @@ struct CachedAsyncImage<Placeholder: View>: View {
                     }
                 }
             } else {
-                logger.error("✗ Failed to decode image data")
                 await MainActor.run { self.isLoading = false }
             }
         } catch {
-            logger.error("✗ Network error: \(error.localizedDescription)")
             await MainActor.run { self.isLoading = false }
         }
     }
