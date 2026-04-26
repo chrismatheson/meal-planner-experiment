@@ -13,6 +13,7 @@
 		1B4013B12F9D6A0000367976 /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4013B22F9D6A0000367976 /* CachedAsyncImage.swift */; };
 		1B4013B32F9D6B0000367976 /* SyncStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4013B42F9D6B0000367976 /* SyncStatusManager.swift */; };
 		1B4013B52F9D6B0100367976 /* PullToRevealRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4013B62F9D6B0100367976 /* PullToRevealRefresh.swift */; };
+		1B4013B82F9D6C0000367976 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4013B92F9D6C0000367976 /* SkeletonView.swift */; };
 		158DCE2BCC765FC93DF7ECA9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F77A096421405FAC62A30 /* RootView.swift */; };
 		1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */; };
 		1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
@@ -79,6 +80,7 @@
 		1B4013B22F9D6A0000367976 /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		1B4013B42F9D6B0000367976 /* SyncStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusManager.swift; sourceTree = "<group>"; };
 		1B4013B62F9D6B0100367976 /* PullToRevealRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRevealRefresh.swift; sourceTree = "<group>"; };
+		1B4013B92F9D6C0000367976 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		B37B42D32BF6FC0918DACBFC /* MealPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MealPlanner.entitlements; sourceTree = "<group>"; };
 		B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanViewModel.swift; sourceTree = "<group>"; };
 		BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerApp.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				1B4013B22F9D6A0000367976 /* CachedAsyncImage.swift */,
 				95446E528A48CD0DD5393A9D /* LoadingView.swift */,
 				1B4013B62F9D6B0100367976 /* PullToRevealRefresh.swift */,
+				1B4013B92F9D6C0000367976 /* SkeletonView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 					1B4013B12F9D6A0000367976 /* CachedAsyncImage.swift in Sources */,
 					1B4013B32F9D6B0000367976 /* SyncStatusManager.swift in Sources */,
 					1B4013B52F9D6B0100367976 /* PullToRevealRefresh.swift in Sources */,
+					1B4013B82F9D6C0000367976 /* SkeletonView.swift in Sources */,
 				904E584A4C763B72C0D2722D /* LoginView.swift in Sources */,
 				1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */,
 				95A8E2DED9CCE69507C47B4E /* MealPlanView.swift in Sources */,

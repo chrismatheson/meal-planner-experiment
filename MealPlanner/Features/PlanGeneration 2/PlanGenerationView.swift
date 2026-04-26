@@ -100,19 +100,26 @@ struct PlanGenerationView: View {
     }
 }
 
-/// Loading indicator while fetching existing meals
+/// Loading indicator while fetching existing meals - shows skeleton cards
 struct LoadingExistingView: View {
     var status: String = "Loading..."
 
     var body: some View {
-        VStack(spacing: 16) {
-            ProgressView()
-                .scaleEffect(1.5)
-            Text("Loading your meal plan...")
-                .foregroundStyle(.secondary)
-            Text(status)
-                .font(.caption)
-                .foregroundStyle(.tertiary)
+        ScrollView {
+            VStack(spacing: 16) {
+                // Status message at top
+                HStack {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                    Text("Loading your meal plan...")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.top)
+
+                // Skeleton cards
+                WeekPlanSkeletonView()
+            }
         }
     }
 }
