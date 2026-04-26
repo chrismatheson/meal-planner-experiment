@@ -71,7 +71,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 
 **Success Criteria**: Generate → tweak → synced in under 30 seconds
 
-### 📈 v1.1 - Polish (In Progress)
+### 📈 v1.1 - Polish ✅ COMPLETE
 
 **Goal**: Refinements based on real usage
 
@@ -81,6 +81,19 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 - [x] Recipe photo tap → RecipeDetailView with ingredients/directions
 - [x] "Undo" last regeneration (single-level undo, clears after sync)
 - [x] Accessibility audit (VoiceOver labels, hints, combined elements)
+- [x] Sync UI redesign (minimal status dot, popover details, Settings integration)
+
+### 📶 v1.2 - Offline Support (In Progress)
+
+**Goal**: Reliable offline experience with stale-while-refresh pattern
+
+- [ ] Persistent image cache (disk-based, survives app restart)
+- [ ] Stale-while-refresh for recipes (show cache immediately, refresh in background)
+- [ ] Stale-while-refresh for meals (same pattern)
+- [ ] Staleness indicator ("Last updated 2h ago" badge)
+- [ ] Offline sync queue (queue changes, sync when back online) [stretch]
+
+**Pattern**: Always show cached data first → fetch fresh in background → update UI when ready
 
 ### 🌟 v2.0 - Smarter Generation
 
