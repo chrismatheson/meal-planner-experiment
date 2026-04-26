@@ -139,6 +139,69 @@ final class PaprikaIntegrationTests: XCTestCase {
         print("🧹 Cleaned up test meal")
     }
 
+    /// Tests that saving a meal with the SAME UID updates it (no duplicates)
+    /// BUG FIX: Previously, every sync created new meals with new UIDs
+    func test_saveMeal_withSameUid_updatesInsteadOfCreatingDuplicate() async throws {
+        try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+
+        let client = PaprikaClient()
+        _ = try await client.login(email: testEmail, password: testPassword)
+
+        // Get two different recipes
+        let recipes = try await client.fetchRecipes(limit: 2)
+        guard recipes.count >= 2 else {
+            throw XCTSkip("Need at least 2 recipes to test update behavior")
+        }
+        let recipe1 = recipes[0]
+        let recipe2 = recipes[1]
+
+        // Create a test date (far in future to avoid conflicts)
+        let testDate = Calendar.current.date(byAdding: .day, value: 30, to: Date())!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateStr = dateFormatter.string(from: testDate)
+
+        // Use a proper UUID format (Paprika requires valid UUIDs)
+        let fixedUid = UUID().uuidString.uppercased()
+
+        // Save first meal
+        let meal1 = PaprikaMeal(uid: fixedUid, date: testDate, recipe: recipe1, type: 2)
+        try await client.saveMeals([meal1])
+        print("📝 Saved first meal: \(recipe1.name)")
+
+        // Count meals for this date BEFORE update
+        let mealsBefore = try await client.fetchMeals()
+        let mealsForDateBefore = mealsBefore.filter { $0.date.hasPrefix(dateStr) && $0.type == 2 }
+        let countBefore = mealsForDateBefore.count
+        print("📊 Meals for \(dateStr) before update: \(countBefore)")
+
+        // Save second meal with SAME UID (should update, not create new)
+        let meal2 = PaprikaMeal(uid: fixedUid, date: testDate, recipe: recipe2, type: 2)
+        try await client.saveMeals([meal2])
+        print("📝 Updated to second meal: \(recipe2.name)")
+
+        // Count meals for this date AFTER update
+        let mealsAfter = try await client.fetchMeals()
+        let mealsForDateAfter = mealsAfter.filter { $0.date.hasPrefix(dateStr) && $0.type == 2 }
+        let countAfter = mealsForDateAfter.count
+
+        print("📊 Meals for \(dateStr) after update: \(countAfter)")
+
+        // CRITICAL: Count should NOT increase - this verifies no duplicates
+        XCTAssertEqual(countBefore, countAfter, "Updating a meal should not create duplicates!")
+
+        // Verify the meal was actually updated
+        let updatedMeal = mealsAfter.first { $0.uid == fixedUid }
+        XCTAssertNotNil(updatedMeal, "Meal should still exist")
+        XCTAssertEqual(updatedMeal?.name, recipe2.name, "Meal name should be updated to new recipe")
+
+        // Clean up
+        if let mealToDelete = updatedMeal {
+            try await client.deleteMeal(mealToDelete)
+            print("🧹 Cleaned up test meal")
+        }
+    }
+
     /// Debug test: List all meals in Paprika with their dates
     func test_debug_listAllMeals() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
@@ -161,5 +224,45 @@ final class PaprikaIntegrationTests: XCTestCase {
             }
             print("   \(meal.date) | \(weekInfo) | \(meal.name)")
         }
+    }
+
+    /// CLEANUP UTILITY: Remove duplicate meals, keeping only one per date/type
+    /// Run this manually after fixing the duplicate bug
+    func test_cleanup_duplicateMeals() async throws {
+        try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+
+        let client = PaprikaClient()
+        _ = try await client.login(email: testEmail, password: testPassword)
+
+        let meals = try await client.fetchMeals()
+        print("📋 Found \(meals.count) total meals")
+
+        // Group by date+type, keeping only the first one
+        var seenDateTypes: Set<String> = []
+        var toDelete: [PaprikaMeal] = []
+
+        for meal in meals {
+            let dateOnly = String(meal.date.prefix(10))
+            let key = "\(dateOnly)-\(meal.type)"
+
+            if seenDateTypes.contains(key) {
+                // This is a duplicate
+                toDelete.append(meal)
+            } else {
+                seenDateTypes.insert(key)
+            }
+        }
+
+        print("🗑️ Found \(toDelete.count) duplicate meals to delete")
+
+        // Delete duplicates in batches
+        for meal in toDelete {
+            print("   Deleting: \(meal.date) | \(meal.name)")
+            try await client.deleteMeal(meal)
+        }
+
+        // Verify
+        let mealsAfter = try await client.fetchMeals()
+        print("✅ After cleanup: \(mealsAfter.count) meals remaining")
     }
 }

@@ -24,7 +24,7 @@
 | **"Plan My Week" generation** | 🟢 Complete | - | Random, no duplicates in week |
 | **Review week UI** | 🟢 Complete | - | 7 cards with photo, regenerate per-day |
 | **20s countdown auto-sync** | 🟢 Complete | - | Tap to sync early or wait |
-| **Sync plan to Paprika** | 🟡 Needs Verify | P0 | v1 API with gzip - **verify in Paprika app** |
+| **Sync plan to Paprika** | 🟢 Complete | - | v1 API with gzip - **verified in Paprika app 2026-04-26** |
 
 ### ❌ Cut from v1.0 (not needed for generate-first)
 
@@ -61,7 +61,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 - [x] 20s countdown timer with auto-sync
 - [x] Tap countdown to sync immediately
 - [x] Green checkmark on sync success
-- [ ] **VERIFY**: Meals appear in Paprika app
+- [x] **VERIFIED**: Meals appear in Paprika app (2026-04-26)
 
 **Scope:**
 - Dinner only (one meal per day)

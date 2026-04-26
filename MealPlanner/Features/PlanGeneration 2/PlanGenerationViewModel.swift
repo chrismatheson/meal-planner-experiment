@@ -421,9 +421,43 @@ final class PlanGenerationViewModel {
             try? keychain.saveToken(newToken)
             print("🔑 Authenticated successfully")
 
-            // Convert DayPlans to PaprikaMeals
+            // Fetch existing meals to find ones we need to replace
+            let existingMeals = try await paprikaClient.fetchMeals()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+
+            // Build a map of date -> existing meal UID for the days we're planning
+            var existingMealsByDate: [String: PaprikaMeal] = [:]
+            for meal in existingMeals {
+                // Extract just the date portion (ignore time)
+                let dateOnly = String(meal.date.prefix(10))
+                // Only track Dinner (type 2) meals to avoid conflicting with breakfast/lunch
+                if meal.type == 2 {
+                    existingMealsByDate[dateOnly] = meal
+                }
+            }
+            print("📋 Found \(existingMealsByDate.count) existing dinner meals")
+
+            // Convert DayPlans to PaprikaMeals, reusing UIDs for existing dates
             let meals: [PaprikaMeal] = weekPlan.days.compactMap { day in
                 guard let recipe = day.recipe else { return nil }
+
+                let dateStr = dateFormatter.string(from: day.date)
+
+                // Check if there's an existing meal for this date
+                let existingMeal = existingMealsByDate[dateStr]
+                let mealUid: String
+
+                if let existing = existingMeal {
+                    // Reuse the existing UID to UPDATE instead of create duplicate
+                    mealUid = existing.uid
+                    print("   ♻️ Updating existing meal for \(dateStr): \(existing.name) → \(recipe.name)")
+                } else {
+                    // Generate new UID for new meal
+                    mealUid = UUID().uuidString.uppercased()
+                    print("   ➕ Creating new meal for \(dateStr): \(recipe.name)")
+                }
+
                 // Create a temporary PaprikaRecipe for the model
                 let paprikaRecipe = PaprikaRecipe(
                     uid: recipe.uid,
@@ -446,7 +480,7 @@ final class PlanGenerationViewModel {
                     hash: nil,
                     photoHash: nil
                 )
-                return PaprikaMeal(date: day.date, recipe: paprikaRecipe, type: 2)
+                return PaprikaMeal(uid: mealUid, date: day.date, recipe: paprikaRecipe, type: 2)
             }
 
             guard !meals.isEmpty else {
@@ -455,7 +489,7 @@ final class PlanGenerationViewModel {
                 return
             }
 
-            // Save to Paprika
+            // Save to Paprika (will update existing or create new)
             try await paprikaClient.saveMeals(meals)
 
             hasSynced = true
