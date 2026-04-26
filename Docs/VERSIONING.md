@@ -1,54 +1,53 @@
 # Versioning
 
-This project uses [Semantic Versioning](https://semver.org/) with pre-release identifiers for development builds.
+This project uses [Semantic Versioning](https://semver.org/) with build numbers for pre-release tracking.
 
 ## Format
 
+Apple's `CFBundleShortVersionString` only allows `X.Y.Z` format, so we use:
+
 ```
-MAJOR.MINOR.PATCH[-preN]
+MARKETING_VERSION: X.Y.Z        (e.g., 2.0.0)
+CURRENT_PROJECT_VERSION: N      (e.g., 89 = git commit count)
 ```
 
-| Component | Description |
-|-----------|-------------|
-| MAJOR | Breaking changes, major milestones |
-| MINOR | New features, backwards compatible |
-| PATCH | Bug fixes, minor improvements |
-| -preN | Pre-release build number (git commit count) |
+**Display in app**: `2.0.0 (89)` - combining both values.
 
 ## Examples
 
-| Version | Meaning |
-|---------|---------|
-| `1.0.0` | First stable release |
-| `2.0.0-pre86` | Development build, 86 commits, working toward 2.0.0 |
-| `2.0.0` | Stable 2.0.0 release |
-| `2.1.0-pre92` | Development build toward 2.1.0 |
+| MARKETING_VERSION | BUILD | Display | Meaning |
+|-------------------|-------|---------|---------|
+| `2.0.0` | `89` | `2.0.0 (89)` | Dev build 89, working toward 2.0.0 stable |
+| `2.0.0` | `100` | `2.0.0 (100)` | Ready for release |
+| `2.0.1` | `101` | `2.0.1 (101)` | Patch release |
 
 ## Xcode Configuration
 
-- **MARKETING_VERSION**: The semver string (e.g., `2.0.0-pre86`)
-- **CURRENT_PROJECT_VERSION**: The build number (e.g., `86`)
+- **MARKETING_VERSION** (`CFBundleShortVersionString`): Semantic version, X.Y.Z only
+- **CURRENT_PROJECT_VERSION** (`CFBundleVersion`): Git commit count (auto-increments)
 
 ## When to Bump
 
 | Action | Version Change |
 |--------|----------------|
-| Bug fix during dev | Keep version, commit count auto-increments |
-| New feature complete | Bump MINOR, keep `-preN` |
-| Major milestone shipped | Remove `-preN` for stable release |
-| Breaking change | Bump MAJOR |
+| Bug fix during dev | Build number auto-increments with each commit |
+| New feature complete | Bump MINOR via `./Scripts/bump-version.sh minor` |
+| Breaking change | Bump MAJOR via `./Scripts/bump-version.sh major` |
 
-## Release Process
+## Script Usage
 
-1. Development: `2.0.0-pre86`, `2.0.0-pre87`, ...
-2. Ready to ship: Remove `-preN` → `2.0.0`
-3. Start next cycle: `2.1.0-pre1` or `2.0.1-pre1`
+```bash
+./Scripts/bump-version.sh          # Update build number only
+./Scripts/bump-version.sh minor    # 2.0.0 → 2.1.0
+./Scripts/bump-version.sh major    # 2.0.0 → 3.0.0
+./Scripts/bump-version.sh patch    # 2.0.0 → 2.0.1
+```
 
 ## History
 
-| Version | Date | Notes |
-|---------|------|-------|
+| Version | Build | Notes |
+|---------|-------|-------|
 | 1.0.0 | - | MVP: Login, sync, generate |
 | 1.1.0 | - | Polish: Recipe detail, undo, accessibility |
 | 1.2.0 | - | Offline: Stale-while-refresh, offline auth |
-| 2.0.0-preN | Current | Smarter: Rejection tracking, protein variety |
+| 2.0.0 | 89+ | Smarter: Rejection tracking, cuisine diversity |

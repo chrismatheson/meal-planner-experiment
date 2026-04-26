@@ -1,14 +1,19 @@
 #!/bin/bash
 # Bump version script for MealPlanner
-# Updates MARKETING_VERSION and CURRENT_PROJECT_VERSION based on git commit count
+# Updates MARKETING_VERSION (X.Y.Z) and CURRENT_PROJECT_VERSION (git commit count)
+#
+# Apple's CFBundleShortVersionString only allows X.Y.Z format, so we use:
+# - MARKETING_VERSION: Semantic version (2.0.0)
+# - CURRENT_PROJECT_VERSION: Build number from git commit count (89)
+# - App displays: "2.0.0 (89)"
 
 set -e
 
 PROJECT_FILE="MealPlanner.xcodeproj/project.pbxproj"
 BUILD_NUM=$(git rev-list --count HEAD)
 
-# Get current base version (without -preN suffix and quotes)
-CURRENT_VERSION=$(grep "MARKETING_VERSION" "$PROJECT_FILE" | head -1 | sed 's/.*= \(.*\);/\1/' | sed 's/"//g' | sed 's/-pre[0-9]*//')
+# Get current version (strip any quotes)
+CURRENT_VERSION=$(grep "MARKETING_VERSION" "$PROJECT_FILE" | head -1 | sed 's/.*= \(.*\);/\1/' | sed 's/"//g')
 
 # Parse version components
 MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
@@ -32,28 +37,17 @@ case "$1" in
         PATCH=$((PATCH + 1))
         echo "Bumping PATCH: $CURRENT_VERSION -> $MAJOR.$MINOR.$PATCH"
         ;;
-    release)
-        # Remove -preN suffix for stable release
-        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-        echo "Creating stable release: $NEW_VERSION"
-        sed -i '' "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $NEW_VERSION;/g" "$PROJECT_FILE"
-        sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = $BUILD_NUM;/g" "$PROJECT_FILE"
-        echo "✅ Version set to $NEW_VERSION (build $BUILD_NUM)"
-        exit 0
-        ;;
     *)
-        # Default: just update build number with current version
-        NEW_VERSION="$MAJOR.$MINOR.$PATCH-pre$BUILD_NUM"
-        echo "Updating pre-release: $NEW_VERSION (build $BUILD_NUM)"
-        sed -i '' "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $NEW_VERSION;/g" "$PROJECT_FILE"
+        # Default: just update build number, keep version
+        echo "Updating build number: $CURRENT_VERSION ($BUILD_NUM)"
         sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = $BUILD_NUM;/g" "$PROJECT_FILE"
-        echo "✅ Version set to $NEW_VERSION"
+        echo "✅ Version: $CURRENT_VERSION (build $BUILD_NUM)"
         exit 0
         ;;
 esac
 
 # Apply the version bump
-NEW_VERSION="$MAJOR.$MINOR.$PATCH-pre$BUILD_NUM"
+NEW_VERSION="$MAJOR.$MINOR.$PATCH"
 sed -i '' "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $NEW_VERSION;/g" "$PROJECT_FILE"
 sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = $BUILD_NUM;/g" "$PROJECT_FILE"
-echo "✅ Version set to $NEW_VERSION (build $BUILD_NUM)"
+echo "✅ Version: $NEW_VERSION (build $BUILD_NUM)"
