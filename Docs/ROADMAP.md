@@ -79,7 +79,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 - [x] Sync status visibility (SyncStatusManager, pull-to-reveal)
 - [x] Skeleton loading screens (WeekPlanSkeletonView)
 - [x] Recipe photo tap → RecipeDetailView with ingredients/directions
-- [ ] "Undo" last regeneration
+- [x] "Undo" last regeneration (single-level undo, clears after sync)
 - [ ] Accessibility audit
 
 ### 🌟 v2.0 - Smarter Generation
