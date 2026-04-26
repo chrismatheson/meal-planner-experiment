@@ -1,6 +1,6 @@
 import XCTest
 import SwiftUI
-@testable import MealPlanner
+@testable import paprikaplanner
 
 final class MealPlannerTests: XCTestCase {
     

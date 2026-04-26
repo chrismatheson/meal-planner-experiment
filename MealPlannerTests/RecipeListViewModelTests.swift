@@ -1,23 +1,32 @@
 import XCTest
 import SwiftData
-@testable import MealPlanner
+@testable import paprikaplanner
 
 /// Tests for RecipeListViewModel sync behavior
+/// Note: lastSyncTime is now managed by SyncStatusManager
 final class RecipeListViewModelTests: XCTestCase {
+
+    var syncStatus: SyncStatusManager!
+
+    override func setUp() {
+        super.setUp()
+        syncStatus = SyncStatusManager.shared
+        // Clear persisted state
+        UserDefaults.standard.removeObject(forKey: "lastRecipeSyncTime")
+    }
 
     // MARK: - Sync Throttling Tests
 
-    /// Bug: Sync fires on every tab switch, should only sync once per session
+    /// Sync fires on every tab switch, should only sync once per session
     /// or with a reasonable cooldown (e.g., 5 minutes)
     func test_syncRecipes_doesNotSyncAgain_withinCooldownPeriod() async throws {
         let viewModel = RecipeListViewModel()
 
-        // First sync - should update lastSyncTime
-        XCTAssertNil(viewModel.lastSyncTime, "Should start with no sync time")
+        // First sync - should have no sync time
+        XCTAssertNil(syncStatus.lastRecipeSyncTime, "Should start with no sync time")
 
-        // Simulate a sync by setting lastSyncTime (we can't easily mock the client)
-        // Instead, test the throttle logic directly
-        viewModel.lastSyncTime = Date()
+        // Simulate a sync completing
+        syncStatus.markRecipesSynced()
 
         // Check that hasSyncedRecently returns true immediately after sync
         XCTAssertTrue(viewModel.hasSyncedRecently, "Should report recently synced right after sync")
@@ -28,7 +37,7 @@ final class RecipeListViewModelTests: XCTestCase {
         let viewModel = RecipeListViewModel()
 
         // Set last sync to 10 minutes ago (past the cooldown)
-        viewModel.lastSyncTime = Date().addingTimeInterval(-600) // 10 min ago
+        UserDefaults.standard.set(Date().addingTimeInterval(-600), forKey: "lastRecipeSyncTime")
 
         XCTAssertFalse(viewModel.hasSyncedRecently, "Should allow sync after cooldown expires")
     }
@@ -37,7 +46,7 @@ final class RecipeListViewModelTests: XCTestCase {
     func test_syncRecipes_allowsFirstSync() async throws {
         let viewModel = RecipeListViewModel()
 
-        XCTAssertNil(viewModel.lastSyncTime)
+        XCTAssertNil(syncStatus.lastRecipeSyncTime)
         XCTAssertFalse(viewModel.hasSyncedRecently, "Should allow first sync")
     }
 }

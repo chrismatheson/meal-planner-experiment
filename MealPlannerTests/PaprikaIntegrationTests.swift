@@ -1,5 +1,5 @@
 import XCTest
-@testable import MealPlanner
+@testable import paprikaplanner
 
 /// Integration tests that hit the REAL Paprika API
 /// These tests require valid credentials to pass
