@@ -94,8 +94,11 @@ struct RecipeDetailView: View {
                                 .foregroundStyle(i < rating ? Color.paprikaWarm : .gray)
                         }
                     }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("\(rating) out of 5 stars")
                 }
             }
+            .accessibilityElement(children: .combine)
             
             // Categories
             if !recipe.categories.isEmpty {

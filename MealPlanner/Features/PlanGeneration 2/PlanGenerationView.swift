@@ -76,6 +76,8 @@ struct PlanGenerationView: View {
                         }
                         .disabled(viewModel.isSyncing || viewModel.hasSynced || viewModel.isOffline)
                         .accessibilityIdentifier("SyncButton")
+                        .accessibilityLabel(syncButtonAccessibilityLabel)
+                        .accessibilityHint(viewModel.hasSynced ? "" : "Syncs meal plan to Paprika")
 
                         // Undo button (only visible when undo is available)
                         if viewModel.canUndo {
@@ -111,6 +113,18 @@ struct PlanGenerationView: View {
             .navigationDestination(for: RecipeModel.self) { recipe in
                 RecipeDetailView(recipe: recipe)
             }
+        }
+    }
+
+    // MARK: - Accessibility Helpers
+
+    private var syncButtonAccessibilityLabel: String {
+        if viewModel.isSyncing {
+            return "Syncing to Paprika"
+        } else if viewModel.hasSynced {
+            return "Synced to Paprika"
+        } else {
+            return "Sync in \(viewModel.countdownSeconds) seconds"
         }
     }
 }

@@ -52,11 +52,26 @@ struct DayPlanCard: View {
                     .background(Color.paprikaPrimary.opacity(0.1))
                     .clipShape(Circle())
             }
+            .accessibilityLabel("Change \(day.dayName)'s meal")
+            .accessibilityHint("Assigns a different recipe")
         }
         .padding()
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+        // Combined accessibility for the whole card
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityDescription)
+        .accessibilityHint(day.recipe != nil ? "Tap to view recipe details" : "")
+    }
+
+    private var accessibilityDescription: String {
+        var parts = [day.dayName, day.shortDate]
+        parts.append(day.displayName)
+        if let prepTime = day.recipe?.prepTime, !prepTime.isEmpty {
+            parts.append("Prep time: \(prepTime)")
+        }
+        return parts.joined(separator: ", ")
     }
 
     // MARK: - Recipe Image
