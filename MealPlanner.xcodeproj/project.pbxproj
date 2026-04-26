@@ -20,6 +20,7 @@
 		1BBB364E2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */; };
 		1BBB364F2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */; };
 		1BBB36512F9E20DF00CC09E9 /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36502F9E20DF00CC09E9 /* RecipeDetailView.swift */; };
+		1BBB36552F9E39E600CC09E9 /* SyncStatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36542F9E39E600CC09E9 /* SyncStatusIndicator.swift */; };
 		1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
 		1BC32F3C2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
 		1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
@@ -72,6 +73,7 @@
 		1B4013BB2F9D6D0000367976 /* ImageCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheTests.swift; sourceTree = "<group>"; };
 		1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModelTests.swift; sourceTree = "<group>"; };
 		1BBB36502F9E20DF00CC09E9 /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
+		1BBB36542F9E39E600CC09E9 /* SyncStatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusIndicator.swift; sourceTree = "<group>"; };
 		1BC32F372F92812400DF473E /* WeekPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPlan.swift; sourceTree = "<group>"; };
 		1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
 		1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,14 @@
 				1B4013B42F9D6B0000367976 /* SyncStatusManager.swift */,
 			);
 			path = Sync;
+			sourceTree = "<group>";
+		};
+		1BBB36522F9E39C900CC09E9 /* Sync 2 */ = {
+			isa = PBXGroup;
+			children = (
+				1BBB36542F9E39E600CC09E9 /* SyncStatusIndicator.swift */,
+			);
+			path = "Sync 2";
 			sourceTree = "<group>";
 		};
 		1BC32F342F9280AC00DF473E /* PlanGeneration 2 */ = {
@@ -219,6 +229,7 @@
 				64C39AD6A1A58C9089230E18 /* MealPlan */,
 				6B3F3AF3627C98CA4A1AD972 /* Recipes */,
 				1BC32F342F9280AC00DF473E /* PlanGeneration 2 */,
+				1BBB36522F9E39C900CC09E9 /* Sync 2 */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -426,6 +437,7 @@
 				1B4013B82F9D6C0000367976 /* SkeletonView.swift in Sources */,
 				904E584A4C763B72C0D2722D /* LoginView.swift in Sources */,
 				1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */,
+				1BBB36552F9E39E600CC09E9 /* SyncStatusIndicator.swift in Sources */,
 				95A8E2DED9CCE69507C47B4E /* MealPlanView.swift in Sources */,
 				43EFCFBC5D8DE0A9508B67C0 /* MealPlanViewModel.swift in Sources */,
 				0B48E41D4EA144D6616D324F /* MealPlannerApp.swift in Sources */,

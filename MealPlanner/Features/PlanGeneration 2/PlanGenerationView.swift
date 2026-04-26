@@ -54,30 +54,17 @@ struct PlanGenerationView: View {
                 // Only show toolbar when plan is generated
                 if viewModel.hasGenerated {
                     ToolbarItemGroup(placement: .topBarTrailing) {
-                        // Countdown / Sync button
-                        Button {
-                            Task {
+                        // Sync status indicator (minimal dot, expands on tap)
+                        SyncStatusIndicator(
+                            countdownSeconds: viewModel.countdownSeconds,
+                            isSyncing: viewModel.isSyncing,
+                            hasSynced: viewModel.hasSynced,
+                            hasError: viewModel.syncError != nil,
+                            onSyncNow: {
                                 await viewModel.syncNow()
                             }
-                        } label: {
-                            if viewModel.isSyncing {
-                                ProgressView()
-                            } else if viewModel.hasSynced {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                            } else {
-                                Label {
-                                    Text("\(viewModel.countdownSeconds)")
-                                } icon: {
-                                    Image(systemName: "paperplane.fill")
-                                }
-                                .foregroundStyle(Color.paprikaPrimary)
-                            }
-                        }
-                        .disabled(viewModel.isSyncing || viewModel.hasSynced || viewModel.isOffline)
+                        )
                         .accessibilityIdentifier("SyncButton")
-                        .accessibilityLabel(syncButtonAccessibilityLabel)
-                        .accessibilityHint(viewModel.hasSynced ? "" : "Syncs meal plan to Paprika")
 
                         // Undo button (only visible when undo is available)
                         if viewModel.canUndo {

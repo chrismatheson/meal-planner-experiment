@@ -61,18 +61,65 @@ struct MainTabView: View {
     }
 }
 
-/// Placeholder settings view
+/// App settings view with sync status as a canonical home
 struct SettingsView: View {
     @Environment(AppState.self) private var appState
     @State private var keychainStatus = "Checking..."
+    private let syncManager = SyncStatusManager.shared
 
     var body: some View {
         NavigationStack {
             List {
+                // Account Section
                 Section {
                     if let user = appState.currentUser {
-                        Text(user.email)
+                        HStack {
+                            Label("Account", systemImage: "person.circle")
+                            Spacer()
+                            Text(user.email)
+                                .foregroundStyle(.secondary)
+                        }
                     }
+                    
+                    Button("Sign Out", role: .destructive) {
+                        appState.signOut()
+                    }
+                } header: {
+                    Text("Paprika Account")
+                }
+                
+                // Sync Section
+                Section {
+                    // Status row
+                    HStack {
+                        Label("Status", systemImage: "arrow.triangle.2.circlepath")
+                        Spacer()
+                        syncStatusBadge
+                    }
+                    
+                    // Last meal sync
+                    if let lastMealSync = syncManager.lastMealSyncTime {
+                        HStack {
+                            Label("Last Meal Sync", systemImage: "fork.knife")
+                            Spacer()
+                            Text(lastMealSync.formatted(date: .abbreviated, time: .shortened))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    
+                    // Last recipe sync
+                    if let lastRecipeSync = syncManager.lastRecipeSyncTime {
+                        HStack {
+                            Label("Last Recipe Sync", systemImage: "book")
+                            Spacer()
+                            Text(lastRecipeSync.formatted(date: .abbreviated, time: .shortened))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } header: {
+                    Text("Sync")
+                } footer: {
+                    Text("Meal plans sync automatically after 20 seconds of inactivity.")
                 }
 
                 #if DEBUG
@@ -93,16 +140,48 @@ struct SettingsView: View {
                     }
                 }
                 #endif
-
+                
+                // About Section
                 Section {
-                    Button("Sign Out", role: .destructive) {
-                        appState.signOut()
+                    HStack {
+                        Label("Version", systemImage: "info.circle")
+                        Spacer()
+                        Text(Bundle.main.appVersion)
+                            .foregroundStyle(.secondary)
                     }
+                } header: {
+                    Text("About")
                 }
             }
             .navigationTitle("Settings")
             .onAppear {
                 refreshKeychainStatus()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var syncStatusBadge: some View {
+        if syncManager.isSyncing {
+            HStack(spacing: 4) {
+                ProgressView()
+                    .scaleEffect(0.8)
+                Text("Syncing")
+                    .foregroundStyle(.secondary)
+            }
+        } else if syncManager.lastError != nil {
+            HStack(spacing: 4) {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundStyle(.red)
+                Text("Error")
+                    .foregroundStyle(.red)
+            }
+        } else {
+            HStack(spacing: 4) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(.green)
+                Text("Up to date")
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -130,6 +209,16 @@ struct SettingsView: View {
         }
 
         keychainStatus = parts.joined(separator: " | ")
+    }
+}
+
+// MARK: - Bundle Extension
+
+extension Bundle {
+    var appVersion: String {
+        let version = infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let build = infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        return "\(version) (\(build))"
     }
 }
 
