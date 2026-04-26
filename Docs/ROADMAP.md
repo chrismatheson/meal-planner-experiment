@@ -78,7 +78,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 - [x] Image caching (200MB disk cache, shimmer loading, retry on failure)
 - [x] Sync status visibility (SyncStatusManager, pull-to-reveal)
 - [x] Skeleton loading screens (WeekPlanSkeletonView)
-- [ ] Recipe photo tap → show name/description
+- [x] Recipe photo tap → RecipeDetailView with ingredients/directions
 - [ ] "Undo" last regeneration
 - [ ] Accessibility audit
 
