@@ -83,15 +83,15 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 - [x] Accessibility audit (VoiceOver labels, hints, combined elements)
 - [x] Sync UI redesign (minimal status dot, popover details, Settings integration)
 
-### 📶 v1.2 - Offline Support (In Progress)
+### 📶 v1.2 - Offline Support ✅ COMPLETE
 
 **Goal**: Reliable offline experience with stale-while-refresh pattern
 
-- [ ] Persistent image cache (disk-based, survives app restart)
-- [ ] Stale-while-refresh for recipes (show cache immediately, refresh in background)
-- [ ] Stale-while-refresh for meals (same pattern)
-- [ ] Staleness indicator ("Last updated 2h ago" badge)
-- [ ] Offline sync queue (queue changes, sync when back online) [stretch]
+- [x] Persistent image cache (200MB disk URLCache, survives app restart)
+- [x] Stale-while-refresh for recipes (show cache immediately, refresh in background)
+- [x] Stale-while-refresh for meals (same pattern)
+- [x] Staleness indicator (StalenessIndicator component, shows "Synced Xm ago")
+- [ ] Offline sync queue (queue changes, sync when back online) [deferred to v2.1]
 
 **Pattern**: Always show cached data first → fetch fresh in background → update UI when ready
 
