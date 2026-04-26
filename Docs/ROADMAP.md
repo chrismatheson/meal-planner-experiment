@@ -96,28 +96,28 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 
 **Pattern**: Always show cached data first → fetch fresh in background → update UI when ready
 
-### 🌟 v2.0 - Smarter Generation (In Progress)
+### 🌟 v2.0 - Smarter Generation ✅ COMPLETE
 
 **Goal**: Generation that learns from rejections and respects variety
 
-#### P0 - Must Have
-- [ ] Session rejection tracking (don't show what user just rejected)
-- [ ] Recent history exclusion (no repeats from last 14 days)
-- [ ] Regenerate with context (pass exclusions to generator)
+#### P0 - Must Have ✅
+- [x] Session rejection tracking (RejectionTracker with 1-hour expiry)
+- [x] Recent history exclusion (14-day CachedMealModel query)
+- [x] Regenerate with context (exclusions passed to WeekPlan)
+- [x] Protein variety (max 2 same protein per week, soft constraint)
 
-#### P1 - Should Have
-- [ ] Protein variety (not same protein 4x per week)
+#### P1 - Should Have (Deferred to v2.1)
 - [ ] "Hide for a while" feature (tired of a recipe)
 - [ ] Variety score indicator
 
-#### P2 - Nice to Have
+#### P2 - Nice to Have (Deferred)
 - [ ] Cuisine diversity balancing
 - [ ] Effort balancing (quick meals on weeknights)
 
 **Technical Approach**:
-- RejectionTracker: Session-persisted with 1-hour expiry
+- RejectionTracker: UserDefaults-persisted, 1-hour auto-expiry
 - History query: CachedMealModel last 14 days
-- Protein detection: Ingredient keyword matching + categories
+- ProteinDetector: Ingredient keyword matching + name/category fallback
 
 ### 🔮 v2.1 - Habit-Aware
 

@@ -67,11 +67,15 @@ final class WeekPlan {
         return rejectedId
     }
 
+    /// Maximum same protein per week (soft limit)
+    private let maxSameProteinPerWeek = 2
+
     /// Pick a random recipe that hasn't been used this week and isn't excluded
+    /// Also applies protein variety rules as a soft constraint
     private func pickRandomRecipe() -> RecipeModel? {
         // Get recipes not already in this week's plan and not excluded
         let usedIds = Set(days.compactMap { $0.recipe?.uid })
-        let available = allRecipes.filter { recipe in
+        var available = allRecipes.filter { recipe in
             !usedIds.contains(recipe.uid) && !allExcludedIds.contains(recipe.uid)
         }
 
@@ -83,20 +87,73 @@ final class WeekPlan {
                 !usedIds.contains(recipe.uid) && !externalExcludedIds.contains(recipe.uid)
             }
             if !withoutSession.isEmpty {
-                return withoutSession.randomElement()
+                available = withoutSession
+            } else {
+                // Last resort: allow anything not in this week
+                let lastResort = allRecipes.filter { !usedIds.contains($0.uid) }
+                return lastResort.randomElement()
             }
+        }
 
-            // Last resort: allow anything not in this week
-            let lastResort = allRecipes.filter { !usedIds.contains($0.uid) }
-            return lastResort.randomElement()
+        // Apply protein variety as soft constraint
+        let overusedProteins = getOverusedProteins()
+        if !overusedProteins.isEmpty {
+            let variedOptions = available.filter { recipe in
+                let protein = detectProtein(for: recipe)
+                return !overusedProteins.contains(protein)
+            }
+            if !variedOptions.isEmpty {
+                print("🥩 Protein variety: avoiding \(overusedProteins.map(\.displayName)), \(variedOptions.count) options")
+                return variedOptions.randomElement()
+            }
+            // If no options avoid overused proteins, fall through to any available
         }
 
         return available.randomElement()
     }
 
+    /// Get proteins that have been used too many times this week
+    private func getOverusedProteins() -> Set<ProteinType> {
+        var proteinCounts: [ProteinType: Int] = [:]
+
+        for day in days {
+            guard let recipe = day.recipe else { continue }
+            let protein = detectProtein(for: recipe)
+            if protein != .unknown {
+                proteinCounts[protein, default: 0] += 1
+            }
+        }
+
+        return Set(proteinCounts.filter { $0.value >= maxSameProteinPerWeek }.keys)
+    }
+
+    /// Detect protein type for a recipe
+    private func detectProtein(for recipe: RecipeModel) -> ProteinType {
+        // Try ingredients first
+        if let ingredients = recipe.ingredients {
+            let fromIngredients = ProteinDetector.detect(from: ingredients)
+            if fromIngredients != .unknown {
+                return fromIngredients
+            }
+        }
+        // Fallback to name/categories
+        return ProteinDetector.detect(name: recipe.name, categories: recipe.categories)
+    }
+
     /// Statistics for debugging/UI
     var exclusionStats: (session: Int, external: Int, total: Int) {
         (sessionExcludedIds.count, externalExcludedIds.count, allExcludedIds.count)
+    }
+
+    /// Get protein distribution for the current week
+    var proteinDistribution: [ProteinType: Int] {
+        var counts: [ProteinType: Int] = [:]
+        for day in days {
+            guard let recipe = day.recipe else { continue }
+            let protein = detectProtein(for: recipe)
+            counts[protein, default: 0] += 1
+        }
+        return counts
     }
 }
 
