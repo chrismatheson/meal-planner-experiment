@@ -37,11 +37,14 @@ CURRENT_PROJECT_VERSION: N      (e.g., 89 = git commit count)
 ## Script Usage
 
 ```bash
-./Scripts/bump-version.sh          # Update build number only
-./Scripts/bump-version.sh minor    # 2.0.0 → 2.1.0
-./Scripts/bump-version.sh major    # 2.0.0 → 3.0.0
-./Scripts/bump-version.sh patch    # 2.0.0 → 2.0.1
+./Scripts/bump-version.sh          # Bump PATCH + BUILD (default for each push)
+./Scripts/bump-version.sh minor    # 2.0.5 → 2.1.0 (new feature)
+./Scripts/bump-version.sh major    # 2.1.5 → 3.0.0 (breaking change)
+./Scripts/bump-version.sh build    # Only bump build number, keep version
 ```
+
+**Default behavior:** Each push to main bumps both PATCH and BUILD.
+- `2.0.0 (89)` → `2.0.1 (90)` → `2.0.2 (91)` → ...
 
 ## History
 
