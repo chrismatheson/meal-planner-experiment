@@ -98,13 +98,14 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 
 ### 🌟 v2.0 - Smarter Generation ✅ COMPLETE
 
-**Goal**: Generation that learns from rejections
+**Goal**: Generation that learns from rejections and respects variety
 
 #### Shipped
 - [x] Session rejection tracking (RejectionTracker with 1-hour expiry)
 - [x] Recent history exclusion (14-day CachedMealModel query)
 - [x] Regenerate with context (exclusions passed to WeekPlan)
 - [x] Rejections visible in Settings
+- [x] **Cuisine diversity** (max 2 same cuisine per week, soft constraint)
 
 #### Deferred to v2.1
 - [ ] Protein variety (ingredient parsing, max 2 same/week)
@@ -114,6 +115,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 **Technical Approach**:
 - RejectionTracker: UserDefaults-persisted, 1-hour auto-expiry
 - History query: CachedMealModel last 14 days
+- CuisineType: Category keyword matching for cuisine detection
 
 ### 🔮 v2.1 - Habit-Aware
 

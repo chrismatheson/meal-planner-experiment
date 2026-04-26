@@ -1,6 +1,64 @@
 import Foundation
 import SwiftData
 
+// MARK: - Cuisine Detection
+
+/// Known cuisine types for diversity rules
+enum CuisineType: String, CaseIterable {
+    case italian = "Italian"
+    case mexican = "Mexican"
+    case asian = "Asian"
+    case chinese = "Chinese"
+    case japanese = "Japanese"
+    case thai = "Thai"
+    case indian = "Indian"
+    case mediterranean = "Mediterranean"
+    case greek = "Greek"
+    case american = "American"
+    case french = "French"
+    case korean = "Korean"
+    case vietnamese = "Vietnamese"
+    case middleEastern = "Middle Eastern"
+    case unknown = "Unknown"
+
+    /// Keywords that indicate this cuisine (case-insensitive matching)
+    var keywords: [String] {
+        switch self {
+        case .italian: return ["italian", "pasta", "pizza"]
+        case .mexican: return ["mexican", "tex-mex", "taco", "burrito", "enchilada"]
+        case .asian: return ["asian"]
+        case .chinese: return ["chinese", "stir fry", "stir-fry"]
+        case .japanese: return ["japanese", "sushi", "teriyaki", "ramen"]
+        case .thai: return ["thai"]
+        case .indian: return ["indian", "curry", "tikka", "masala"]
+        case .mediterranean: return ["mediterranean"]
+        case .greek: return ["greek"]
+        case .american: return ["american", "bbq", "barbecue"]
+        case .french: return ["french"]
+        case .korean: return ["korean", "kimchi", "bulgogi"]
+        case .vietnamese: return ["vietnamese", "pho", "banh mi"]
+        case .middleEastern: return ["middle eastern", "lebanese", "falafel", "shawarma"]
+        case .unknown: return []
+        }
+    }
+
+    /// Detect cuisine from a recipe's categories
+    static func detect(from categories: [String]) -> CuisineType {
+        let lowercased = categories.map { $0.lowercased() }
+
+        for cuisine in CuisineType.allCases where cuisine != .unknown {
+            for keyword in cuisine.keywords {
+                if lowercased.contains(where: { $0.contains(keyword) }) {
+                    return cuisine
+                }
+            }
+        }
+        return .unknown
+    }
+}
+
+// MARK: - Week Plan
+
 /// A generated week plan - 7 dinners for the next 7 days
 @Observable
 final class WeekPlan {
@@ -15,6 +73,9 @@ final class WeekPlan {
 
     /// All available recipes for generation
     private var allRecipes: [RecipeModel]
+
+    /// Maximum same cuisine per week (soft limit)
+    private let maxSameCuisinePerWeek = 2
 
     /// Combined exclusions
     private var allExcludedIds: Set<String> {
@@ -68,10 +129,11 @@ final class WeekPlan {
     }
 
     /// Pick a random recipe that hasn't been used this week and isn't excluded
+    /// Also applies cuisine diversity rules as a soft constraint
     private func pickRandomRecipe() -> RecipeModel? {
         // Get recipes not already in this week's plan and not excluded
         let usedIds = Set(days.compactMap { $0.recipe?.uid })
-        let available = allRecipes.filter { recipe in
+        var available = allRecipes.filter { recipe in
             !usedIds.contains(recipe.uid) && !allExcludedIds.contains(recipe.uid)
         }
 
@@ -83,20 +145,60 @@ final class WeekPlan {
                 !usedIds.contains(recipe.uid) && !externalExcludedIds.contains(recipe.uid)
             }
             if !withoutSession.isEmpty {
-                return withoutSession.randomElement()
+                available = withoutSession
+            } else {
+                // Last resort: allow anything not in this week
+                let lastResort = allRecipes.filter { !usedIds.contains($0.uid) }
+                return lastResort.randomElement()
             }
+        }
 
-            // Last resort: allow anything not in this week
-            let lastResort = allRecipes.filter { !usedIds.contains($0.uid) }
-            return lastResort.randomElement()
+        // Apply cuisine diversity as soft constraint
+        let overusedCuisines = getOverusedCuisines()
+        if !overusedCuisines.isEmpty {
+            let diverseOptions = available.filter { recipe in
+                let cuisine = CuisineType.detect(from: recipe.categories)
+                return cuisine == .unknown || !overusedCuisines.contains(cuisine)
+            }
+            if !diverseOptions.isEmpty {
+                print("🍝 Cuisine diversity: avoiding \(overusedCuisines.map(\.rawValue)), \(diverseOptions.count) options")
+                return diverseOptions.randomElement()
+            }
+            // If no options avoid overused cuisines, fall through to any available
         }
 
         return available.randomElement()
     }
 
+    /// Get cuisines that have been used too many times this week
+    private func getOverusedCuisines() -> Set<CuisineType> {
+        var cuisineCounts: [CuisineType: Int] = [:]
+
+        for day in days {
+            guard let recipe = day.recipe else { continue }
+            let cuisine = CuisineType.detect(from: recipe.categories)
+            if cuisine != .unknown {
+                cuisineCounts[cuisine, default: 0] += 1
+            }
+        }
+
+        return Set(cuisineCounts.filter { $0.value >= maxSameCuisinePerWeek }.keys)
+    }
+
     /// Statistics for debugging/UI
     var exclusionStats: (session: Int, external: Int, total: Int) {
         (sessionExcludedIds.count, externalExcludedIds.count, allExcludedIds.count)
+    }
+
+    /// Get cuisine distribution for the current week
+    var cuisineDistribution: [CuisineType: Int] {
+        var counts: [CuisineType: Int] = [:]
+        for day in days {
+            guard let recipe = day.recipe else { continue }
+            let cuisine = CuisineType.detect(from: recipe.categories)
+            counts[cuisine, default: 0] += 1
+        }
+        return counts
     }
 }
 

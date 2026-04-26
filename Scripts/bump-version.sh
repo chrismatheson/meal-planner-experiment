@@ -7,8 +7,8 @@ set -e
 PROJECT_FILE="MealPlanner.xcodeproj/project.pbxproj"
 BUILD_NUM=$(git rev-list --count HEAD)
 
-# Get current base version (without -preN suffix)
-CURRENT_VERSION=$(grep "MARKETING_VERSION" "$PROJECT_FILE" | head -1 | sed 's/.*= \(.*\);/\1/' | sed 's/-pre[0-9]*//')
+# Get current base version (without -preN suffix and quotes)
+CURRENT_VERSION=$(grep "MARKETING_VERSION" "$PROJECT_FILE" | head -1 | sed 's/.*= \(.*\);/\1/' | sed 's/"//g' | sed 's/-pre[0-9]*//')
 
 # Parse version components
 MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
