@@ -77,6 +77,17 @@ struct PlanGenerationView: View {
                         .disabled(viewModel.isSyncing || viewModel.hasSynced || viewModel.isOffline)
                         .accessibilityIdentifier("SyncButton")
 
+                        // Undo button (only visible when undo is available)
+                        if viewModel.canUndo {
+                            Button {
+                                viewModel.undo()
+                            } label: {
+                                Image(systemName: "arrow.uturn.backward")
+                            }
+                            .accessibilityIdentifier("UndoButton")
+                            .accessibilityLabel("Undo last change")
+                        }
+
                         // Regenerate all button
                         Button {
                             viewModel.regenerateAll()

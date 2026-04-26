@@ -109,8 +109,67 @@ final class PlanGenerationViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.forceOffline)
     }
     
+    // MARK: - Undo Tests
+
+    func test_canUndo_initiallyFalse() {
+        XCTAssertFalse(viewModel.canUndo)
+    }
+
+    func test_regenerateAll_enablesUndo() {
+        // Arrange - Set up a week plan
+        viewModel.weekPlan = createMockWeekPlan(dayCount: 7)
+        viewModel.hasGenerated = true
+
+        // Act - Regenerate
+        viewModel.regenerateAll()
+
+        // Assert - Undo should now be available
+        XCTAssertTrue(viewModel.canUndo, "Should be able to undo after regenerateAll")
+    }
+
+    func test_regenerateDay_enablesUndo() {
+        // Arrange
+        viewModel.weekPlan = createMockWeekPlan(dayCount: 7)
+        viewModel.hasGenerated = true
+
+        // Act
+        viewModel.regenerateDay(at: 0)
+
+        // Assert
+        XCTAssertTrue(viewModel.canUndo, "Should be able to undo after regenerateDay")
+    }
+
+    func test_undo_restoresPreviousState() {
+        // Arrange
+        viewModel.weekPlan = createMockWeekPlan(dayCount: 7)
+        viewModel.hasGenerated = true
+        let originalMealName = viewModel.weekPlan?.days[0].mealName
+
+        // Act - Regenerate then undo
+        viewModel.regenerateDay(at: 0)
+        viewModel.undo()
+
+        // Assert
+        XCTAssertFalse(viewModel.canUndo, "Undo should no longer be available after undoing")
+        XCTAssertEqual(viewModel.weekPlan?.days[0].mealName, originalMealName, "Should restore original meal")
+    }
+
+    func test_undo_notAvailableAfterSync() {
+        // Arrange
+        viewModel.weekPlan = createMockWeekPlan(dayCount: 7)
+        viewModel.hasGenerated = true
+        viewModel.regenerateAll()
+        XCTAssertTrue(viewModel.canUndo)
+
+        // Act - Simulate sync completion
+        viewModel.hasSynced = true
+
+        // Assert - canUndo checks hasSynced
+        XCTAssertFalse(viewModel.canUndo, "Should not be able to undo after sync")
+    }
+
     // MARK: - Helpers
-    
+
     /// Create a mock WeekPlan for testing without needing real RecipeModels
     private func createMockWeekPlan(dayCount: Int) -> WeekPlan {
         let weekPlan = WeekPlan(recipes: [])

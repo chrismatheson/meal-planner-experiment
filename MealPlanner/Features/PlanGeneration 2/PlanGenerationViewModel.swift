@@ -23,6 +23,10 @@ final class PlanGenerationViewModel {
     var countdownSeconds: Int = 0
     private var countdownTimer: Timer?
 
+    // Undo support - stores previous day assignments before regeneration
+    private var undoSnapshot: [DayPlan]?
+    var canUndo: Bool { undoSnapshot != nil && !hasSynced }
+
     private let paprikaClient = PaprikaClient()
     private let syncStatus = SyncStatusManager.shared
 
@@ -345,6 +349,7 @@ final class PlanGenerationViewModel {
 
     /// Regenerate all days with fresh random selections
     func regenerateAll() {
+        saveUndoSnapshot()
         weekPlan?.generate()
         hasSynced = false
         startCountdown()  // Reset countdown
@@ -352,9 +357,35 @@ final class PlanGenerationViewModel {
 
     /// Regenerate a specific day
     func regenerateDay(at index: Int) {
+        saveUndoSnapshot()
         weekPlan?.regenerateDay(at: index)
         hasSynced = false
         startCountdown()  // Reset countdown
+    }
+
+    // MARK: - Undo Support
+
+    /// Save current state before making changes
+    private func saveUndoSnapshot() {
+        guard let weekPlan = weekPlan else { return }
+        // Deep copy the day plans (recipes are references, which is fine)
+        undoSnapshot = weekPlan.days.map { day in
+            DayPlan(date: day.date, recipe: day.recipe, mealName: day.mealName)
+        }
+    }
+
+    /// Restore the previous state before last regeneration
+    func undo() {
+        guard let snapshot = undoSnapshot, let weekPlan = weekPlan else { return }
+        weekPlan.days = snapshot
+        undoSnapshot = nil
+        hasSynced = false
+        startCountdown()  // Restart countdown with restored plan
+    }
+
+    /// Clear undo history (called after sync to prevent undoing synced changes)
+    private func clearUndoSnapshot() {
+        undoSnapshot = nil
     }
 
     // MARK: - Countdown Timer
@@ -493,6 +524,7 @@ final class PlanGenerationViewModel {
             try await paprikaClient.saveMeals(meals)
 
             hasSynced = true
+            clearUndoSnapshot()  // Can't undo after sync
             syncStatus.markMealsSynced()
             print("✅ Synced \(meals.count) meals to Paprika")
 
