@@ -204,6 +204,49 @@ Things to look for:
 - ⚠️ Network calls on every view appear
 - ⚠️ "Loading..." states that flash (means call was unnecessary)
 
+## Navigation State & Lifecycle Testing
+
+**Critical area often missed:** SwiftUI view lifecycle can cause redundant work.
+
+### Tab Navigation Tests (REQUIRED for any tabbed view)
+
+| Scenario | Expected | Bug If... |
+|----------|----------|-----------|
+| Switch away and back | Data persists, no reload | Loading spinner appears |
+| Background app + return | Data persists | Full reload triggered |
+| Pull-to-refresh | Forces reload | Nothing happens |
+| Navigate to new week/page | Loads new data | Shows stale data |
+
+### SwiftUI Lifecycle Traps to Test
+
+`.task` and `.onAppear` fire **every time a view appears** (including tab switches). Test that:
+
+1. **Data isn't reloaded unnecessarily** - use console logs to verify
+2. **Pull-to-refresh still works** - forced refresh path must bypass guard
+3. **State change triggers reload** - changing week/filter SHOULD reload
+
+### Required Test Cases for Stateful Views
+
+For ANY view that loads data:
+
+```swift
+// Must have tests for:
+test_viewReappear_doesNotReloadIfDataExists()
+test_pullToRefresh_forcesReloadEvenIfDataExists()
+test_contextChange_triggersReload() // e.g., changing week
+```
+
+### Console Pattern to Watch
+
+```
+// BAD - this fires on every tab switch:
+🍽️ loadExistingMeals: Starting for week 17
+🍽️ loadExistingMeals: Starting for week 17  // Same week, redundant!
+
+// GOOD - guard prevents reload:
+🍽️ loadExistingMeals: Already have data for week 17, skipping
+```
+
 ## Process Hooks - When QA Must Act
 
 ### Trigger: Developer marks feature "working"
