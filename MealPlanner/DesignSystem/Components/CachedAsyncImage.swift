@@ -55,6 +55,13 @@ struct CachedAsyncImage<Placeholder: View>: View {
                     }
             }
         }
+        .onChange(of: url) { oldURL, newURL in
+            // Reset image when URL changes so we don't show stale image
+            if oldURL != newURL {
+                image = nil
+                isLoading = false
+            }
+        }
         .task(id: url) {
             await loadImage()
         }

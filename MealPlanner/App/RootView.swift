@@ -132,6 +132,37 @@ struct SettingsView: View {
                     Text("Meal plans sync automatically after 20 seconds of inactivity.")
                 }
 
+                // Generation Section - show rejection tracker info
+                Section {
+                    let rejectionTracker = RejectionTracker.shared
+
+                    HStack {
+                        Label("Rejected Recipes", systemImage: "hand.thumbsdown")
+                        Spacer()
+                        Text("\(rejectionTracker.rejectionCount)")
+                            .foregroundStyle(.secondary)
+                    }
+
+                    if rejectionTracker.rejectionCount > 0 {
+                        if let lastUpdated = rejectionTracker.lastUpdated {
+                            HStack {
+                                Label("Last Rejection", systemImage: "clock")
+                                Spacer()
+                                Text(lastUpdated.formatted(date: .omitted, time: .shortened))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+
+                        Button("Clear Rejections") {
+                            rejectionTracker.clearRejections()
+                        }
+                    }
+                } header: {
+                    Text("Generation")
+                } footer: {
+                    Text("Rejected recipes won't be suggested again this session. Resets after 1 hour or when you sync.")
+                }
+
                 #if DEBUG
                 Section("Debug: Keychain Status") {
                     Text(keychainStatus)
