@@ -29,6 +29,7 @@ final class PlanGenerationViewModel {
 
     private let paprikaClient = PaprikaClient()
     private let syncStatus = SyncStatusManager.shared
+    private let rejectionTracker = RejectionTracker.shared
 
     /// Passthrough to shared sync status
     var isSyncing: Bool {
@@ -57,6 +58,9 @@ final class PlanGenerationViewModel {
         }
 
         print("🍽️ loadExistingMeals: Starting for week \(currentWeekNumber) of \(currentWeekYear)")
+
+        // Load recent history for exclusions (last 14 days)
+        loadRecentHistory(context: context)
 
         // 1. STALE: Load from cache immediately (fast, works offline)
         let cachedMeals = loadFromCache(context: context)
@@ -356,17 +360,66 @@ final class PlanGenerationViewModel {
     /// Regenerate all days with fresh random selections
     func regenerateAll() {
         saveUndoSnapshot()
+
+        // Track all current recipes as rejected
+        if let currentRecipes = weekPlan?.days.compactMap({ $0.recipe?.uid }) {
+            rejectionTracker.rejectRecipes(currentRecipes)
+        }
+
+        // Apply exclusions (rejections + history) and regenerate
+        applyExclusionsToWeekPlan()
         weekPlan?.generate()
         hasSynced = false
-        startCountdown()  // Reset countdown
+        startCountdown()
     }
 
     /// Regenerate a specific day
     func regenerateDay(at index: Int) {
         saveUndoSnapshot()
-        weekPlan?.regenerateDay(at: index)
+
+        // Track the rejected recipe
+        if let rejectedId = weekPlan?.regenerateDay(at: index) {
+            rejectionTracker.rejectRecipe(rejectedId)
+        }
+
         hasSynced = false
-        startCountdown()  // Reset countdown
+        startCountdown()
+    }
+
+    /// Apply all exclusions (rejections + history) to the week plan
+    private func applyExclusionsToWeekPlan() {
+        var exclusions = rejectionTracker.rejectedRecipeIds
+        exclusions.formUnion(recentHistoryRecipeIds)
+        weekPlan?.setExclusions(exclusions)
+        print("📋 Applied exclusions: \(rejectionTracker.rejectionCount) rejected + \(recentHistoryRecipeIds.count) from history")
+    }
+
+    /// Recipe UIDs from meals in the last 14 days (to avoid repeats)
+    private var recentHistoryRecipeIds: Set<String> {
+        // This will be populated from SwiftData context
+        // For now, return empty - will be wired up in loadExistingMeals
+        cachedRecentRecipeIds
+    }
+
+    /// Cached recipe IDs from recent history
+    private var cachedRecentRecipeIds: Set<String> = []
+
+    /// Load recent history from SwiftData (last 14 days)
+    func loadRecentHistory(context: ModelContext) {
+        let fourteenDaysAgo = Calendar.current.date(byAdding: .day, value: -14, to: Date()) ?? Date()
+
+        let descriptor = FetchDescriptor<CachedMealModel>(
+            predicate: #Predicate { $0.date >= fourteenDaysAgo }
+        )
+
+        do {
+            let recentMeals = try context.fetch(descriptor)
+            cachedRecentRecipeIds = Set(recentMeals.compactMap { $0.recipeUid })
+            print("📆 Loaded \(cachedRecentRecipeIds.count) recipes from last 14 days")
+        } catch {
+            print("⚠️ Failed to load recent history: \(error)")
+            cachedRecentRecipeIds = []
+        }
     }
 
     // MARK: - Undo Support
@@ -531,6 +584,7 @@ final class PlanGenerationViewModel {
 
             hasSynced = true
             clearUndoSnapshot()  // Can't undo after sync
+            rejectionTracker.clearRejections()  // Clear rejections after successful sync
             syncStatus.markMealsSynced()
             print("✅ Synced \(meals.count) meals to Paprika")
 

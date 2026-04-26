@@ -6,57 +6,97 @@ import SwiftData
 final class WeekPlan {
     /// The 7 day assignments (index 0 = today, index 6 = 6 days from now)
     var days: [DayPlan]
-    
-    /// Recipes that have been excluded (used, then regenerated)
-    private var excludedRecipeIds: Set<String> = []
-    
+
+    /// Recipes that have been excluded during this session (regenerated)
+    private var sessionExcludedIds: Set<String> = []
+
+    /// External exclusions (from rejection tracker, history, etc.)
+    private var externalExcludedIds: Set<String> = []
+
     /// All available recipes for generation
     private var allRecipes: [RecipeModel]
-    
+
+    /// Combined exclusions
+    private var allExcludedIds: Set<String> {
+        sessionExcludedIds.union(externalExcludedIds)
+    }
+
     init(recipes: [RecipeModel]) {
         self.allRecipes = recipes
         self.days = []
     }
-    
+
+    /// Set external exclusions (rejected recipes, recent history)
+    func setExclusions(_ recipeIds: Set<String>) {
+        externalExcludedIds = recipeIds
+        print("📋 WeekPlan exclusions set: \(recipeIds.count) recipes")
+    }
+
+    /// Add to external exclusions
+    func addExclusions(_ recipeIds: Set<String>) {
+        externalExcludedIds.formUnion(recipeIds)
+    }
+
     /// Generate a fresh 7-day plan with random recipes
     func generate() {
-        excludedRecipeIds.removeAll()
+        sessionExcludedIds.removeAll()
         days = (0..<7).map { dayOffset in
             let date = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date()) ?? Date()
             let recipe = pickRandomRecipe()
             return DayPlan(date: date, recipe: recipe)
         }
     }
-    
+
     /// Regenerate a specific day with a different recipe
-    func regenerateDay(at index: Int) {
-        guard index >= 0 && index < days.count else { return }
-        
-        // Exclude current recipe from future picks
-        if let currentRecipe = days[index].recipe {
-            excludedRecipeIds.insert(currentRecipe.uid)
+    /// Returns the rejected recipe ID (if any) for tracking
+    @discardableResult
+    func regenerateDay(at index: Int) -> String? {
+        guard index >= 0 && index < days.count else { return nil }
+
+        // Track the rejected recipe
+        let rejectedId = days[index].recipe?.uid
+
+        // Exclude current recipe from future picks this session
+        if let rejectedId = rejectedId {
+            sessionExcludedIds.insert(rejectedId)
         }
-        
+
         // Pick a new recipe
         days[index].recipe = pickRandomRecipe()
+
+        return rejectedId
     }
-    
-    /// Pick a random recipe that hasn't been used this week
+
+    /// Pick a random recipe that hasn't been used this week and isn't excluded
     private func pickRandomRecipe() -> RecipeModel? {
         // Get recipes not already in this week's plan and not excluded
         let usedIds = Set(days.compactMap { $0.recipe?.uid })
         let available = allRecipes.filter { recipe in
-            !usedIds.contains(recipe.uid) && !excludedRecipeIds.contains(recipe.uid)
+            !usedIds.contains(recipe.uid) && !allExcludedIds.contains(recipe.uid)
         }
-        
-        // If we've exhausted all recipes, reset exclusions (but keep week duplicates blocked)
+
+        // If we've exhausted all recipes, relax exclusions progressively
         if available.isEmpty {
-            excludedRecipeIds.removeAll()
-            let stillAvailable = allRecipes.filter { !usedIds.contains($0.uid) }
-            return stillAvailable.randomElement()
+            // First, try without session exclusions
+            sessionExcludedIds.removeAll()
+            let withoutSession = allRecipes.filter { recipe in
+                !usedIds.contains(recipe.uid) && !externalExcludedIds.contains(recipe.uid)
+            }
+            if !withoutSession.isEmpty {
+                return withoutSession.randomElement()
+            }
+
+            // Last resort: allow anything not in this week
+            let lastResort = allRecipes.filter { !usedIds.contains($0.uid) }
+            return lastResort.randomElement()
         }
-        
+
         return available.randomElement()
+    }
+
+    /// Statistics for debugging/UI
+    var exclusionStats: (session: Int, external: Int, total: Int) {
+        (sessionExcludedIds.count, externalExcludedIds.count, allExcludedIds.count)
     }
 }
 
