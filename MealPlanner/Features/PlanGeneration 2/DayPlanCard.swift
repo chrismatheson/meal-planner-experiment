@@ -7,20 +7,19 @@ struct DayPlanCard: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            // Recipe image with disk caching
-            CachedAsyncImage(url: day.recipe?.imageURL) {
-                Rectangle()
-                    .fill(Color.paprikaCream)
-                    .overlay {
+            // Recipe image with disk caching - use GeometryReader to ensure proper clipping
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.paprikaCream)
+                .frame(width: 80, height: 80)
+                .overlay {
+                    CachedAsyncImage(url: day.recipe?.imageURL) {
                         Image(systemName: "fork.knife")
                             .font(.title2)
                             .foregroundStyle(Color.paprikaPrimary.opacity(0.5))
                     }
-            }
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 80, height: 80)
-            .clipped()
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .scaledToFill()
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             
             // Day and recipe info
             VStack(alignment: .leading, spacing: 4) {
