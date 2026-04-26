@@ -1,54 +1,49 @@
 import SwiftUI
 
 /// Card showing a single day's meal assignment
+/// Tap the card to view recipe details, tap the refresh button to regenerate
 struct DayPlanCard: View {
     let day: DayPlan
     let onRegenerate: () -> Void
 
     var body: some View {
         HStack(spacing: 12) {
-            // Recipe image with disk caching - use GeometryReader to ensure proper clipping
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.paprikaCream)
-                .frame(width: 80, height: 80)
-                .overlay {
-                    CachedAsyncImage(url: day.recipe?.imageURL) {
-                        Image(systemName: "fork.knife")
-                            .font(.title2)
-                            .foregroundStyle(Color.paprikaPrimary.opacity(0.5))
+            // Recipe image - tappable to view details
+            recipeImage
+
+            // Day and recipe info - also tappable
+            NavigationLink(value: day.recipe) {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(day.dayName)
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color.paprikaPrimary)
+
+                        Text(day.shortDate)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
-                    .scaledToFill()
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-            
-            // Day and recipe info
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(day.dayName)
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Color.paprikaPrimary)
-                    
-                    Text(day.shortDate)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                
-                Text(day.displayName)
-                    .font(.headline)
-                    .lineLimit(2)
-                    .foregroundStyle(day.hasMeal ? .primary : .secondary)
-                
-                if let prepTime = day.recipe?.prepTime, !prepTime.isEmpty {
-                    Label(prepTime, systemImage: "clock")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+
+                    Text(day.displayName)
+                        .font(.headline)
+                        .lineLimit(2)
+                        .foregroundStyle(day.hasMeal ? .primary : .secondary)
+                        .multilineTextAlignment(.leading)
+
+                    if let prepTime = day.recipe?.prepTime, !prepTime.isEmpty {
+                        Label(prepTime, systemImage: "clock")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
-            
+            .disabled(day.recipe == nil)
+            .buttonStyle(.plain)
+
             Spacer()
-            
-            // Regenerate button
+
+            // Regenerate button (separate action, not navigation)
             Button(action: onRegenerate) {
                 Image(systemName: "arrow.clockwise")
                     .font(.title3)
@@ -62,6 +57,27 @@ struct DayPlanCard: View {
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+    }
+
+    // MARK: - Recipe Image
+
+    private var recipeImage: some View {
+        NavigationLink(value: day.recipe) {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.paprikaCream)
+                .frame(width: 80, height: 80)
+                .overlay {
+                    CachedAsyncImage(url: day.recipe?.imageURL) {
+                        Image(systemName: "fork.knife")
+                            .font(.title2)
+                            .foregroundStyle(Color.paprikaPrimary.opacity(0.5))
+                    }
+                    .scaledToFill()
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .disabled(day.recipe == nil)
+        .buttonStyle(.plain)
     }
 }
 

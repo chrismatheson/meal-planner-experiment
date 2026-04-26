@@ -96,6 +96,10 @@ struct PlanGenerationView: View {
             .onLongPressGesture(minimumDuration: 1.5) {
                 viewModel.toggleForceOffline()
             }
+            // Navigation to recipe detail view
+            .navigationDestination(for: RecipeModel.self) { recipe in
+                RecipeDetailView(recipe: recipe)
+            }
         }
     }
 }

@@ -19,6 +19,7 @@
 		1B4013BA2F9D6D0000367976 /* ImageCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4013BB2F9D6D0000367976 /* ImageCacheTests.swift */; };
 		1BBB364E2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */; };
 		1BBB364F2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */; };
+		1BBB36512F9E20DF00CC09E9 /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36502F9E20DF00CC09E9 /* RecipeDetailView.swift */; };
 		1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
 		1BC32F3C2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
 		1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
@@ -70,6 +71,7 @@
 		1B4013B92F9D6C0000367976 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		1B4013BB2F9D6D0000367976 /* ImageCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheTests.swift; sourceTree = "<group>"; };
 		1BBB364D2F9E1B5100CC09E9 /* PlanGenerationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModelTests.swift; sourceTree = "<group>"; };
+		1BBB36502F9E20DF00CC09E9 /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		1BC32F372F92812400DF473E /* WeekPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPlan.swift; sourceTree = "<group>"; };
 		1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
 		1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			children = (
 				07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */,
 				826B5F30FAC90E540982E4ED /* RecipeListViewModel.swift */,
+				1BBB36502F9E20DF00CC09E9 /* RecipeDetailView.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				1B4013B12F9D6A0000367976 /* CachedAsyncImage.swift in Sources */,
 				1B4013B32F9D6B0000367976 /* SyncStatusManager.swift in Sources */,
 				1B4013B52F9D6B0100367976 /* PullToRevealRefresh.swift in Sources */,
+				1BBB36512F9E20DF00CC09E9 /* RecipeDetailView.swift in Sources */,
 				1B4013B82F9D6C0000367976 /* SkeletonView.swift in Sources */,
 				904E584A4C763B72C0D2722D /* LoginView.swift in Sources */,
 				1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */,
