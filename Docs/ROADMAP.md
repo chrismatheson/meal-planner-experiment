@@ -71,11 +71,13 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 
 **Success Criteria**: Generate → tweak → synced in under 30 seconds
 
-### 📈 v1.1 - Polish
+### 📈 v1.1 - Polish (In Progress)
 
 **Goal**: Refinements based on real usage
 
-- [ ] Loading states and error handling
+- [x] Image caching (200MB disk cache, shimmer loading, retry on failure)
+- [x] Sync status visibility (SyncStatusManager, pull-to-reveal)
+- [x] Skeleton loading screens (WeekPlanSkeletonView)
 - [ ] Recipe photo tap → show name/description
 - [ ] "Undo" last regeneration
 - [ ] Accessibility audit
