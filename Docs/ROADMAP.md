@@ -91,6 +91,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 - [x] Stale-while-refresh for recipes (show cache immediately, refresh in background)
 - [x] Stale-while-refresh for meals (same pattern)
 - [x] Staleness indicator (StalenessIndicator component, shows "Synced Xm ago")
+- [x] Offline-first auth (skip login when offline if cached data exists)
 - [ ] Offline sync queue (queue changes, sync when back online) [deferred to v2.1]
 
 **Pattern**: Always show cached data first → fetch fresh in background → update UI when ready
