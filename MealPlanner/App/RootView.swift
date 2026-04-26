@@ -80,7 +80,17 @@ struct SettingsView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
-                    
+
+                    // Offline mode indicator
+                    if appState.isOfflineMode {
+                        HStack {
+                            Label("Mode", systemImage: "wifi.slash")
+                            Spacer()
+                            Text("Offline")
+                                .foregroundStyle(.orange)
+                        }
+                    }
+
                     Button("Sign Out", role: .destructive) {
                         appState.signOut()
                     }

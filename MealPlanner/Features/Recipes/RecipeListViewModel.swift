@@ -31,7 +31,8 @@ final class RecipeListViewModel {
         }
 
         guard let client = client else {
-            print("No authenticated client available")
+            print("📶 No authenticated client - offline mode")
+            isOffline = true
             return
         }
 

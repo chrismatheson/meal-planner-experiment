@@ -7,6 +7,7 @@ final class AppState {
     var isAuthenticated: Bool = false
     var isLoading: Bool = false
     var isRestoringSession: Bool = true  // True until we've checked for stored session
+    var isOfflineMode: Bool = false      // True when authenticated via cache (no network)
     var currentUser: User?
     var paprikaClient: PaprikaClient?
 
@@ -20,6 +21,7 @@ final class AppState {
     }
 
     /// Attempts to restore a previous session using stored credentials
+    /// Supports offline-first: if we have credentials AND cached data, allow access even without network
     @MainActor
     func tryRestoreSession() async {
         defer { isRestoringSession = false }
@@ -58,10 +60,11 @@ final class AppState {
                 self.paprikaClient = client
                 self.currentUser = User(email: storedEmail)
                 self.isAuthenticated = true
+                self.isOfflineMode = false
                 print("✅ Session restored from stored token")
                 return
             } catch {
-                print("⚠️ Stored token invalid, will re-authenticate...")
+                print("⚠️ Stored token invalid or offline, will try re-auth...")
             }
         }
 
@@ -76,12 +79,29 @@ final class AppState {
             self.paprikaClient = client
             self.currentUser = User(email: storedEmail)
             self.isAuthenticated = true
+            self.isOfflineMode = false
             print("✅ Session restored via re-authentication")
         } catch {
-            print("❌ Re-authentication failed: \(error)")
-            // Clear all credentials - user will need to login manually
-            keychain.clearAll()
+            // OFFLINE-FIRST: If we have credentials AND cached data, allow offline access
+            if hasCachedData {
+                print("📶 Offline with cached data - allowing offline access")
+                self.currentUser = User(email: storedEmail)
+                self.isAuthenticated = true
+                self.isOfflineMode = true
+                // paprikaClient stays nil - views will use cached data
+            } else {
+                print("❌ Re-authentication failed and no cached data: \(error)")
+                // Only clear credentials if we have no cached data to show
+                keychain.clearAll()
+            }
         }
+    }
+
+    /// Check if we have cached data that can be shown offline
+    private var hasCachedData: Bool {
+        // Check if we've ever synced recipes or meals
+        let syncManager = SyncStatusManager.shared
+        return syncManager.lastRecipeSyncTime != nil || syncManager.lastMealSyncTime != nil
     }
 
     func signIn(email: String, password: String) async throws {
