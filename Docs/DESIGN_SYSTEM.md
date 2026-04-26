@@ -277,7 +277,9 @@ Document any intentional deviations from Paprika's design with rationale:
 
 | Element | Paprika Style | Our Style | Rationale |
 |---------|---------------|-----------|-----------|
-| *None yet* | | | |
+| Meal card thumbnail | 44×44pt | 80×80pt | Card-based layout benefits from larger images for meal planning context |
+| Card layout | List-style rows | Card grid | Week view needs at-a-glance scanning; cards provide better visual separation |
+| Hero image (detail) | N/A | 280pt edge-to-edge | RecipeDetailView is a new screen type; hero image provides visual impact |
 
 ---
 

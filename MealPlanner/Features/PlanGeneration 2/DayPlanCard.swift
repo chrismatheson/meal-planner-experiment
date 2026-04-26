@@ -48,7 +48,7 @@ struct DayPlanCard: View {
                 Image(systemName: "arrow.clockwise")
                     .font(.title3)
                     .foregroundStyle(Color.paprikaPrimary)
-                    .padding(8)
+                    .padding(12)  // 44pt minimum tap target
                     .background(Color.paprikaPrimary.opacity(0.1))
                     .clipShape(Circle())
             }
