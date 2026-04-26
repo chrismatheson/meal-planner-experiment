@@ -23,7 +23,6 @@
 		1BBB36552F9E39E600CC09E9 /* SyncStatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36542F9E39E600CC09E9 /* SyncStatusIndicator.swift */; };
 		1BBB36592F9E3BF800CC09E9 /* StalenessIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB36582F9E3BF800CC09E9 /* StalenessIndicator.swift */; };
 		1BBB365C2F9E429100CC09E9 /* RejectionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB365B2F9E429100CC09E9 /* RejectionTracker.swift */; };
-		1BBB365E2F9E435500CC09E9 /* ProteinDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB365D2F9E435500CC09E9 /* ProteinDetector.swift */; };
 		1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F372F92812400DF473E /* WeekPlan.swift */; };
 		1BC32F3C2F92812C00DF473E /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */; };
 		1BC32F3F2F92813B00DF473E /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */; };
@@ -79,7 +78,6 @@
 		1BBB36542F9E39E600CC09E9 /* SyncStatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusIndicator.swift; sourceTree = "<group>"; };
 		1BBB36582F9E3BF800CC09E9 /* StalenessIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalenessIndicator.swift; sourceTree = "<group>"; };
 		1BBB365B2F9E429100CC09E9 /* RejectionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectionTracker.swift; sourceTree = "<group>"; };
-		1BBB365D2F9E435500CC09E9 /* ProteinDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinDetector.swift; sourceTree = "<group>"; };
 		1BC32F372F92812400DF473E /* WeekPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPlan.swift; sourceTree = "<group>"; };
 		1BC32F3A2F92812C00DF473E /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
 		1BC32F3D2F92813B00DF473E /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				1BBB365B2F9E429100CC09E9 /* RejectionTracker.swift */,
-				1BBB365D2F9E435500CC09E9 /* ProteinDetector.swift */,
 			);
 			path = "Generation 2";
 			sourceTree = "<group>";
@@ -446,7 +443,6 @@
 				1BBB36592F9E3BF800CC09E9 /* StalenessIndicator.swift in Sources */,
 				1BC32F392F92812400DF473E /* WeekPlan.swift in Sources */,
 				A791ADCE09C55CA39D1CB5E0 /* AppState.swift in Sources */,
-				1BBB365E2F9E435500CC09E9 /* ProteinDetector.swift in Sources */,
 				40415DE993C66754389CA911 /* KeychainService.swift in Sources */,
 				0D98A1CCF57FC062B46EA087 /* LoadingView.swift in Sources */,
 				1B4013B12F9D6A0000367976 /* CachedAsyncImage.swift in Sources */,
@@ -656,7 +652,7 @@
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
@@ -672,7 +668,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0-pre86;
+				MARKETING_VERSION = "2.0.0"-pre87;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
 				SDKROOT = iphoneos;
@@ -774,7 +770,7 @@
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 87;
 				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
@@ -790,7 +786,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0-pre86;
+				MARKETING_VERSION = "2.0.0"-pre87;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
