@@ -7,25 +7,19 @@ struct DayPlanCard: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            // Recipe image
-            AsyncImage(url: day.recipe?.imageURL) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                case .failure:
-                    Image(systemName: "photo")
-                        .font(.title)
-                        .foregroundStyle(.secondary)
-                case .empty:
-                    ProgressView()
-                @unknown default:
-                    Color.gray.opacity(0.2)
-                }
+            // Recipe image with disk caching
+            CachedAsyncImage(url: day.recipe?.imageURL) {
+                Rectangle()
+                    .fill(Color.paprikaCream)
+                    .overlay {
+                        Image(systemName: "fork.knife")
+                            .font(.title2)
+                            .foregroundStyle(Color.paprikaPrimary.opacity(0.5))
+                    }
             }
+            .aspectRatio(contentMode: .fill)
             .frame(width: 80, height: 80)
-            .background(Color.gray.opacity(0.1))
+            .clipped()
             .clipShape(RoundedRectangle(cornerRadius: 8))
             
             // Day and recipe info

@@ -22,7 +22,10 @@ struct PlanGenerationView: View {
                         syncError: viewModel.syncError,
                         isFromCache: viewModel.isFromCache,
                         isOffline: viewModel.isOffline,
-                        loadingStatus: viewModel.loadingStatus
+                        loadingStatus: viewModel.loadingStatus,
+                        onRefresh: {
+                            await viewModel.loadExistingMeals(context: modelContext)
+                        }
                     )
                 } else {
                     GeneratePromptView(
@@ -178,9 +181,12 @@ struct WeekPlanReviewView: View {
     var isFromCache: Bool = false
     var isOffline: Bool = false
     var loadingStatus: String = ""
+    var onRefresh: (() async -> Void)?
 
     var body: some View {
-        ScrollView {
+        PullToRevealRefresh {
+            await onRefresh?()
+        } content: {
             LazyVStack(spacing: 16) {
                 // Week info header
                 let (year, week) = Calendar.currentISOWeek
@@ -247,6 +253,7 @@ struct WeekPlanReviewView: View {
         }
     }
 }
+
 
 #Preview {
     PlanGenerationView()

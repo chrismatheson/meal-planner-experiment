@@ -89,25 +89,11 @@ struct RecipeCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
-            // Image
-            AsyncImage(url: recipe.imageURL) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fill)
-                case .failure:
-                    placeholderImage
-                case .empty:
-                    placeholderImage
-                        .overlay {
-                            ProgressView()
-                        }
-                @unknown default:
-                    placeholderImage
-                }
+            // Image with disk caching
+            CachedAsyncImage(url: recipe.imageURL) {
+                placeholderImage
             }
-            .aspectRatio(1, contentMode: .fit)
+            .aspectRatio(1, contentMode: .fill)
             .clipped()
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
             

@@ -5,15 +5,16 @@ import SwiftData
 final class RecipeListViewModel {
     var isLoading = false
     var error: Error?
-    var lastSyncTime: Date?
     var isOffline = false
+
+    private let syncStatus = SyncStatusManager.shared
 
     /// Cooldown period between automatic syncs (5 minutes)
     private let syncCooldown: TimeInterval = 300
 
     /// Returns true if we've synced within the cooldown period
     var hasSyncedRecently: Bool {
-        guard let lastSync = lastSyncTime else { return false }
+        guard let lastSync = syncStatus.lastRecipeSyncTime else { return false }
         return Date().timeIntervalSince(lastSync) < syncCooldown
     }
 
@@ -24,7 +25,8 @@ final class RecipeListViewModel {
     func syncRecipes(context: ModelContext, client: PaprikaClient?, force: Bool = false) async {
         // Skip if we synced recently (unless forced, e.g., pull-to-refresh)
         if !force && hasSyncedRecently {
-            print("⏳ Skipping sync - synced \(Int(Date().timeIntervalSince(lastSyncTime!)))s ago")
+            let lastSync = syncStatus.lastRecipeSyncTime!
+            print("⏳ Skipping sync - synced \(Int(Date().timeIntervalSince(lastSync)))s ago")
             return
         }
 
@@ -63,7 +65,7 @@ final class RecipeListViewModel {
             }
 
             try context.save()
-            lastSyncTime = Date()
+            syncStatus.markRecipesSynced()
             error = nil
         } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
             // Offline - keep using cached data

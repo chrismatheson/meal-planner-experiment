@@ -5,7 +5,6 @@ import SwiftData
 final class PlanGenerationViewModel {
     var weekPlan: WeekPlan?
     var isGenerating = false
-    var isSyncing = false
     var isLoadingExisting = false
     var hasGenerated = false
     var hasSynced = false
@@ -25,6 +24,13 @@ final class PlanGenerationViewModel {
     private var countdownTimer: Timer?
 
     private let paprikaClient = PaprikaClient()
+    private let syncStatus = SyncStatusManager.shared
+
+    /// Passthrough to shared sync status
+    var isSyncing: Bool {
+        get { syncStatus.isSyncingMeals }
+        set { syncStatus.isSyncingMeals = newValue }
+    }
 
     init() {
         let (year, week) = Calendar.currentISOWeek
@@ -408,10 +414,12 @@ final class PlanGenerationViewModel {
             try await paprikaClient.saveMeals(meals)
 
             hasSynced = true
+            syncStatus.markMealsSynced()
             print("✅ Synced \(meals.count) meals to Paprika")
 
         } catch {
             syncError = "Sync failed: \(error.localizedDescription)"
+            syncStatus.setError(error.localizedDescription)
             print("❌ Sync failed: \(error)")
         }
 
