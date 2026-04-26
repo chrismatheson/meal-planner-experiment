@@ -55,7 +55,11 @@ final class RecipeListViewModel {
             let existingByUid = Dictionary(uniqueKeysWithValues: existingRecipes.map { ($0.uid, $0) })
 
             // Update or insert recipes
+            var recipesWithPhotos = 0
             for paprikaRecipe in paprikaRecipes {
+                if paprikaRecipe.photoUrl != nil {
+                    recipesWithPhotos += 1
+                }
                 if let existing = existingByUid[paprikaRecipe.uid] {
                     existing.update(from: paprikaRecipe)
                 } else {
@@ -63,6 +67,7 @@ final class RecipeListViewModel {
                     context.insert(newRecipe)
                 }
             }
+            print("📸 \(recipesWithPhotos)/\(paprikaRecipes.count) recipes have photoUrl")
 
             try context.save()
             syncStatus.markRecipesSynced()
