@@ -23,6 +23,7 @@ targets:
     info:
       path: MealPlanner/Info.plist
       properties:
+        ITSAppUsesNonExemptEncryption: false
         NSAppTransportSecurity:
           NSExceptionDomains:
             s3.amazonaws.com:
@@ -33,8 +34,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.curleybracketsengineering.paprikaplanner
         PRODUCT_NAME: paprikaplanner
         PRODUCT_MODULE_NAME: paprikaplanner
-        MARKETING_VERSION: "2.0.4"
-        CURRENT_PROJECT_VERSION: 93
+        MARKETING_VERSION: "2.0.5"
+        CURRENT_PROJECT_VERSION: 94
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: MealPlanner
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -63,8 +64,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.curleybracketsengineering.paprikaplanner
         PRODUCT_NAME: paprikaplanner
         PRODUCT_MODULE_NAME: paprikaplanner
-        MARKETING_VERSION: "2.0.4"
-        CURRENT_PROJECT_VERSION: 93
+        MARKETING_VERSION: "2.0.5"
+        CURRENT_PROJECT_VERSION: 94
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: MealPlanner
         MACOSX_DEPLOYMENT_TARGET: "14.0"
