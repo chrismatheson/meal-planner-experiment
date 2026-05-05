@@ -7,6 +7,9 @@ final class RecipeListViewModel {
     var error: Error?
     var isOffline = false
 
+    /// Exposes sync engine state for progress UI
+    let syncEngine = RecipeSyncEngine()
+
     private let syncStatus = SyncStatusManager.shared
 
     /// Cooldown period between automatic syncs (5 minutes)
@@ -18,10 +21,11 @@ final class RecipeListViewModel {
         return Date().timeIntervalSince(lastSync) < syncCooldown
     }
 
-    /// Sync recipes from Paprika API to local cache
+    /// Sync recipes from Paprika API to local cache using hash-based incremental sync.
     /// - If offline or API fails, cached data remains available
     /// - Shows loading state only on first load (when cache is empty)
     /// - Throttled: won't sync again within cooldown period unless forced
+    @MainActor
     func syncRecipes(context: ModelContext, client: PaprikaClient?, force: Bool = false) async {
         // Skip if we synced recently (unless forced, e.g., pull-to-refresh)
         if !force && hasSyncedRecently {
@@ -45,50 +49,22 @@ final class RecipeListViewModel {
         if !hasCachedData {
             isLoading = true
         }
-        defer { isLoading = false }
 
-        do {
-            let paprikaRecipes = try await client.fetchRecipes()
+        let result = await syncEngine.sync(client: client, context: context)
+        isLoading = false
 
-            // Success - not offline
-            isOffline = false
-
-            let existingByUid = Dictionary(uniqueKeysWithValues: existingRecipes.map { ($0.uid, $0) })
-
-            // Update or insert recipes
-            var recipesWithPhotos = 0
-            for paprikaRecipe in paprikaRecipes {
-                if paprikaRecipe.photoUrl != nil {
-                    recipesWithPhotos += 1
-                }
-                if let existing = existingByUid[paprikaRecipe.uid] {
-                    existing.update(from: paprikaRecipe)
-                } else {
-                    let newRecipe = RecipeModel(from: paprikaRecipe)
-                    context.insert(newRecipe)
-                }
+        if case .failed(let message) = syncEngine.phase {
+            if hasCachedData {
+                print("⚠️ Sync failed but cached data available: \(message)")
+            } else {
+                self.error = PaprikaError.networkError(
+                    NSError(domain: "RecipeSync", code: -1, userInfo: [NSLocalizedDescriptionKey: message])
+                )
             }
-            print("📸 \(recipesWithPhotos)/\(paprikaRecipes.count) recipes have photoUrl")
-
-            try context.save()
-            syncStatus.markRecipesSynced()
-            error = nil
-        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
-            // Offline - keep using cached data
             isOffline = true
-            if hasCachedData {
-                print("📶 Offline - using cached recipes")
-            } else {
-                error = urlError
-            }
-        } catch {
-            // Other error - keep using cached data if available
-            if hasCachedData {
-                print("⚠️ Sync failed but cached data available: \(error)")
-            } else {
-                self.error = error
-            }
-            print("Failed to sync recipes: \(error)")
+        } else {
+            isOffline = false
+            error = nil
         }
     }
 }

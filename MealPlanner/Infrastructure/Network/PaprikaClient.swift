@@ -105,15 +105,24 @@ actor PaprikaClient {
     }
     
     // MARK: - Recipes
-    
+
+    /// Fetches all recipe stubs (uid + hash) for incremental sync
+    /// Returns the full list with no limit — use hashes to determine which need detail fetching
+    func fetchRecipeStubs() async throws -> [RecipeStub] {
+        let listResponse: RecipesListResponse = try await syncRequest(endpoint: "sync/recipes/")
+        print("📋 Found \(listResponse.result.count) recipe stubs")
+        return listResponse.result
+    }
+
     /// Fetches recipes (list first, then details for each)
-    /// Limited to first 50 for performance - TODO: add pagination
+    /// Limited to first 50 for performance — prefer RecipeSyncEngine for full sync
+    @available(*, deprecated, message: "Use RecipeSyncEngine for full hash-based sync")
     func fetchRecipes(limit: Int = 50) async throws -> [PaprikaRecipe] {
         // First get the list of recipe UIDs
         let listResponse: RecipesListResponse = try await syncRequest(endpoint: "sync/recipes/")
-        
+
         print("Found \(listResponse.result.count) recipes, fetching first \(min(limit, listResponse.result.count))...")
-        
+
         // Fetch details for each (limited for performance)
         var recipes: [PaprikaRecipe] = []
         for stub in listResponse.result.prefix(limit) {
@@ -125,7 +134,7 @@ actor PaprikaClient {
                 print("  Failed to fetch recipe \(stub.uid): \(error)")
             }
         }
-        
+
         return recipes
     }
     
@@ -134,6 +143,15 @@ actor PaprikaClient {
         return response.result
     }
     
+    // MARK: - Categories
+
+    /// Fetches all categories from Paprika
+    func fetchCategories() async throws -> [PaprikaCategory] {
+        let response: CategoriesResponse = try await syncRequest(endpoint: "sync/categories/")
+        print("📂 Found \(response.result.count) categories")
+        return response.result
+    }
+
     // MARK: - Meal Plans
 
     func fetchMealItems() async throws -> [PaprikaMealItem] {

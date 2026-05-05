@@ -25,7 +25,7 @@ struct RecipeListView: View {
         NavigationStack {
             Group {
                 if recipes.isEmpty && viewModel.isLoading {
-                    LoadingView(message: "Loading recipes...")
+                    syncProgressView
                 } else if recipes.isEmpty {
                     emptyState
                 } else {
@@ -73,6 +73,32 @@ struct RecipeListView: View {
         }
     }
     
+    /// Shows progress during initial full sync (when no cached data exists)
+    private var syncProgressView: some View {
+        VStack(spacing: Spacing.md) {
+            let engine = viewModel.syncEngine
+            switch engine.phase {
+            case .fetchingStubs, .comparing:
+                ProgressView()
+                    .controlSize(.large)
+                Text("Checking for recipes...")
+                    .font(.headline)
+            case .fetchingDetails:
+                ProgressView(value: engine.progress)
+                    .progressViewStyle(.linear)
+                    .padding(.horizontal, Spacing.xl)
+                Text("Syncing recipes (\(engine.syncedRecipes)/\(engine.totalRecipes))")
+                    .font(.headline)
+                Text("First sync downloads your full library")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            default:
+                LoadingView(message: "Loading recipes...")
+            }
+        }
+        .padding()
+    }
+
     private var emptyState: some View {
         ContentUnavailableView {
             Label("No Recipes", systemImage: "book")

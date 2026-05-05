@@ -22,7 +22,9 @@ final class RecipeModel {
     var sourceUrl: String?
     var onFavorites: Bool
     var lastSynced: Date
-    
+    /// Hash from Paprika API — used for incremental sync (only fetch when hash changes)
+    var hash: String?
+
     init(from paprikaRecipe: PaprikaRecipe) {
         self.uid = paprikaRecipe.uid
         self.name = paprikaRecipe.name
@@ -40,9 +42,10 @@ final class RecipeModel {
         self.source = paprikaRecipe.source
         self.sourceUrl = paprikaRecipe.sourceUrl
         self.onFavorites = paprikaRecipe.onFavorites ?? false
+        self.hash = paprikaRecipe.hash
         self.lastSynced = Date()
     }
-    
+
     func update(from paprikaRecipe: PaprikaRecipe) {
         self.name = paprikaRecipe.name
         self.ingredients = paprikaRecipe.ingredients
@@ -59,6 +62,7 @@ final class RecipeModel {
         self.source = paprikaRecipe.source
         self.sourceUrl = paprikaRecipe.sourceUrl
         self.onFavorites = paprikaRecipe.onFavorites ?? false
+        self.hash = paprikaRecipe.hash
         self.lastSynced = Date()
     }
     
@@ -73,6 +77,32 @@ final class RecipeModel {
     var imageURL: URL? {
         guard let photoUrl = photoUrl else { return nil }
         return URL(string: photoUrl)
+    }
+}
+
+// MARK: - Category Model (SwiftData)
+
+@Model
+final class CategoryModel {
+    @Attribute(.unique) var uid: String
+    var name: String
+    var orderFlag: Int
+    var parentUid: String?
+    var lastSynced: Date
+
+    init(from paprikaCategory: PaprikaCategory) {
+        self.uid = paprikaCategory.uid
+        self.name = paprikaCategory.name
+        self.orderFlag = paprikaCategory.orderFlag
+        self.parentUid = paprikaCategory.parentUid
+        self.lastSynced = Date()
+    }
+
+    func update(from paprikaCategory: PaprikaCategory) {
+        self.name = paprikaCategory.name
+        self.orderFlag = paprikaCategory.orderFlag
+        self.parentUid = paprikaCategory.parentUid
+        self.lastSynced = Date()
     }
 }
 

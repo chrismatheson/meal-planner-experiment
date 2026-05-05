@@ -19,6 +19,12 @@ final class SyncStatusManager {
         get { UserDefaults.standard.object(forKey: "lastMealSyncTime") as? Date }
         set { UserDefaults.standard.set(newValue, forKey: "lastMealSyncTime") }
     }
+
+    /// Last time categories were synced from Paprika
+    var lastCategorySyncTime: Date? {
+        get { UserDefaults.standard.object(forKey: "lastCategorySyncTime") as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: "lastCategorySyncTime") }
+    }
     
     /// Number of local changes waiting to sync
     var pendingChangesCount: Int = 0
@@ -68,7 +74,7 @@ final class SyncStatusManager {
     }
     
     private var mostRecentSyncTime: Date? {
-        [lastRecipeSyncTime, lastMealSyncTime]
+        [lastRecipeSyncTime, lastMealSyncTime, lastCategorySyncTime]
             .compactMap { $0 }
             .max()
     }
@@ -79,10 +85,15 @@ final class SyncStatusManager {
         lastRecipeSyncTime = Date()
         lastError = nil
     }
-    
+
     func markMealsSynced() {
         lastMealSyncTime = Date()
         pendingChangesCount = 0
+        lastError = nil
+    }
+
+    func markCategoriesSynced() {
+        lastCategorySyncTime = Date()
         lastError = nil
     }
     

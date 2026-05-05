@@ -30,6 +30,7 @@ final class PlanGenerationViewModel {
     private let paprikaClient = PaprikaClient()
     private let syncStatus = SyncStatusManager.shared
     private let rejectionTracker = RejectionTracker.shared
+    private let recipeSyncEngine = RecipeSyncEngine()
 
     /// Passthrough to shared sync status
     var isSyncing: Bool {
@@ -224,37 +225,11 @@ final class PlanGenerationViewModel {
         print("✅ Cached \(meals.count) meals for week \(week)/\(year)")
     }
 
-    /// Sync recipes from Paprika API to local cache
+    /// Sync recipes from Paprika API to local cache using hash-based incremental sync
     @MainActor
     private func syncRecipes(context: ModelContext) async {
-        // Fetch existing recipes
-        let descriptor = FetchDescriptor<RecipeModel>()
-        let existingRecipes = (try? context.fetch(descriptor)) ?? []
-        let existingByUid = Dictionary(uniqueKeysWithValues: existingRecipes.map { ($0.uid, $0) })
-
-        do {
-            let paprikaRecipes = try await paprikaClient.fetchRecipes()
-
-            var recipesWithPhotos = 0
-            for paprikaRecipe in paprikaRecipes {
-                if paprikaRecipe.photoUrl != nil {
-                    recipesWithPhotos += 1
-                }
-                if let existing = existingByUid[paprikaRecipe.uid] {
-                    existing.update(from: paprikaRecipe)
-                } else {
-                    let newRecipe = RecipeModel(from: paprikaRecipe)
-                    context.insert(newRecipe)
-                }
-            }
-
-            try context.save()
-            syncStatus.markRecipesSynced()
-            print("📸 \(recipesWithPhotos)/\(paprikaRecipes.count) recipes have photoUrl")
-            print("✅ Synced \(paprikaRecipes.count) recipes")
-        } catch {
-            print("⚠️ Recipe sync failed: \(error)")
-        }
+        let result = await recipeSyncEngine.sync(client: paprikaClient, context: context)
+        print("✅ Recipe sync: \(result.total) total, \(result.fetched) fetched, \(result.skipped) skipped")
     }
 
     /// Build WeekPlan from cached meals, filling gaps with recipes
@@ -587,6 +562,9 @@ final class PlanGenerationViewModel {
             rejectionTracker.clearRejections()  // Clear rejections after successful sync
             syncStatus.markMealsSynced()
             print("✅ Synced \(meals.count) meals to Paprika")
+
+            // Also drain any other pending offline changes
+            await OfflineSyncQueue.shared.drainIfNeeded()
 
         } catch {
             syncError = "Sync failed: \(error.localizedDescription)"

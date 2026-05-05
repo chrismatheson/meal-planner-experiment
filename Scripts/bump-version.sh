@@ -1,6 +1,8 @@
 #!/bin/bash
 # Bump version script for MealPlanner
 #
+# Source of truth: project.yml (XcodeGen regenerates pbxproj from it)
+#
 # Default: Bumps PATCH and BUILD on every run (for each push to main)
 # - MARKETING_VERSION: X.Y.Z (2.0.0 → 2.0.1 → 2.0.2)
 # - CURRENT_PROJECT_VERSION: Incrementing build number
@@ -13,11 +15,12 @@
 
 set -e
 
-PROJECT_FILE="MealPlanner.xcodeproj/project.pbxproj"
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PROJECT_YML="$REPO_ROOT/project.yml"
 
-# Get current version (strip any quotes)
-CURRENT_VERSION=$(grep "MARKETING_VERSION" "$PROJECT_FILE" | head -1 | sed 's/.*= \(.*\);/\1/' | sed 's/"//g')
-CURRENT_BUILD=$(grep "CURRENT_PROJECT_VERSION" "$PROJECT_FILE" | head -1 | sed 's/.*= \(.*\);/\1/' | sed 's/"//g')
+# Read current version from project.yml (source of truth)
+CURRENT_VERSION=$(grep 'MARKETING_VERSION:' "$PROJECT_YML" | head -1 | sed 's/.*: *"\(.*\)"/\1/')
+CURRENT_BUILD=$(grep 'CURRENT_PROJECT_VERSION:' "$PROJECT_YML" | head -1 | sed 's/.*: *\([0-9]*\)/\1/')
 
 # Parse version components
 MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
@@ -39,21 +42,20 @@ case "$1" in
         echo "Bumping MINOR: $CURRENT_VERSION → $MAJOR.$MINOR.$PATCH"
         ;;
     build)
-        # Only bump build number, keep version
         echo "Bumping BUILD only: $CURRENT_VERSION ($CURRENT_BUILD → $BUILD)"
-        sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = $BUILD;/g" "$PROJECT_FILE"
+        sed -i '' "s/CURRENT_PROJECT_VERSION: $CURRENT_BUILD/CURRENT_PROJECT_VERSION: $BUILD/g" "$PROJECT_YML"
         echo "✅ Version: $CURRENT_VERSION (build $BUILD)"
         exit 0
         ;;
     *)
-        # Default: bump patch + build (for each push to main)
         PATCH=$((PATCH + 1))
         echo "Bumping PATCH: $CURRENT_VERSION → $MAJOR.$MINOR.$PATCH"
         ;;
 esac
 
-# Apply the version bump
+# Apply to project.yml (both iOS and macOS targets)
 NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-sed -i '' "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $NEW_VERSION;/g" "$PROJECT_FILE"
-sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = $BUILD;/g" "$PROJECT_FILE"
+sed -i '' "s/MARKETING_VERSION: \"$CURRENT_VERSION\"/MARKETING_VERSION: \"$NEW_VERSION\"/g" "$PROJECT_YML"
+sed -i '' "s/CURRENT_PROJECT_VERSION: $CURRENT_BUILD/CURRENT_PROJECT_VERSION: $BUILD/g" "$PROJECT_YML"
+
 echo "✅ Version: $NEW_VERSION (build $BUILD)"

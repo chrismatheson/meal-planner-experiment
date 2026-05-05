@@ -185,6 +185,27 @@ struct MealsResponse: Decodable {
     let result: [PaprikaMeal]
 }
 
+// MARK: - Categories
+
+struct CategoriesResponse: Decodable {
+    let result: [PaprikaCategory]
+}
+
+struct PaprikaCategory: Codable, Identifiable {
+    var id: String { uid }
+
+    let uid: String
+    let name: String
+    let orderFlag: Int
+    let parentUid: String?
+
+    enum CodingKeys: String, CodingKey {
+        case uid, name
+        case orderFlag = "order_flag"
+        case parentUid = "parent_uid"
+    }
+}
+
 // MARK: - Convenience Extensions
 
 extension PaprikaRecipe {

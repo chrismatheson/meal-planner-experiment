@@ -13,7 +13,7 @@ settings:
     SWIFT_VERSION: "5.9"
 
 targets:
-  MealPlanner-iOS:
+  PaprikaPlanner:
     type: application
     platform: iOS
     sources:
@@ -31,9 +31,10 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app
-        PRODUCT_NAME: MealPlanner
-        MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: 1
+        PRODUCT_NAME: paprikaplanner
+        PRODUCT_MODULE_NAME: paprikaplanner
+        MARKETING_VERSION: "2.0.2"
+        CURRENT_PROJECT_VERSION: 91
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: MealPlanner
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -51,7 +52,7 @@ targets:
         keychain-access-groups:
           - $(AppIdentifierPrefix)com.mealplanner.app
 
-  MealPlanner-macOS:
+  PaprikaPlanner-macOS:
     type: application
     platform: macOS
     sources:
@@ -61,9 +62,10 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app
-        PRODUCT_NAME: MealPlanner
-        MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: 1
+        PRODUCT_NAME: paprikaplanner
+        PRODUCT_MODULE_NAME: paprikaplanner
+        MARKETING_VERSION: "2.0.2"
+        CURRENT_PROJECT_VERSION: 91
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: MealPlanner
         MACOSX_DEPLOYMENT_TARGET: "14.0"
@@ -81,12 +83,12 @@ targets:
     sources:
       - path: MealPlannerTests
     dependencies:
-      - target: MealPlanner-iOS
+      - target: PaprikaPlanner
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.tests
         GENERATE_INFOPLIST_FILE: YES
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MealPlanner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MealPlanner"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/paprikaplanner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/paprikaplanner"
         BUNDLE_LOADER: "$(TEST_HOST)"
 
   MealPlannerTests-macOS:
@@ -95,7 +97,7 @@ targets:
     sources:
       - path: MealPlannerTests
     dependencies:
-      - target: MealPlanner-macOS
+      - target: PaprikaPlanner-macOS
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.tests
@@ -107,17 +109,17 @@ targets:
     sources:
       - path: MealPlannerUITests
     dependencies:
-      - target: MealPlanner-iOS
+      - target: PaprikaPlanner
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.uitests
         GENERATE_INFOPLIST_FILE: YES
 
 schemes:
-  MealPlanner-iOS:
+  PaprikaPlanner:
     build:
       targets:
-        MealPlanner-iOS: all
+        PaprikaPlanner: all
         MealPlannerUITests: [test]
     run:
       config: Debug
@@ -133,10 +135,10 @@ schemes:
     archive:
       config: Release
 
-  MealPlanner-macOS:
+  PaprikaPlanner-macOS:
     build:
       targets:
-        MealPlanner-macOS: all
+        PaprikaPlanner-macOS: all
         MealPlannerTests-macOS: [test]
     run:
       config: Debug
