@@ -1,58 +1,56 @@
 import SwiftUI
+import SwiftData
 
 /// Main rules screen — lists all slot-pinning rules with add/delete
 struct RulesListView: View {
-    @State private var rules: [SlotRule]
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \SlotRuleModel.dayOfWeek) private var ruleModels: [SlotRuleModel]
     @State private var showingAddRule = false
-    
-    /// Standalone initializer for preview-driven development
-    init(rules: [SlotRule] = []) {
-        _rules = State(initialValue: rules)
+
+    /// Computed view-layer rules from persisted models
+    private var rules: [SlotRule] {
+        ruleModels.map { $0.toSlotRule() }
     }
-    
+
     var body: some View {
-        NavigationStack {
-            Group {
-                if rules.isEmpty {
-                    emptyState
-                } else {
-                    rulesList
-                }
+        Group {
+            if rules.isEmpty {
+                emptyState
+            } else {
+                rulesList
             }
-            .navigationTitle("My Rules")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        showingAddRule = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
-            }
-            .sheet(isPresented: $showingAddRule) {
-                AddRuleSheet { newRule in
-                    withAnimation {
-                        rules.append(newRule)
-                        rules.sort { $0.dayOfWeek < $1.dayOfWeek }
-                    }
+        }
+        .navigationTitle("My Rules")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showingAddRule = true
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
         }
+        .sheet(isPresented: $showingAddRule) {
+            AddRuleSheet { newRule in
+                let model = SlotRuleModel(from: newRule)
+                modelContext.insert(model)
+            }
+        }
     }
-    
+
     // MARK: - Rules List
 
     private var rulesList: some View {
         List {
-            ForEach(rules) { rule in
-                RuleRowView(rule: rule)
+            ForEach(ruleModels, id: \.id) { ruleModel in
+                RuleRowView(rule: ruleModel.toSlotRule())
                     .listRowInsets(EdgeInsets(top: Spacing.xs, leading: Spacing.md, bottom: Spacing.xs, trailing: Spacing.md))
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
             }
             .onDelete { indexSet in
-                withAnimation {
-                    rules.remove(atOffsets: indexSet)
+                for index in indexSet {
+                    modelContext.delete(ruleModels[index])
                 }
             }
         }
@@ -82,16 +80,9 @@ struct RulesListView: View {
 
 // MARK: - Previews
 
-#Preview("Empty state") {
-    RulesListView()
-}
-
-#Preview("With rules") {
-    RulesListView(rules: SlotRule.previews)
-}
-
-#Preview("Single rule") {
-    RulesListView(rules: [
-        SlotRule(dayOfWeek: 6, constraint: .freeform(label: "Takeaway"))
-    ])
+#Preview("Rules List") {
+    NavigationStack {
+        RulesListView()
+    }
+    .modelContainer(for: [SlotRuleModel.self, RecipeModel.self, CategoryModel.self], inMemory: true)
 }

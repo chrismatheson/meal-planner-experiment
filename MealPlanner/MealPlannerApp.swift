@@ -8,17 +8,35 @@ struct MealPlannerApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
+        let schema = Schema([
+            RecipeModel.self,
+            MealSlotModel.self,
+            CachedMealModel.self,
+            CategoryModel.self,
+            SlotRuleModel.self,
+        ])
+        let config = ModelConfiguration(isStoredInMemoryOnly: false)
+
         do {
-            let schema = Schema([
-                RecipeModel.self,
-                MealSlotModel.self,
-                CachedMealModel.self,
-                CategoryModel.self,
-            ])
-            let config = ModelConfiguration(isStoredInMemoryOnly: false)
             container = try ModelContainer(for: schema, configurations: config)
         } catch {
-            fatalError("Failed to initialize ModelContainer: \(error)")
+            // Schema migration failed — delete the old store and recreate
+            // This is safe because all data is re-synced from Paprika API
+            SyncEventLog.shared.warning("Schema migration failed — resetting store (\(error.localizedDescription))")
+            let url = config.url
+            let fileManager = FileManager.default
+            let storeName = url.lastPathComponent
+            let storeDir = url.deletingLastPathComponent()
+            // Delete all related SQLite files
+            for suffix in ["", "-wal", "-shm"] {
+                let fileURL = storeDir.appendingPathComponent(storeName + suffix)
+                try? fileManager.removeItem(at: fileURL)
+            }
+            do {
+                container = try ModelContainer(for: schema, configurations: config)
+            } catch {
+                fatalError("Failed to initialize ModelContainer after store reset: \(error)")
+            }
         }
     }
     

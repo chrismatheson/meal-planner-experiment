@@ -100,30 +100,13 @@ struct SettingsView: View {
                 
                 // Sync Section
                 Section {
-                    // Status row
-                    HStack {
-                        Label("Status", systemImage: "arrow.triangle.2.circlepath")
-                        Spacer()
-                        syncStatusBadge
-                    }
-                    
-                    // Last meal sync
-                    if let lastMealSync = syncManager.lastMealSyncTime {
+                    NavigationLink {
+                        SyncDetailView()
+                    } label: {
                         HStack {
-                            Label("Last Meal Sync", systemImage: "fork.knife")
+                            Label("Sync", systemImage: "arrow.triangle.2.circlepath")
                             Spacer()
-                            Text(lastMealSync.formatted(date: .abbreviated, time: .shortened))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    
-                    // Last recipe sync
-                    if let lastRecipeSync = syncManager.lastRecipeSyncTime {
-                        HStack {
-                            Label("Last Recipe Sync", systemImage: "book")
-                            Spacer()
-                            Text(lastRecipeSync.formatted(date: .abbreviated, time: .shortened))
-                                .foregroundStyle(.secondary)
+                            syncStatusBadge
                         }
                     }
                 } header: {
@@ -132,8 +115,14 @@ struct SettingsView: View {
                     Text("Meal plans sync automatically after 20 seconds of inactivity.")
                 }
 
-                // Generation Section - show rejection tracker info
+                // Generation Section - rules + rejection tracker
                 Section {
+                    NavigationLink {
+                        RulesListView()
+                    } label: {
+                        Label("Slot Rules", systemImage: "list.bullet.rectangle")
+                    }
+
                     let rejectionTracker = RejectionTracker.shared
 
                     HStack {

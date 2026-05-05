@@ -1,17 +1,23 @@
 import SwiftUI
+import SwiftData
 
 /// Sheet for creating a new slot-pinning rule
 /// Flow: pick day → pick constraint type → pick value → save
 struct AddRuleSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Query(sort: \CategoryModel.name) private var categories: [CategoryModel]
+    @Query(sort: \RecipeModel.name) private var recipes: [RecipeModel]
 
     let onSave: (SlotRule) -> Void
 
     @State private var selectedDay: Int = Calendar.current.firstWeekday
     @State private var constraintType: ConstraintType = .freeform
     @State private var freeformText: String = ""
+    @State private var selectedCategoryUid: String = ""
     @State private var selectedCategoryName: String = ""
+    @State private var selectedRecipeUid: String = ""
     @State private var selectedRecipeName: String = ""
+    @State private var searchText: String = ""
     @FocusState private var freeformFocused: Bool
 
     enum ConstraintType: String, CaseIterable {
@@ -31,8 +37,8 @@ struct AddRuleSheet: View {
     private var canSave: Bool {
         switch constraintType {
         case .freeform: return !freeformText.trimmingCharacters(in: .whitespaces).isEmpty
-        case .category: return !selectedCategoryName.isEmpty
-        case .recipe: return !selectedRecipeName.isEmpty
+        case .category: return !selectedCategoryUid.isEmpty
+        case .recipe: return !selectedRecipeUid.isEmpty
         }
     }
 
@@ -124,12 +130,74 @@ struct AddRuleSheet: View {
                 .onAppear { freeformFocused = true }
 
         case .category:
-            // Placeholder — will be wired to real categories later
-            CategoryPickerPlaceholder(selected: $selectedCategoryName)
+            categoryPicker
 
         case .recipe:
-            // Placeholder — will be wired to real recipes later
-            RecipePickerPlaceholder(selected: $selectedRecipeName)
+            recipePicker
+        }
+    }
+
+    // MARK: - Category Picker
+
+    private var categoryPicker: some View {
+        Group {
+            if categories.isEmpty {
+                ContentUnavailableView("No Categories", systemImage: "folder",
+                    description: Text("Sync your Paprika categories first."))
+            } else {
+                ForEach(categories, id: \.uid) { category in
+                    Button {
+                        selectedCategoryUid = category.uid
+                        selectedCategoryName = category.name
+                    } label: {
+                        HStack {
+                            Label(category.name, systemImage: "folder")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            if selectedCategoryUid == category.uid {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(Color.paprikaPrimary)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Recipe Picker
+
+    private var filteredRecipes: [RecipeModel] {
+        if searchText.isEmpty { return recipes }
+        return recipes.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+    }
+
+    private var recipePicker: some View {
+        Group {
+            if recipes.isEmpty {
+                ContentUnavailableView("No Recipes", systemImage: "book.closed",
+                    description: Text("Sync your Paprika recipes first."))
+            } else {
+                TextField("Search recipes…", text: $searchText)
+                ForEach(filteredRecipes, id: \.uid) { recipe in
+                    Button {
+                        selectedRecipeUid = recipe.uid
+                        selectedRecipeName = recipe.name
+                    } label: {
+                        HStack {
+                            Label(recipe.name, systemImage: "book.closed")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            if selectedRecipeUid == recipe.uid {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(Color.paprikaPrimary)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -140,83 +208,26 @@ struct AddRuleSheet: View {
         case .freeform:
                 .freeform(label: freeformText.trimmingCharacters(in: .whitespaces))
         case .category:
-                .category(uid: "placeholder", name: selectedCategoryName)
+                .category(uid: selectedCategoryUid, name: selectedCategoryName)
         case .recipe:
-                .recipe(uid: "placeholder", name: selectedRecipeName)
+                .recipe(uid: selectedRecipeUid, name: selectedRecipeName)
         }
         return SlotRule(dayOfWeek: selectedDay, constraint: constraint)
     }
 }
 
-
-// MARK: - Placeholder Pickers (for preview, replaced with real data later)
-
-/// Placeholder for category selection — uses sample data for previews
-private struct CategoryPickerPlaceholder: View {
-    @Binding var selected: String
-
-    private let sampleCategories = [
-        "Sunday Roast", "Quick Meals", "Italian", "Mexican",
-        "Vegetarian", "Comfort Food", "BBQ", "Salads"
-    ]
-
-    var body: some View {
-        ForEach(sampleCategories, id: \.self) { name in
-            Button {
-                selected = name
-            } label: {
-                HStack {
-                    Label(name, systemImage: "folder")
-                        .foregroundStyle(.primary)
-                    Spacer()
-                    if selected == name {
-                        Image(systemName: "checkmark")
-                            .foregroundStyle(Color.paprikaPrimary)
-                            .fontWeight(.semibold)
-                    }
-                }
-            }
-        }
-    }
-}
-
-/// Placeholder for recipe selection — uses sample data for previews
-private struct RecipePickerPlaceholder: View {
-    @Binding var selected: String
-
-    private let sampleRecipes = [
-        "Spaghetti Carbonara", "Chicken Tikka Masala", "Fish & Chips",
-        "Beef Tacos", "Mushroom Risotto", "Thai Green Curry"
-    ]
-
-    var body: some View {
-        ForEach(sampleRecipes, id: \.self) { name in
-            Button {
-                selected = name
-            } label: {
-                HStack {
-                    Label(name, systemImage: "book.closed")
-                        .foregroundStyle(.primary)
-                    Spacer()
-                    if selected == name {
-                        Image(systemName: "checkmark")
-                            .foregroundStyle(Color.paprikaPrimary)
-                            .fontWeight(.semibold)
-                    }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Previews
 
-#Preview("Add Rule - Default") {
+#Preview("Add Rule") {
     AddRuleSheet { rule in
         print("Saved: \(rule)")
     }
+    .modelContainer(for: [SlotRuleModel.self, RecipeModel.self, CategoryModel.self], inMemory: true)
 }
 
 #Preview("Rules List → Add Rule") {
-    RulesListView(rules: SlotRule.previews)
+    NavigationStack {
+        RulesListView()
+    }
+    .modelContainer(for: [SlotRuleModel.self, RecipeModel.self, CategoryModel.self], inMemory: true)
 }

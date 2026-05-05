@@ -42,7 +42,7 @@ final class OfflineSyncQueue {
                 
                 // Connectivity restored — drain the queue
                 if wasOffline && self.isOnline {
-                    print("📶 Network restored — draining offline queue")
+                    SyncEventLog.shared.info("Network restored — draining offline queue")
                     await self.drainIfNeeded()
                 }
             }
@@ -97,12 +97,12 @@ final class OfflineSyncQueue {
             
             pendingCount = 0
             SyncStatusManager.shared.markMealsSynced()
-            print("✅ Drained \(paprikaMeals.count) pending meals")
-            
+            SyncEventLog.shared.success("Drained \(paprikaMeals.count) pending meals")
+
         } catch {
             lastDrainError = error.localizedDescription
             SyncStatusManager.shared.setError(error.localizedDescription)
-            print("❌ Offline queue drain failed: \(error)")
+            SyncEventLog.shared.error("Offline queue drain failed: \(error.localizedDescription)")
         }
         
         isSyncing = false

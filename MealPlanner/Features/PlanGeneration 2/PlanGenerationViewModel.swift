@@ -561,7 +561,7 @@ final class PlanGenerationViewModel {
             clearUndoSnapshot()  // Can't undo after sync
             rejectionTracker.clearRejections()  // Clear rejections after successful sync
             syncStatus.markMealsSynced()
-            print("✅ Synced \(meals.count) meals to Paprika")
+            SyncEventLog.shared.success("Synced \(meals.count) meals to Paprika")
 
             // Also drain any other pending offline changes
             await OfflineSyncQueue.shared.drainIfNeeded()
@@ -569,7 +569,7 @@ final class PlanGenerationViewModel {
         } catch {
             syncError = "Sync failed: \(error.localizedDescription)"
             syncStatus.setError(error.localizedDescription)
-            print("❌ Sync failed: \(error)")
+            SyncEventLog.shared.error("Meal sync failed: \(error.localizedDescription)")
         }
 
         isSyncing = false

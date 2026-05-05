@@ -23,7 +23,8 @@ final class RecipeModel {
     var onFavorites: Bool
     var lastSynced: Date
     /// Hash from Paprika API — used for incremental sync (only fetch when hash changes)
-    var hash: String?
+    /// Named apiHash to avoid collision with Swift's Hashable.hash
+    var apiHash: String?
 
     init(from paprikaRecipe: PaprikaRecipe) {
         self.uid = paprikaRecipe.uid
@@ -42,7 +43,7 @@ final class RecipeModel {
         self.source = paprikaRecipe.source
         self.sourceUrl = paprikaRecipe.sourceUrl
         self.onFavorites = paprikaRecipe.onFavorites ?? false
-        self.hash = paprikaRecipe.hash
+        self.apiHash = paprikaRecipe.hash
         self.lastSynced = Date()
     }
 
@@ -62,10 +63,10 @@ final class RecipeModel {
         self.source = paprikaRecipe.source
         self.sourceUrl = paprikaRecipe.sourceUrl
         self.onFavorites = paprikaRecipe.onFavorites ?? false
-        self.hash = paprikaRecipe.hash
+        self.apiHash = paprikaRecipe.hash
         self.lastSynced = Date()
     }
-    
+
     var displayTime: String? {
         totalTime ?? cookTime ?? prepTime
     }
@@ -103,6 +104,53 @@ final class CategoryModel {
         self.orderFlag = paprikaCategory.orderFlag
         self.parentUid = paprikaCategory.parentUid
         self.lastSynced = Date()
+    }
+}
+
+// MARK: - Slot Rule Model (SwiftData)
+
+@Model
+final class SlotRuleModel {
+    @Attribute(.unique) var id: UUID
+    /// 1 = Sunday, 2 = Monday, ..., 7 = Saturday (Calendar weekday)
+    var dayOfWeek: Int
+    /// "recipe", "category", or "freeform"
+    var constraintType: String
+    /// For recipe: recipe uid. For category: category uid. For freeform: unused.
+    var constraintUid: String?
+    /// Display name: recipe name, category name, or freeform label
+    var constraintName: String
+
+    init(from rule: SlotRule) {
+        self.id = rule.id
+        self.dayOfWeek = rule.dayOfWeek
+        switch rule.constraint {
+        case .recipe(let uid, let name):
+            self.constraintType = "recipe"
+            self.constraintUid = uid
+            self.constraintName = name
+        case .category(let uid, let name):
+            self.constraintType = "category"
+            self.constraintUid = uid
+            self.constraintName = name
+        case .freeform(let label):
+            self.constraintType = "freeform"
+            self.constraintUid = nil
+            self.constraintName = label
+        }
+    }
+
+    /// Convert back to the view-layer SlotRule
+    func toSlotRule() -> SlotRule {
+        let constraint: SlotConstraint = switch constraintType {
+        case "recipe":
+                .recipe(uid: constraintUid ?? "", name: constraintName)
+        case "category":
+                .category(uid: constraintUid ?? "", name: constraintName)
+        default:
+                .freeform(label: constraintName)
+        }
+        return SlotRule(id: id, dayOfWeek: dayOfWeek, constraint: constraint)
     }
 }
 

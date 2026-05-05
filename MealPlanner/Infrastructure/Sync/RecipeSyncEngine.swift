@@ -48,6 +48,7 @@ final class RecipeSyncEngine {
     }
 
     private let syncStatus = SyncStatusManager.shared
+    private let eventLog = SyncEventLog.shared
 
     // MARK: - Diff Logic (testable, pure)
 
@@ -70,7 +71,7 @@ final class RecipeSyncEngine {
 
         init(from model: RecipeModel) {
             self.uid = model.uid
-            self.hash = model.hash
+            self.hash = model.apiHash
         }
     }
 
@@ -117,7 +118,7 @@ final class RecipeSyncEngine {
             let localSummaries = localRecipes.map { LocalRecipeSummary(from: $0) }
 
             let diff = Self.computeDiff(stubs: stubs, localRecipes: localSummaries)
-            print("🔄 Sync: \(stubs.count) total, \(diff.toFetch.count) to fetch, \(diff.skipped) unchanged, \(diff.orphanUids.count) orphans")
+            eventLog.info("Recipes: \(stubs.count) total, \(diff.toFetch.count) to fetch, \(diff.skipped) unchanged, \(diff.orphanUids.count) orphans")
 
             // 3. Fetch details for new/changed recipes
             phase = .fetchingDetails
@@ -137,7 +138,7 @@ final class RecipeSyncEngine {
 
                     syncedRecipes += 1
                 } catch {
-                    print("⚠️ Failed to fetch recipe \(stub.uid): \(error)")
+                    eventLog.warning("Failed to fetch recipe \(stub.uid): \(error.localizedDescription)")
                     errors += 1
                 }
             }
@@ -148,7 +149,7 @@ final class RecipeSyncEngine {
             for local in localRecipes where diff.orphanUids.contains(local.uid) {
                 context.delete(local)
                 deleted += 1
-                print("🗑️ Deleted orphan recipe: \(local.name)")
+                eventLog.info("Deleted orphan recipe: \(local.name)")
             }
 
             // 5. Save and finish
@@ -163,14 +164,14 @@ final class RecipeSyncEngine {
                 deleted: deleted,
                 errors: errors
             )
-            print("✅ Recipe sync complete: \(result.total) total, \(result.fetched) fetched, \(result.skipped) skipped, \(result.deleted) deleted, \(result.errors) errors")
+            eventLog.success("Recipe sync: \(result.fetched) fetched, \(result.skipped) unchanged, \(result.deleted) deleted" + (result.errors > 0 ? ", \(result.errors) errors" : ""))
             return result
 
         } catch {
             let message = error.localizedDescription
             phase = .failed(message)
             syncStatus.setError(message)
-            print("❌ Recipe sync failed: \(error)")
+            eventLog.error("Recipe sync failed: \(message)")
             return SyncResult(total: 0, fetched: 0, skipped: 0, deleted: 0, errors: 1)
         }
     }
@@ -212,10 +213,10 @@ extension RecipeSyncEngine {
 
             try context.save()
             syncStatus.markCategoriesSynced()
-            print("✅ Categories sync: \(remoteCategories.count) total, \(deleted) deleted")
+            eventLog.success("Categories: \(remoteCategories.count) synced" + (deleted > 0 ? ", \(deleted) deleted" : ""))
 
         } catch {
-            print("⚠️ Category sync failed: \(error)")
+            eventLog.warning("Category sync failed: \(error.localizedDescription)")
         }
     }
 }

@@ -70,20 +70,19 @@ final class BackgroundRefreshManager {
         isRefreshing = true
         let context = ModelContext(modelContainer)
         
-        print("🔄 Background refresh starting...")
-        
+        SyncEventLog.shared.info("Background refresh starting")
+
         // 1. Recipe sync (incremental, fast after first sync)
-        let result = await syncEngine.sync(client: client, context: context)
-        print("🔄 Background recipe sync: \(result.fetched) fetched, \(result.skipped) skipped")
-        
+        let _ = await syncEngine.sync(client: client, context: context)
+
         // 2. Category sync
         await syncEngine.syncCategories(client: client, context: context)
-        
+
         // 3. Drain offline queue
         await OfflineSyncQueue.shared.drainIfNeeded()
-        
+
         lastRefreshTime = Date()
         isRefreshing = false
-        print("🔄 Background refresh complete")
+        SyncEventLog.shared.success("Background refresh complete")
     }
 }

@@ -18,11 +18,6 @@ struct PlanGenerationView: View {
                         onRegenerateDay: { index in
                             viewModel.regenerateDay(at: index)
                         },
-                        hasSynced: viewModel.hasSynced,
-                        syncError: viewModel.syncError,
-                        isFromCache: viewModel.isFromCache,
-                        isOffline: viewModel.isOffline,
-                        loadingStatus: viewModel.loadingStatus,
                         onRefresh: {
                             await viewModel.loadExistingMeals(context: modelContext, forceRefresh: true)
                         }
@@ -199,11 +194,6 @@ struct GeneratePromptView: View {
 struct WeekPlanReviewView: View {
     @Bindable var weekPlan: WeekPlan
     let onRegenerateDay: (Int) -> Void
-    let hasSynced: Bool
-    let syncError: String?
-    var isFromCache: Bool = false
-    var isOffline: Bool = false
-    var loadingStatus: String = ""
     var onRefresh: (() async -> Void)?
 
     var body: some View {
@@ -216,46 +206,6 @@ struct WeekPlanReviewView: View {
                 Text("Week \(week) of \(year)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-
-                // Debug status
-                if !loadingStatus.isEmpty {
-                    Text(loadingStatus)
-                        .font(.caption2)
-                        .foregroundStyle(.blue)
-                        .padding(4)
-                        .background(Color.blue.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
-                        .accessibilityIdentifier("LoadingStatus")
-                }
-
-                // Staleness indicator - shows when data was last refreshed
-                if isFromCache && !hasSynced {
-                    StalenessIndicator(isOffline: isOffline)
-                }
-
-                // Show error at top if any
-                if let error = syncError {
-                    Text(error)
-                        .font(.caption)
-                        .foregroundStyle(.white)
-                        .padding(8)
-                        .background(Color.red.opacity(0.8))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-
-                // Show synced confirmation
-                if hasSynced {
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                        Text("Synced to Paprika!")
-                    }
-                    .font(.headline)
-                    .foregroundStyle(.green)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.green.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
 
                 ForEach(Array(weekPlan.days.enumerated()), id: \.element.id) { index, day in
                     DayPlanCard(
