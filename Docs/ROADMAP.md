@@ -1,7 +1,7 @@
 # Product Roadmap
 
 > *Maintained by: Product Manager*
-> *Last updated: 2026-04-25*
+> *Last updated: 2026-05-05*
 
 ## Vision
 
@@ -11,38 +11,20 @@
 
 ## Current Focus
 
-### 🎯 Now: v1.0 MVP - Generate & Sync
+### 🎯 Now: v2.1 - Habit-Aware Generation
 
-**Theme**: App generates the plan, user reviews, auto-syncs to Paprika
+**Theme**: Proper sync foundation + pipeline-based generation with rules and preferences
 
-| Feature | Status | Priority | Notes |
-|---------|--------|----------|-------|
-| Paprika login | 🟢 Complete | - | Working with multipart form auth |
-| Recipe fetching | 🟢 Complete | - | Can pull from Paprika |
-| Token persistence | 🟢 Complete | - | Stay logged in across app restarts |
-| Recipe caching | 🟢 Complete | - | Offline generation works |
-| **"Plan My Week" generation** | 🟢 Complete | - | Random, no duplicates in week |
-| **Review week UI** | 🟢 Complete | - | 7 cards with photo, regenerate per-day |
-| **20s countdown auto-sync** | 🟢 Complete | - | Tap to sync early or wait |
-| **Sync plan to Paprika** | 🟢 Complete | - | v1 API with gzip - **verified in Paprika app 2026-04-26** |
-
-### ❌ Cut from v1.0 (not needed for generate-first)
-
-| Feature | Reason |
-|---------|--------|
-| Recipe grid browsing | User doesn't pick recipes |
-| Manual assignment UI | Generation does this |
-| Drag-drop / swipe gestures | Not needed - just "regenerate" |
-| Recipe detail view | Maybe later, not core flow |
+See [v2.1 milestone](#-v21---habit-aware) for full details.
 
 ---
 
 ## Milestones
 
-### 🚀 v1.0 - Full MVP (Current)
+### 🚀 v1.0 - Full MVP ✅ COMPLETE
 
 **Goal**: Generate a week of dinners, auto-sync to Paprika
-**Status**: Feature-complete, needs manual verification
+**Status**: ✅ Complete — verified in Paprika app 2026-04-26
 
 **Core Flow:**
 ```
@@ -107,28 +89,50 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 - [x] Rejections visible in Settings
 - [x] **Cuisine diversity** (max 2 same cuisine per week, soft constraint)
 
-#### Deferred to v2.1
-- [ ] Protein variety (ingredient parsing, max 2 same/week)
-- [ ] "Hide for a while" feature (tired of a recipe)
-- [ ] Variety score indicator
-
 **Technical Approach**:
-- RejectionTracker: UserDefaults-persisted, 1-hour auto-expiry
+- RejectionTracker: UserDefaults-persisted, 1-hour auto-expiry (to be replaced by fatigue scoring in v2.1)
 - History query: CachedMealModel last 14 days
 - CuisineType: Category keyword matching for cuisine detection
 
 ### 🔮 v2.1 - Habit-Aware
 
-**Goal**: Encode weekly patterns and preferences
+**Goal**: Proper sync foundation + pipeline-based generation with rules, preferences, and richer metadata
 
-- [ ] Fixed slots (Takeaway Friday, Sunday Roast)
-- [ ] Recipe metadata (quick vs elaborate, kid-friendly)
-- [ ] Weeknight vs weekend awareness
-- [ ] Learns from "we didn't make this" feedback
+**Architecture Decision**: Generation uses a **pipeline of stages** — each feature is a filter or scoring stage applied sequentially. Hard rules (user-configured) act as filters; soft preferences act as score multipliers. This keeps the system simple, testable, and extensible without over-engineering a generic rules engine. The dataset (~100-300 recipes, ~10-20 rules) is small enough that filtering and scoring in-memory is effectively instant.
+
+#### Foundation: Proper Sync Layer
+The current sync is a fetch-what-you-need pattern capped at 50 recipes. v2.1 needs a full local mirror of the Paprika account to power the scoring pipeline across the entire recipe library.
+
+- [ ] **Full recipe sync** — remove 50-recipe cap. Use hash-based incremental sync: fetch all `{ uid, hash }` stubs, compare to local cache, only fetch changed/new recipes. Initial sync may take ~1 min for large libraries; incremental syncs near-instant.
+- [ ] **Categories sync** — fetch from `sync/categories/` endpoint (currently unused). Needed for slot-pinning by category, metadata inference ("Glow Up"), and recipe pack category mapping.
+- [ ] **Offline sync queue** — queue changes made while offline, sync when connectivity returns. (Deferred from v1.2)
+- [ ] **Background refresh** — periodic sync when app is active, respecting stale-while-refresh pattern
+
+#### Hard Rules (Filters)
+- [ ] **Slot-pinning** — assign a specific recipe or category to a day-of-week (e.g., "Takeaway Friday", "Sunday Roast")
+
+#### Soft Preferences (Scoring)
+- [ ] **Recipe fatigue with exponential backoff** — replaces both "Hide for a while" and the v2.0 RejectionTracker (1-hour expiry). Every negative signal (rejection, explicit hide, "didn't make it") adds to a fatigue score with exponential compounding. Score decays naturally over time, so recipes always drift back into rotation.
+  - Data model: `RecipeFatigue { recipeId, score, lastUpdated }`
+  - Exponential bumps: 1st rejection +1, 2nd +2, 3rd +4, 4th +8
+  - Linear decay: ~0.1/day (score 1 ≈ 10 days, score 7 ≈ 70 days, score 15 ≈ 5 months)
+  - Fatigue is **day-agnostic** — rejection on any day penalises across all days
+  - Unifies session rejections, explicit hides, and future "didn't make it" into one scoring mechanism
+  - User never sees the score — app just "learns"
+  - **Migration**: v2.0 RejectionTracker is retired; session rejections become the first bump (+1) in fatigue score
+- [ ] **Recipe metadata** — two dimensions for v2.1:
+  - **Effort level** (quick / normal / elaborate) — inferred from Paprika `prep_time` + `cook_time` fields and ingredient count. Quick ≤ 30 min or ≤ 5 ingredients. Elaborate > 60 min or > 15 ingredients.
+  - **Kid-friendly** (yes / no / unset) — user-tagged only, too subjective to infer
+  - Infer first, user can override. Override model: `RecipeMetadataOverride { recipeId, effortLevel, isKidFriendly }` trumps inferred values
+- [ ] **Weeknight vs weekend awareness** — prefer quick/easy recipes Mon-Thu, allow elaborate recipes Fri-Sun. Depends on effort-level metadata being populated.
+- [ ] **Protein variety** — ingredient parsing to detect primary protein (chicken, beef, fish, pork, veggie). Max 2 of same protein per week, same pattern as existing cuisine diversity. (Deferred from v2.0)
+- [ ] **Variety score indicator** — visual signal of how varied the current plan is (deferred from v2.0)
 
 ### 🔮 v3.0+ Vision
 
-- [ ] **Apple TV companion** - Kids involved in meal selection on the big screen, no personal devices
+- [ ] **Apple TV companion** — kids involved in meal selection on the big screen, no personal devices
+- [ ] **Shared rule packs via CloudKit** — public database of community-curated rule/preference packs (food holiday calendars, cultural/religious meal patterns, seasonal preferences, diet templates). No iCloud sign-in required for reads. Seeded from curated content, user submissions with moderation.
+- [ ] **Food holiday awareness** — bundled JSON calendar of food-related national days ("National Pie Day", "Fish & Chip Week"). Boosts matching recipes as a soft preference, with optional badge on day cards. Matching via keyword/category against user's library.
 - [ ] Breakfast / lunch support
 - [ ] Family voting on suggestions
 - [ ] Siri: "What's for dinner tonight?"
@@ -179,10 +183,11 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 
 ### Under Consideration
 
-| Idea | Requested By | Votes | Status |
-|------|--------------|-------|--------|
-| [Idea 1] | [Source] | [#] | Evaluating |
-| [Idea 2] | [Source] | [#] | Needs research |
+| Idea | Notes | Status |
+|------|-------|--------|
+| **"Glow Up Your Recipes"** | MealPlanner analyses your Paprika library and enriches metadata — infers cuisine, effort level, protein type, allergens from existing recipe data. Batch approval UX: "We think these 6 are Quick Weeknight meals — agree?" Enriched data syncs back to Paprika categories. Levels up user recipes to match imported pack quality. Prerequisite for scoring pipeline to work well on user's own recipes. | Exploring |
+| **Curated recipe packs** | Browse and install themed recipe collections from curated external sources (Gousto first) into Paprika. Recipes transformed into Paprika schema, tagged with source category to separate from user's own recipes. Imported recipes carry rich metadata (cuisine, prep time, allergens, nutrition) which improves generation quality. Packs hosted on CloudKit public database. De-duplication by source URL on sync. | Exploring |
+| **"We didn't make this" feedback** | After the plan week passes, user can mark meals they skipped. Feeds into fatigue score (smaller bump than explicit rejection, e.g., +0.5). Noisy signal — user may have skipped for reasons unrelated to the recipe. Needs UX design for when/how to prompt without adding friction. | Exploring |
 
 ### Parked (not seeing benefit yet)
 
@@ -207,14 +212,18 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 
 | Dependency | Impact | Mitigation |
 |------------|--------|------------|
-| [iOS version feature] | [Impact] | [Plan] |
-| [API availability] | [Impact] | [Plan] |
+| Paprika sync API (reverse-engineered) | Core functionality — all reads and writes depend on it | Monitor API behaviour, version-pin User-Agent string, graceful degradation if endpoints change |
+| CloudKit (v3.0) | Shared rule packs and recipe packs | Only needed for v3.0 features; core app works without it |
+| Gousto API/data (v3.0) | Recipe pack content | Curated manually; no runtime dependency on Gousto API |
 
 ### Risks to Timeline
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| [Risk 1] | H/M/L | H/M/L | [Plan] |
+| Paprika changes or removes sync API | Medium | High | App is offline-first with full local cache; would degrade gracefully to read-only cached mode |
+| Full recipe sync performance for large libraries | Medium | Medium | Hash-based incremental sync; initial sync is one-time cost; progress UI |
+| Recipe metadata inference accuracy | Medium | Low | Inference is best-effort with user override; incorrect inferences don't break generation, just reduce quality |
+| RejectionTracker → fatigue migration | Low | Medium | Both systems can coexist during transition; fatigue is additive |
 
 ---
 
@@ -222,6 +231,7 @@ Login → "Plan My Week" → Review 7 dinners → Regenerate any → Auto-sync (
 
 | Date | Changes |
 |------|---------|
+| 2026-05-05 | **v2.1 overhaul**: Added proper sync layer (full recipe sync, categories, offline queue) as foundation. Pipeline architecture over rules engine. Slot-pinning as first hard rule. Recipe fatigue with exponential backoff replacing both "hide for a while" and RejectionTracker. Fleshed out recipe metadata (2 dimensions, infer + override), weeknight/weekend awareness, protein variety. Added "Glow Up Your Recipes" and curated recipe packs to Under Consideration. Shared rule packs via CloudKit and food holiday awareness added to v3.0. Updated status markers (v1.0-v2.0 all complete). Populated Dependencies & Risks with real entries. |
 | 2026-04-17 | **Major pivot**: Generate-first vision. Cut manual assignment UI. User steers via regenerate. |
 | 2026-04-17 | PO review: offline added to v1.0, v2.0 split into simple/smart phases, parked grocery/nutrition/widgets |
 | 2026-04-17 | Updated with actual MVP status, PO priorities, long-term vision |
