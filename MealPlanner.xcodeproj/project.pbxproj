@@ -23,6 +23,7 @@
 		2436FA6C43E910B00691CE1D /* MealPlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */; };
 		250D7A156942921F6034DA6F /* RecipeListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6008DBFD2A6F65E8ABCC4443 /* RecipeListViewModelTests.swift */; };
 		2A6E232A212503BF7C6F4A7A /* RejectionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECFE7D5540F09D7B615512 /* RejectionTracker.swift */; };
+		2AB35285D5359D9A8176BDC9 /* RulesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBEA15D5C05D05C444021A /* RulesListView.swift */; };
 		31C52997094807D34110C2A8 /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */; };
 		325244BAF9C05679A0EE56FF /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DCDB161D3A89E8F8BDF1A /* RecipeDetailView.swift */; };
 		33A1DA9B8E7E5E8B2EA5B533 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C737316E37013EEA65FA5E7C /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 		495D76A8EEE65C3BEC0E496C /* MealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */; };
 		4BDB6E6A9FB4768516582318 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F77A096421405FAC62A30 /* RootView.swift */; };
 		4E142DBAC25872D83BC9AC9A /* PaprikaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0369ED671AEAE3161AB91611 /* PaprikaModels.swift */; };
+		4EDF92849099867AA9A8CF44 /* AddRuleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767CE6821102F2B0B5F2E9F /* AddRuleSheet.swift */; };
 		5197F1528256F67299B70CC1 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788CEC334B00A224FAC778D6 /* AppState.swift */; };
 		5272FD20E8163547B621883D /* PlanGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D3D4E1BBFC5391877E7592 /* PlanGenerationView.swift */; };
 		567EF10BCC35C31D1FCF37DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C737316E37013EEA65FA5E7C /* Assets.xcassets */; };
@@ -45,6 +47,7 @@
 		5F99415F6202A0775654F133 /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46807E03C78FB285683CC8C7 /* MealPlanView.swift */; };
 		5FC6F51F2801E1F3A7C037A6 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7D1FC29AF7F17926A67B5 /* SkeletonView.swift */; };
 		63D72B109F3FF0CA0E6D2AC5 /* RecipePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E76B021A94C6C45471B80C /* RecipePickerView.swift */; };
+		6A4907C4619708DECFF54AF8 /* RulesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBEA15D5C05D05C444021A /* RulesListView.swift */; };
 		6DF4E25B750F88CFF41A1664 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 948C2B902339EA917F6C8C0D /* PrivacyInfo.xcprivacy */; };
 		741DFF732C39839A3F8ADC7A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 948C2B902339EA917F6C8C0D /* PrivacyInfo.xcprivacy */; };
 		79210FC6A4A2BE0586B0B847 /* MealPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76EA542E8D782C85C82BA84 /* MealPlanViewModel.swift */; };
@@ -65,7 +68,9 @@
 		A344033FE4A919257243DED1 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788CEC334B00A224FAC778D6 /* AppState.swift */; };
 		A3863643798545F72FA42731 /* OfflineSyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FA963F59DF520DD5D24CA6 /* OfflineSyncQueue.swift */; };
 		A53F4D9E5C7E242B575CE47B /* MealPlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6AA9085C9C35781CC5F665 /* MealPlannerApp.swift */; };
+		A62EE7E944ADC05D7C567FC8 /* AddRuleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E767CE6821102F2B0B5F2E9F /* AddRuleSheet.swift */; };
 		AADF638ED5F7FD523A434A1D /* PlanGenerationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6B678FB2F914064F291F33 /* PlanGenerationViewModel.swift */; };
+		AD2BAB9139544567F3BA3FB0 /* SlotRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FC85BB2F5A73E68395F58B /* SlotRule.swift */; };
 		AE152EBE88347C2D5297C176 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E88D239D4B88DDF6D76EF /* KeychainService.swift */; };
 		AEAB42CA8230A1F500442BCF /* RecipeSyncEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613A289377B431DB3F1C9C09 /* RecipeSyncEngineTests.swift */; };
 		B6FA008E7AE2B56116874145 /* RecipeSyncEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613A289377B431DB3F1C9C09 /* RecipeSyncEngineTests.swift */; };
@@ -74,12 +79,15 @@
 		C765F938DA65E544DEB7155B /* PullToRevealRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19FD5A20EA2B95F6657AD0E /* PullToRevealRefresh.swift */; };
 		C7D098E52F0000DDE08B6645 /* DayPlanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339C2C0004E36FC31DB594E /* DayPlanCard.swift */; };
 		D3D386A5DA0DF7739F65E681 /* SyncStatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1A12FAAC390FC9565118D /* SyncStatusIndicator.swift */; };
+		D68B29CD3B9319594B9822F5 /* RuleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0BCC8215D27B4F03B5075C /* RuleRowView.swift */; };
 		DBC2B740FA8FF5DD90A3EF9D /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */; };
 		DD09227016B3E1F4193A394E /* PaprikaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0369ED671AEAE3161AB91611 /* PaprikaModels.swift */; };
 		DF7DCD432454EAF927C49933 /* BackgroundRefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2D82267D639A75B301EF66 /* BackgroundRefreshManager.swift */; };
+		E3666E693D3F658F352C4521 /* RuleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0BCC8215D27B4F03B5075C /* RuleRowView.swift */; };
 		EB401BAC55C506B68A6AF142 /* PlanGenerationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86736260C8C6BE852935B1BE /* PlanGenerationViewModelTests.swift */; };
 		EC7C6B8B268129E7D401D8C0 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E88D239D4B88DDF6D76EF /* KeychainService.swift */; };
 		EF7DDC971B79BF23EB17C100 /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2516D4C45A57004D5AF3B8 /* CachedAsyncImage.swift */; };
+		F13C946D34892D7C5E461E37 /* SlotRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FC85BB2F5A73E68395F58B /* SlotRule.swift */; };
 		F1E70CCC5BEC925A6F07E55F /* RecipeListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6008DBFD2A6F65E8ABCC4443 /* RecipeListViewModelTests.swift */; };
 		F76CC2E09E954B1B8921ED8E /* MealPlannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761C5C62CB8E5FE1796536E5 /* MealPlannerUITests.swift */; };
 		FBCD4B491094152184FF2966 /* PaprikaIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */; };
@@ -150,11 +158,15 @@
 		CC7DCDB161D3A89E8F8BDF1A /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		D19FD5A20EA2B95F6657AD0E /* PullToRevealRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRevealRefresh.swift; sourceTree = "<group>"; };
 		D21AF0F085839B602CF3BFAA /* StalenessIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalenessIndicator.swift; sourceTree = "<group>"; };
+		D2FC85BB2F5A73E68395F58B /* SlotRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotRule.swift; sourceTree = "<group>"; };
+		D4BBEA15D5C05D05C444021A /* RulesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesListView.swift; sourceTree = "<group>"; };
 		DB42875D36A969C0B16FFB9E /* MealPlannerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC6B678FB2F914064F291F33 /* PlanGenerationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModel.swift; sourceTree = "<group>"; };
 		E1D3D4E1BBFC5391877E7592 /* PlanGenerationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationView.swift; sourceTree = "<group>"; };
 		E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerTests.swift; sourceTree = "<group>"; };
+		E767CE6821102F2B0B5F2E9F /* AddRuleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRuleSheet.swift; sourceTree = "<group>"; };
 		E9D6EA22988867C7E3E442FF /* PaprikaIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaIntegrationTests.swift; sourceTree = "<group>"; };
+		EA0BCC8215D27B4F03B5075C /* RuleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleRowView.swift; sourceTree = "<group>"; };
 		F15307B6A01785962025A4A9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FFD7D1FC29AF7F17926A67B5 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -278,6 +290,7 @@
 				64C39AD6A1A58C9089230E18 /* MealPlan */,
 				58C8FC9C5E6D97A753A6E852 /* PlanGeneration 2 */,
 				6B3F3AF3627C98CA4A1AD972 /* Recipes */,
+				C1DA79BFE19D8C4AC83F6923 /* Rules */,
 				D9868C97B752EAAEA4C1159F /* Sync 2 */,
 			);
 			path = Features;
@@ -335,6 +348,17 @@
 				893FF4E902E67F1E95D8E11C /* Sync */,
 			);
 			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		C1DA79BFE19D8C4AC83F6923 /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				E767CE6821102F2B0B5F2E9F /* AddRuleSheet.swift */,
+				EA0BCC8215D27B4F03B5075C /* RuleRowView.swift */,
+				D4BBEA15D5C05D05C444021A /* RulesListView.swift */,
+				D2FC85BB2F5A73E68395F58B /* SlotRule.swift */,
+			);
+			path = Rules;
 			sourceTree = "<group>";
 		};
 		C3145070EC35BE1268BC0EAA /* Security */ = {
@@ -474,6 +498,14 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					3A3043D3A9F07CD15D59580B = {
+						DevelopmentTeam = HH2SVYXX2D;
+						ProvisioningStyle = Automatic;
+					};
+					BE7D0C3EA6D2155C15D16E3F = {
+						DevelopmentTeam = HH2SVYXX2D;
+						ProvisioningStyle = Automatic;
+					};
 					F6D128C0B47960EBAD3C09F7 = {
 						TestTargetID = BE7D0C3EA6D2155C15D16E3F;
 					};
@@ -536,6 +568,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62EE7E944ADC05D7C567FC8 /* AddRuleSheet.swift in Sources */,
 				A344033FE4A919257243DED1 /* AppState.swift in Sources */,
 				DF7DCD432454EAF927C49933 /* BackgroundRefreshManager.swift in Sources */,
 				EF7DDC971B79BF23EB17C100 /* CachedAsyncImage.swift in Sources */,
@@ -559,7 +592,10 @@
 				923319E540A98BE3F076B71F /* RecipeSyncEngine.swift in Sources */,
 				5CB0D503A2F96CB4DC46C140 /* RejectionTracker.swift in Sources */,
 				382D9B610F11B36336BE4202 /* RootView.swift in Sources */,
+				D68B29CD3B9319594B9822F5 /* RuleRowView.swift in Sources */,
+				6A4907C4619708DECFF54AF8 /* RulesListView.swift in Sources */,
 				21FF757CE747C78703A3DED3 /* SkeletonView.swift in Sources */,
+				AD2BAB9139544567F3BA3FB0 /* SlotRule.swift in Sources */,
 				1CCB73DAAB7B7D8D98798574 /* StalenessIndicator.swift in Sources */,
 				8B4FF220FC679AA8CDADE35C /* SwiftDataModels.swift in Sources */,
 				D3D386A5DA0DF7739F65E681 /* SyncStatusIndicator.swift in Sources */,
@@ -599,6 +635,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EDF92849099867AA9A8CF44 /* AddRuleSheet.swift in Sources */,
 				5197F1528256F67299B70CC1 /* AppState.swift in Sources */,
 				073BC80CA1B968664CE5AFCD /* BackgroundRefreshManager.swift in Sources */,
 				9522F3C34764FC8EE797367F /* CachedAsyncImage.swift in Sources */,
@@ -622,7 +659,10 @@
 				7DC7B71F70C15E1D48A6EE40 /* RecipeSyncEngine.swift in Sources */,
 				2A6E232A212503BF7C6F4A7A /* RejectionTracker.swift in Sources */,
 				4BDB6E6A9FB4768516582318 /* RootView.swift in Sources */,
+				E3666E693D3F658F352C4521 /* RuleRowView.swift in Sources */,
+				2AB35285D5359D9A8176BDC9 /* RulesListView.swift in Sources */,
 				5FC6F51F2801E1F3A7C037A6 /* SkeletonView.swift in Sources */,
+				F13C946D34892D7C5E461E37 /* SlotRule.swift in Sources */,
 				402D2BA34490DD65A211310D /* StalenessIndicator.swift in Sources */,
 				1E966DAB7B63FFC6709DA6EA /* SwiftDataModels.swift in Sources */,
 				119CEA49E36E8BC2908FBC85 /* SyncStatusIndicator.swift in Sources */,
@@ -664,7 +704,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PaprikaPlanner-macOS.app/Contents/MacOS/PaprikaPlanner-macOS";
 			};
@@ -674,11 +714,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 91;
+				CURRENT_PROJECT_VERSION = 92;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MealPlanner;
@@ -687,8 +727,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app;
+				MARKETING_VERSION = 2.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
 				SDKROOT = macosx;
@@ -762,11 +802,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 91;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 92;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MealPlanner;
@@ -779,8 +819,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app;
+				MARKETING_VERSION = 2.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
 				SDKROOT = iphoneos;
@@ -854,7 +894,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/paprikaplanner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/paprikaplanner";
@@ -871,7 +911,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = PaprikaPlanner;
@@ -882,11 +922,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 91;
+				CURRENT_PROJECT_VERSION = 92;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MealPlanner;
@@ -895,8 +935,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app;
+				MARKETING_VERSION = 2.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
 				SDKROOT = macosx;
@@ -914,7 +954,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PaprikaPlanner-macOS.app/Contents/MacOS/PaprikaPlanner-macOS";
 			};
@@ -930,7 +970,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/paprikaplanner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/paprikaplanner";
@@ -947,7 +987,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = PaprikaPlanner;
@@ -958,11 +998,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
-				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 91;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 92;
+				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MealPlanner;
@@ -975,8 +1015,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mealplanner.app;
+				MARKETING_VERSION = 2.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
 				SDKROOT = iphoneos;

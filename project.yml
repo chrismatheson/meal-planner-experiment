@@ -1,6 +1,6 @@
 name: MealPlanner
 options:
-  bundleIdPrefix: com.mealplanner
+  bundleIdPrefix: com.curleybracketsengineering
   deploymentTarget:
     iOS: "17.0"
     macOS: "14.0"
@@ -30,11 +30,11 @@ targets:
               NSIncludesSubdomains: true
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.curleybracketsengineering.paprikaplanner
         PRODUCT_NAME: paprikaplanner
         PRODUCT_MODULE_NAME: paprikaplanner
-        MARKETING_VERSION: "2.0.2"
-        CURRENT_PROJECT_VERSION: 91
+        MARKETING_VERSION: "2.0.3"
+        CURRENT_PROJECT_VERSION: 92
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: MealPlanner
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -43,14 +43,13 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         TARGETED_DEVICE_FAMILY: "1,2"
-        CODE_SIGN_IDENTITY: ""
-        CODE_SIGNING_REQUIRED: "NO"
-        CODE_SIGNING_ALLOWED: "NO"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: HH2SVYXX2D
     entitlements:
       path: MealPlanner/MealPlanner.entitlements
       properties:
         keychain-access-groups:
-          - $(AppIdentifierPrefix)com.mealplanner.app
+          - $(AppIdentifierPrefix)com.curleybracketsengineering.paprikaplanner
 
   PaprikaPlanner-macOS:
     type: application
@@ -61,21 +60,21 @@ targets:
           - "**/*.md"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.curleybracketsengineering.paprikaplanner
         PRODUCT_NAME: paprikaplanner
         PRODUCT_MODULE_NAME: paprikaplanner
-        MARKETING_VERSION: "2.0.2"
-        CURRENT_PROJECT_VERSION: 91
+        MARKETING_VERSION: "2.0.3"
+        CURRENT_PROJECT_VERSION: 92
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: MealPlanner
         MACOSX_DEPLOYMENT_TARGET: "14.0"
-        CODE_SIGN_IDENTITY: "-"
-        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: HH2SVYXX2D
     entitlements:
       path: MealPlanner/MealPlanner.entitlements
       properties:
         keychain-access-groups:
-          - $(AppIdentifierPrefix)com.mealplanner.app
+          - $(AppIdentifierPrefix)com.curleybracketsengineering.paprikaplanner
 
   MealPlannerTests:
     type: bundle.unit-test
@@ -86,7 +85,7 @@ targets:
       - target: PaprikaPlanner
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.curleybracketsengineering.paprikaplanner.tests
         GENERATE_INFOPLIST_FILE: YES
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/paprikaplanner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/paprikaplanner"
         BUNDLE_LOADER: "$(TEST_HOST)"
@@ -100,7 +99,7 @@ targets:
       - target: PaprikaPlanner-macOS
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.curleybracketsengineering.paprikaplanner.tests
         GENERATE_INFOPLIST_FILE: YES
 
   MealPlannerUITests:
@@ -112,7 +111,7 @@ targets:
       - target: PaprikaPlanner
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.mealplanner.app.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: com.curleybracketsengineering.paprikaplanner.uitests
         GENERATE_INFOPLIST_FILE: YES
 
 schemes:

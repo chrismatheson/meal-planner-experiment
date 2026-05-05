@@ -54,7 +54,7 @@ final class AppState {
 
             // Validate token by making a test request
             do {
-                _ = try await client.fetchRecipes(limit: 1)
+                _ = try await client.fetchRecipeStubs()
 
                 // Token is valid - restore session
                 self.paprikaClient = client

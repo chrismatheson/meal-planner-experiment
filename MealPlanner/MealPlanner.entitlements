@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.mealplanner.app</string>
+		<string>$(AppIdentifierPrefix)com.curleybracketsengineering.paprikaplanner</string>
 	</array>
 </dict>
 </plist>

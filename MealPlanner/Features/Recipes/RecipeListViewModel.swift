@@ -50,7 +50,7 @@ final class RecipeListViewModel {
             isLoading = true
         }
 
-        let result = await syncEngine.sync(client: client, context: context)
+        _ = await syncEngine.sync(client: client, context: context)
         isLoading = false
 
         if case .failed(let message) = syncEngine.phase {
