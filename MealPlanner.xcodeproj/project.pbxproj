@@ -737,7 +737,7 @@
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 94;
 				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
@@ -747,7 +747,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
@@ -825,7 +825,7 @@
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 94;
 				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
@@ -839,7 +839,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
@@ -945,7 +945,7 @@
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 94;
 				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
@@ -955,7 +955,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
@@ -1021,7 +1021,7 @@
 				CODE_SIGN_ENTITLEMENTS = MealPlanner/MealPlanner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 93;
+				CURRENT_PROJECT_VERSION = 94;
 				DEVELOPMENT_TEAM = HH2SVYXX2D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealPlanner/Info.plist;
@@ -1035,7 +1035,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.curleybracketsengineering.paprikaplanner;
 				PRODUCT_MODULE_NAME = paprikaplanner;
 				PRODUCT_NAME = paprikaplanner;
