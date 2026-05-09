@@ -15,13 +15,29 @@ actor PaprikaClient {
 
     // Must identify as Paprika client with platform info
     private let userAgent = "Paprika Recipe Manager 3/3.7.4 (iOS 17.0; iPhone)"
-    
-    init() {
-        // Token can be set externally via setToken() for session restoration
+
+    /// URLSession with configured timeouts (default: 30s request, 15s resource)
+    let session: URLSession
+
+    /// Default timeout for API requests (seconds)
+    static let defaultTimeoutInterval: TimeInterval = 30
+
+    init(session: URLSession? = nil) {
+        if let session {
+            self.session = session
+        } else {
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = Self.defaultTimeoutInterval
+            config.timeoutIntervalForResource = 60
+            self.session = URLSession(configuration: config)
+        }
     }
 
     init(keychain: KeychainService) {
-        // Legacy init for compatibility
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = Self.defaultTimeoutInterval
+        config.timeoutIntervalForResource = 60
+        self.session = URLSession(configuration: config)
     }
 
     /// Sets the authentication token (for session restoration from Keychain)
@@ -57,7 +73,7 @@ actor PaprikaClient {
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         request.httpBody = body
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw PaprikaError.invalidResponse
@@ -208,7 +224,7 @@ actor PaprikaClient {
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.httpBody = body
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw PaprikaError.invalidResponse
@@ -342,7 +358,7 @@ actor PaprikaClient {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw PaprikaError.invalidResponse
@@ -378,7 +394,7 @@ actor PaprikaClient {
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.httpBody = try JSONEncoder().encode(body)
 
-        let (_, response) = try await URLSession.shared.data(for: request)
+        let (_, response) = try await session.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {
@@ -397,7 +413,7 @@ actor PaprikaClient {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
 
-        let (_, response) = try await URLSession.shared.data(for: request)
+        let (_, response) = try await session.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {

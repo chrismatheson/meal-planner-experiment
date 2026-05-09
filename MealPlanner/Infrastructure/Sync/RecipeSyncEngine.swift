@@ -99,8 +99,14 @@ final class RecipeSyncEngine {
 
     /// Perform a full incremental recipe sync.
     /// - Returns: SyncResult with counts, or throws on fatal error
+    /// Guards against concurrent sync calls — returns empty result if already syncing.
     @MainActor
     func sync(client: PaprikaClient, context: ModelContext) async -> SyncResult {
+        guard !isSyncing else {
+            eventLog.warning("Sync already in progress — skipping concurrent call")
+            return SyncResult(total: 0, fetched: 0, skipped: 0, deleted: 0, errors: 0)
+        }
+
         phase = .fetchingStubs
         syncedRecipes = 0
         totalRecipes = 0
