@@ -163,6 +163,15 @@ final class RecipeSyncEngine {
             syncStatus.markRecipesSynced()
             phase = .complete
 
+            // Run metadata inference in background after recipe sync
+            Task.detached {
+                let engine = MetadataInferenceEngine()
+                let inferred = await engine.runInBackground(container: context.container)
+                if inferred > 0 {
+                    SyncEventLog.shared.info("Metadata: inferred effort level for \(inferred) recipes")
+                }
+            }
+
             let result = SyncResult(
                 total: stubs.count,
                 fetched: diff.toFetch.count - errors,

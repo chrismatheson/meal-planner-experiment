@@ -31,6 +31,10 @@
 		1B4E58922FAF946B0022BF08 /* MetadataResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58902FAF946B0022BF08 /* MetadataResolver.swift */; };
 		1B4E58942FAF94950022BF08 /* MetadataResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58932FAF94950022BF08 /* MetadataResolverTests.swift */; };
 		1B4E58952FAF94950022BF08 /* MetadataResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58932FAF94950022BF08 /* MetadataResolverTests.swift */; };
+		1B4E58972FAF94FE0022BF08 /* MetadataInferenceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58962FAF94FE0022BF08 /* MetadataInferenceEngine.swift */; };
+		1B4E58982FAF94FE0022BF08 /* MetadataInferenceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58962FAF94FE0022BF08 /* MetadataInferenceEngine.swift */; };
+		1B4E589A2FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58992FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift */; };
+		1B4E589B2FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58992FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift */; };
 		1C027958E2975A4045C9F9B8 /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46807E03C78FB285683CC8C7 /* MealPlanView.swift */; };
 		1E966DAB7B63FFC6709DA6EA /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */; };
 		21FF757CE747C78703A3DED3 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7D1FC29AF7F17926A67B5 /* SkeletonView.swift */; };
@@ -151,6 +155,8 @@
 		1B4E588D2FAF94620022BF08 /* RecipeMetadataOverride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeMetadataOverride.swift; sourceTree = "<group>"; };
 		1B4E58902FAF946B0022BF08 /* MetadataResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataResolver.swift; sourceTree = "<group>"; };
 		1B4E58932FAF94950022BF08 /* MetadataResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataResolverTests.swift; sourceTree = "<group>"; };
+		1B4E58962FAF94FE0022BF08 /* MetadataInferenceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInferenceEngine.swift; sourceTree = "<group>"; };
+		1B4E58992FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInferenceEngineTests.swift; sourceTree = "<group>"; };
 		201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MealPlannerTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21ECFE7D5540F09D7B615512 /* RejectionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectionTracker.swift; sourceTree = "<group>"; };
 		314F77A096421405FAC62A30 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -219,6 +225,7 @@
 				1B4E58842FAF91290022BF08 /* TimeParserTests.swift */,
 				1B4E58872FAF92C50022BF08 /* EffortLevelTests.swift */,
 				1B4E58932FAF94950022BF08 /* MetadataResolverTests.swift */,
+				1B4E58992FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift */,
 			);
 			path = MealPlannerTests;
 			sourceTree = "<group>";
@@ -247,6 +254,7 @@
 				1B4E588A2FAF92C90022BF08 /* EffortLevel.swift */,
 				1B4E588D2FAF94620022BF08 /* RecipeMetadataOverride.swift */,
 				1B4E58902FAF946B0022BF08 /* MetadataResolver.swift */,
+				1B4E58962FAF94FE0022BF08 /* MetadataInferenceEngine.swift */,
 			);
 			path = Metadata;
 			sourceTree = "<group>";
@@ -659,6 +667,7 @@
 				6A4907C4619708DECFF54AF8 /* RulesListView.swift in Sources */,
 				21FF757CE747C78703A3DED3 /* SkeletonView.swift in Sources */,
 				AD2BAB9139544567F3BA3FB0 /* SlotRule.swift in Sources */,
+				1B4E58972FAF94FE0022BF08 /* MetadataInferenceEngine.swift in Sources */,
 				8B4FF220FC679AA8CDADE35C /* SwiftDataModels.swift in Sources */,
 				D2F6630226E038391B8FFA3B /* SyncDetailView.swift in Sources */,
 				DC2122B568A9B9CB5257F33E /* SyncEventLog.swift in Sources */,
@@ -676,6 +685,7 @@
 			files = (
 				9ACA5A1482832BD09294D0AF /* ImageCacheTests.swift in Sources */,
 				1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */,
+				1B4E589B2FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift in Sources */,
 				1B4E58862FAF91290022BF08 /* TimeParserTests.swift in Sources */,
 				3F138BA0F1BCA0615CB15D4F /* PaprikaIntegrationTests.swift in Sources */,
 				EB401BAC55C506B68A6AF142 /* PlanGenerationViewModelTests.swift in Sources */,
@@ -694,6 +704,7 @@
 			files = (
 				9CA81DE042116506F10BE4FF /* ImageCacheTests.swift in Sources */,
 				2380A16B0A1C956B82878857 /* MealPlannerTests.swift in Sources */,
+				1B4E589A2FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift in Sources */,
 				1B4E58852FAF91290022BF08 /* TimeParserTests.swift in Sources */,
 				FBCD4B491094152184FF2966 /* PaprikaIntegrationTests.swift in Sources */,
 				12A82115796CA7F1090168AD /* PlanGenerationViewModelTests.swift in Sources */,
@@ -742,6 +753,7 @@
 				2AB35285D5359D9A8176BDC9 /* RulesListView.swift in Sources */,
 				5FC6F51F2801E1F3A7C037A6 /* SkeletonView.swift in Sources */,
 				F13C946D34892D7C5E461E37 /* SlotRule.swift in Sources */,
+				1B4E58982FAF94FE0022BF08 /* MetadataInferenceEngine.swift in Sources */,
 				1E966DAB7B63FFC6709DA6EA /* SwiftDataModels.swift in Sources */,
 				08115CF068680341636BDB36 /* SyncDetailView.swift in Sources */,
 				CCF0BF63E341EA44A8D1CE43 /* SyncEventLog.swift in Sources */,
