@@ -4,19 +4,21 @@ import XCTest
 /// Integration tests that hit the REAL Paprika API
 /// These tests require valid credentials to pass
 /// 
-/// To run: Set environment variables PAPRIKA_EMAIL and PAPRIKA_PASSWORD
-/// or update the testCredentials below for local testing (don't commit real creds!)
+/// To run: Set environment variables PAPRIKA_TEST_EMAIL and PAPRIKA_TEST_PASSWORD
 final class PaprikaIntegrationTests: XCTestCase {
     
     // MARK: - Test Configuration
 
-    /// Test credentials - these are for a test account only
-    /// In a real project, use a secrets management solution
-    private let testEmail = "blackhole@mailinator.com"
-    private let testPassword = "cessuh-xawtig-xIbpa2"
+    private var testEmail: String? {
+        ProcessInfo.processInfo.environment["PAPRIKA_TEST_EMAIL"]
+    }
+
+    private var testPassword: String? {
+        ProcessInfo.processInfo.environment["PAPRIKA_TEST_PASSWORD"]
+    }
 
     private var hasValidCredentials: Bool {
-        !testEmail.isEmpty && !testPassword.isEmpty
+        testEmail?.isEmpty == false && testPassword?.isEmpty == false
     }
     
     // MARK: - Integration Tests
@@ -51,13 +53,15 @@ final class PaprikaIntegrationTests: XCTestCase {
     }
 
     /// Tests login with valid credentials
-    /// Only runs if PAPRIKA_EMAIL and PAPRIKA_PASSWORD are set
+    /// Only runs if PAPRIKA_TEST_EMAIL and PAPRIKA_TEST_PASSWORD are set
     func test_login_withValidCredentials_returnsToken() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+        let email = try XCTUnwrap(testEmail)
+        let password = try XCTUnwrap(testPassword)
 
         let client = PaprikaClient()
 
-        let token = try await client.login(email: testEmail, password: testPassword)
+        let token = try await client.login(email: email, password: password)
 
         XCTAssertFalse(token.isEmpty, "Token should not be empty")
         print("✅ Successfully logged in, token length: \(token.count)")
@@ -80,11 +84,13 @@ final class PaprikaIntegrationTests: XCTestCase {
     /// Tests fetching recipes after successful login
     func test_fetchRecipes_afterLogin_returnsRecipes() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+        let email = try XCTUnwrap(testEmail)
+        let password = try XCTUnwrap(testPassword)
 
         let client = PaprikaClient()
 
         // First login
-        _ = try await client.login(email: testEmail, password: testPassword)
+        _ = try await client.login(email: email, password: password)
 
         // Then fetch recipes
         let recipes = try await client.fetchRecipes()
@@ -98,11 +104,13 @@ final class PaprikaIntegrationTests: XCTestCase {
     /// Tests that we can save a meal to Paprika using v1 sync API
     func test_saveMealItem_createsNewMealInPaprika() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+        let email = try XCTUnwrap(testEmail)
+        let password = try XCTUnwrap(testPassword)
 
         let client = PaprikaClient()
 
         // Login first (this sets up both Bearer token and Basic Auth)
-        _ = try await client.login(email: testEmail, password: testPassword)
+        _ = try await client.login(email: email, password: password)
 
         // Get a recipe to assign
         let recipes = try await client.fetchRecipes(limit: 1)
@@ -143,9 +151,11 @@ final class PaprikaIntegrationTests: XCTestCase {
     /// BUG FIX: Previously, every sync created new meals with new UIDs
     func test_saveMeal_withSameUid_updatesInsteadOfCreatingDuplicate() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+        let email = try XCTUnwrap(testEmail)
+        let password = try XCTUnwrap(testPassword)
 
         let client = PaprikaClient()
-        _ = try await client.login(email: testEmail, password: testPassword)
+        _ = try await client.login(email: email, password: password)
 
         // Get two different recipes
         let recipes = try await client.fetchRecipes(limit: 2)
@@ -205,9 +215,11 @@ final class PaprikaIntegrationTests: XCTestCase {
     /// Debug test: List all meals in Paprika with their dates
     func test_debug_listAllMeals() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+        let email = try XCTUnwrap(testEmail)
+        let password = try XCTUnwrap(testPassword)
 
         let client = PaprikaClient()
-        _ = try await client.login(email: testEmail, password: testPassword)
+        _ = try await client.login(email: email, password: password)
 
         let meals = try await client.fetchMeals()
         print("📋 All meals in Paprika (\(meals.count) total):")
@@ -230,9 +242,11 @@ final class PaprikaIntegrationTests: XCTestCase {
     /// Run this manually after fixing the duplicate bug
     func test_cleanup_duplicateMeals() async throws {
         try XCTSkipUnless(hasValidCredentials, "Skipping: No valid Paprika credentials configured")
+        let email = try XCTUnwrap(testEmail)
+        let password = try XCTUnwrap(testPassword)
 
         let client = PaprikaClient()
-        _ = try await client.login(email: testEmail, password: testPassword)
+        _ = try await client.login(email: email, password: password)
 
         let meals = try await client.fetchMeals()
         print("📋 Found \(meals.count) total meals")

@@ -5,7 +5,6 @@ import SwiftData
 final class RecipeListViewModel {
     var isLoading = false
     var error: Error?
-    var isOffline = false
 
     /// Exposes sync engine state for progress UI
     let syncEngine = RecipeSyncEngine()
@@ -36,7 +35,6 @@ final class RecipeListViewModel {
 
         guard let client = client else {
             print("📶 No authenticated client - offline mode")
-            isOffline = true
             return
         }
 
@@ -61,9 +59,7 @@ final class RecipeListViewModel {
                     NSError(domain: "RecipeSync", code: -1, userInfo: [NSLocalizedDescriptionKey: message])
                 )
             }
-            isOffline = true
         } else {
-            isOffline = false
             error = nil
         }
     }

@@ -52,6 +52,7 @@ struct DayPlanCard: View {
                     .background(Color.paprikaPrimary.opacity(0.1))
                     .clipShape(Circle())
             }
+            .accessibilityIdentifier("RegenerateDayButton_\(dayIdentifier)")
             .accessibilityLabel("Change \(day.dayName)'s meal")
             .accessibilityHint("Assigns a different recipe")
         }
@@ -61,8 +62,13 @@ struct DayPlanCard: View {
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
         // Combined accessibility for the whole card
         .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("DayPlanCard_\(dayIdentifier)")
         .accessibilityLabel(accessibilityDescription)
         .accessibilityHint(day.recipe != nil ? "Tap to view recipe details" : "")
+    }
+
+    private var dayIdentifier: String {
+        day.dayName.replacingOccurrences(of: " ", with: "_")
     }
 
     private var accessibilityDescription: String {

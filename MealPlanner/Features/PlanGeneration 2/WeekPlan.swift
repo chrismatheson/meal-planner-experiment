@@ -74,16 +74,16 @@ final class WeekPlan {
     /// All available recipes for generation
     private var allRecipes: [RecipeModel]
 
-    /// Maximum same cuisine per week (soft limit)
-    private let maxSameCuisinePerWeek = 2
+    private let generator: PlanGenerator
 
     /// Combined exclusions
     private var allExcludedIds: Set<String> {
         sessionExcludedIds.union(externalExcludedIds)
     }
 
-    init(recipes: [RecipeModel]) {
+    init(recipes: [RecipeModel], generator: PlanGenerator = PlanGenerator()) {
         self.allRecipes = recipes
+        self.generator = generator
         self.days = []
     }
 
@@ -101,11 +101,7 @@ final class WeekPlan {
     /// Generate a fresh 7-day plan with random recipes
     func generate() {
         sessionExcludedIds.removeAll()
-        days = (0..<7).map { dayOffset in
-            let date = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date()) ?? Date()
-            let recipe = pickRandomRecipe()
-            return DayPlan(date: date, recipe: recipe)
-        }
+        days = generator.generateWeek(from: allRecipes, excluding: allExcludedIds)
     }
 
     /// Regenerate a specific day with a different recipe
@@ -122,67 +118,18 @@ final class WeekPlan {
             sessionExcludedIds.insert(rejectedId)
         }
 
-        // Pick a new recipe
-        days[index].recipe = pickRandomRecipe()
+        guard let newDay = generator.regenerateDay(
+            day: index,
+            in: days,
+            from: allRecipes,
+            excluding: allExcludedIds
+        ) else {
+            return rejectedId
+        }
+
+        days[index].recipe = newDay.recipe
 
         return rejectedId
-    }
-
-    /// Pick a random recipe that hasn't been used this week and isn't excluded
-    /// Also applies cuisine diversity rules as a soft constraint
-    private func pickRandomRecipe() -> RecipeModel? {
-        // Get recipes not already in this week's plan and not excluded
-        let usedIds = Set(days.compactMap { $0.recipe?.uid })
-        var available = allRecipes.filter { recipe in
-            !usedIds.contains(recipe.uid) && !allExcludedIds.contains(recipe.uid)
-        }
-
-        // If we've exhausted all recipes, relax exclusions progressively
-        if available.isEmpty {
-            // First, try without session exclusions
-            sessionExcludedIds.removeAll()
-            let withoutSession = allRecipes.filter { recipe in
-                !usedIds.contains(recipe.uid) && !externalExcludedIds.contains(recipe.uid)
-            }
-            if !withoutSession.isEmpty {
-                available = withoutSession
-            } else {
-                // Last resort: allow anything not in this week
-                let lastResort = allRecipes.filter { !usedIds.contains($0.uid) }
-                return lastResort.randomElement()
-            }
-        }
-
-        // Apply cuisine diversity as soft constraint
-        let overusedCuisines = getOverusedCuisines()
-        if !overusedCuisines.isEmpty {
-            let diverseOptions = available.filter { recipe in
-                let cuisine = CuisineType.detect(from: recipe.categories)
-                return cuisine == .unknown || !overusedCuisines.contains(cuisine)
-            }
-            if !diverseOptions.isEmpty {
-                print("🍝 Cuisine diversity: avoiding \(overusedCuisines.map(\.rawValue)), \(diverseOptions.count) options")
-                return diverseOptions.randomElement()
-            }
-            // If no options avoid overused cuisines, fall through to any available
-        }
-
-        return available.randomElement()
-    }
-
-    /// Get cuisines that have been used too many times this week
-    private func getOverusedCuisines() -> Set<CuisineType> {
-        var cuisineCounts: [CuisineType: Int] = [:]
-
-        for day in days {
-            guard let recipe = day.recipe else { continue }
-            let cuisine = CuisineType.detect(from: recipe.categories)
-            if cuisine != .unknown {
-                cuisineCounts[cuisine, default: 0] += 1
-            }
-        }
-
-        return Set(cuisineCounts.filter { $0.value >= maxSameCuisinePerWeek }.keys)
     }
 
     /// Statistics for debugging/UI

@@ -34,14 +34,7 @@ struct RecipeListView: View {
             }
             .navigationTitle("Recipes")
             .searchable(text: $searchText, prompt: "Search recipes")
-            .toolbar {
-                if viewModel.isOffline {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Label("Offline", systemImage: "wifi.slash")
-                            .foregroundStyle(.secondary)
-                    }
-                }
-            }
+            .toolbar { }
             .refreshable {
                 // Pull-to-refresh always forces a sync, bypassing throttle
                 await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient, force: true)
@@ -57,12 +50,6 @@ struct RecipeListView: View {
     private var recipeGrid: some View {
         ScrollView {
             VStack(spacing: Spacing.sm) {
-                // Staleness indicator when offline
-                if viewModel.isOffline {
-                    StalenessIndicator(isOffline: true)
-                        .padding(.top, Spacing.sm)
-                }
-
                 LazyVGrid(columns: columns, spacing: Spacing.sm) {
                     ForEach(filteredRecipes) { recipe in
                         RecipeCard(recipe: recipe)

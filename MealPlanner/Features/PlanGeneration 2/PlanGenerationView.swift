@@ -25,7 +25,7 @@ struct PlanGenerationView: View {
                 } else {
                     GeneratePromptView(
                         isGenerating: viewModel.isGenerating,
-                        isOffline: viewModel.isOffline,
+
                         onGenerate: {
                             viewModel.generatePlan(context: modelContext)
                         }
@@ -34,18 +34,6 @@ struct PlanGenerationView: View {
             }
             .navigationTitle("Meal Plan")
             .toolbar {
-                // Offline indicator (leading)
-                if viewModel.isOffline || viewModel.forceOffline {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Label("Offline", systemImage: viewModel.forceOffline ? "airplane" : "wifi.slash")
-                            .foregroundStyle(.orange)
-                            .onLongPressGesture {
-                                viewModel.toggleForceOffline()
-                            }
-                            .accessibilityIdentifier("OfflineIndicator")
-                    }
-                }
-
                 // Only show toolbar when plan is generated
                 if viewModel.hasGenerated {
                     ToolbarItemGroup(placement: .topBarTrailing) {
@@ -138,7 +126,6 @@ struct LoadingExistingView: View {
 /// Initial prompt to generate a plan
 struct GeneratePromptView: View {
     let isGenerating: Bool
-    let isOffline: Bool
     let onGenerate: () -> Void
 
     var body: some View {
@@ -157,12 +144,6 @@ struct GeneratePromptView: View {
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-
-            if isOffline {
-                Label("Offline - using cached recipes", systemImage: "wifi.slash")
-                    .font(.caption)
-                    .foregroundStyle(.orange)
-            }
 
             Button(action: onGenerate) {
                 HStack {

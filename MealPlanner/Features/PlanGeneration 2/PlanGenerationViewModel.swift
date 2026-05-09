@@ -11,7 +11,6 @@ final class PlanGenerationViewModel {
     var syncError: String?
 
     // Offline mode support
-    var isOffline = false
     var forceOffline = false  // User can force offline via long-press
     var isFromCache = false   // True if showing cached data (not fresh from API)
 
@@ -122,7 +121,6 @@ final class PlanGenerationViewModel {
               let password = try? keychain.getPassword() else {
             print("⚠️ No credentials, staying with cached data")
             loadingStatus = "No credentials"
-            isOffline = true
             return
         }
 
@@ -182,13 +180,11 @@ final class PlanGenerationViewModel {
                 loadingStatus = "No meals for this week"
             }
 
-            isOffline = false
             print("🔄 Refreshed \(currentWeekMeals.count) meals from API for week \(currentWeekNumber)")
 
         } catch {
             print("⚠️ API refresh failed: \(error)")
             loadingStatus = "API error: \(error.localizedDescription)"
-            isOffline = true
         }
     }
 
@@ -329,7 +325,6 @@ final class PlanGenerationViewModel {
     /// Toggle force offline mode (for testing)
     func toggleForceOffline() {
         forceOffline.toggle()
-        isOffline = forceOffline
     }
 
     /// Regenerate all days with fresh random selections

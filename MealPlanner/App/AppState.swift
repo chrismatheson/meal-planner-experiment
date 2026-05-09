@@ -7,7 +7,6 @@ final class AppState {
     var isAuthenticated: Bool = false
     var isLoading: Bool = false
     var isRestoringSession: Bool = true  // True until we've checked for stored session
-    var isOfflineMode: Bool = false      // True when authenticated via cache (no network)
     var currentUser: User?
     var paprikaClient: PaprikaClient?
 
@@ -60,7 +59,6 @@ final class AppState {
                 self.paprikaClient = client
                 self.currentUser = User(email: storedEmail)
                 self.isAuthenticated = true
-                self.isOfflineMode = false
                 print("✅ Session restored from stored token")
                 return
             } catch {
@@ -79,7 +77,6 @@ final class AppState {
             self.paprikaClient = client
             self.currentUser = User(email: storedEmail)
             self.isAuthenticated = true
-            self.isOfflineMode = false
             print("✅ Session restored via re-authentication")
         } catch {
             // OFFLINE-FIRST: If we have credentials AND cached data, allow offline access
@@ -87,7 +84,6 @@ final class AppState {
                 print("📶 Offline with cached data - allowing offline access")
                 self.currentUser = User(email: storedEmail)
                 self.isAuthenticated = true
-                self.isOfflineMode = true
                 // paprikaClient stays nil - views will use cached data
             } else {
                 print("❌ Re-authentication failed and no cached data: \(error)")

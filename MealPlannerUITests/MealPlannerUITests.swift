@@ -54,6 +54,49 @@ final class MealPlannerUITests: XCTestCase {
         // Wait for login to complete
         _ = app.tabBars.firstMatch.waitForExistence(timeout: 15)
     }
+
+    private var configuredTestEmail: String? {
+        ProcessInfo.processInfo.environment["PAPRIKA_TEST_EMAIL"]
+    }
+
+    private var configuredTestPassword: String? {
+        ProcessInfo.processInfo.environment["PAPRIKA_TEST_PASSWORD"]
+    }
+
+    private func waitForAuthenticatedUI(timeout: TimeInterval = 15) {
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: timeout),
+                      "Expected authenticated tab bar to appear")
+        XCTAssertTrue(app.navigationBars["Meal Plan"].waitForExistence(timeout: 5),
+                      "Expected app to land on the Plan-first flow")
+    }
+
+    private func openPlanTab() {
+        app.tabBars.buttons["Plan"].tap()
+        XCTAssertTrue(app.navigationBars["Meal Plan"].waitForExistence(timeout: 5))
+    }
+
+    @discardableResult
+    private func ensurePlanReviewIsVisible(timeout: TimeInterval = 15) -> Bool {
+        openPlanTab()
+
+        let syncButton = app.buttons["SyncButton"]
+        if syncButton.waitForExistence(timeout: 5) {
+            return true
+        }
+
+        let planButton = app.buttons["Plan My Week"]
+        if planButton.waitForExistence(timeout: 5) {
+            planButton.tap()
+            return syncButton.waitForExistence(timeout: timeout)
+        }
+
+        let loadingText = app.staticTexts["Loading your meal plan..."]
+        if loadingText.exists {
+            return syncButton.waitForExistence(timeout: timeout)
+        }
+
+        return syncButton.waitForExistence(timeout: timeout)
+    }
     
     // MARK: - Critical Path Tests (MUST PASS)
     
@@ -105,9 +148,9 @@ final class MealPlannerUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Sign in with your Paprika sync account"].exists)
     }
     
-    /// Verifies valid credentials navigate to recipes
+    /// Verifies valid credentials navigate into the current Plan-first shell
     /// REQUIRES: PAPRIKA_TEST_EMAIL and PAPRIKA_TEST_PASSWORD env vars
-    func test_login_withValidCredentials_showsRecipeList() throws {
+    func test_login_withValidCredentials_showsPlanShell() throws {
         guard let email = ProcessInfo.processInfo.environment["PAPRIKA_TEST_EMAIL"],
               let password = ProcessInfo.processInfo.environment["PAPRIKA_TEST_PASSWORD"] else {
             throw XCTSkip("Test credentials not configured")
@@ -120,15 +163,15 @@ final class MealPlannerUITests: XCTestCase {
         app.secureTextFields["Password"].typeText(password)
         
         app.buttons["Sign In"].tap()
-        
-        // Wait for navigation to complete
-        let recipesNav = app.navigationBars["Recipes"]
-        XCTAssertTrue(recipesNav.waitForExistence(timeout: 15), 
-                      "Should navigate to Recipes screen after login")
+
+        waitForAuthenticatedUI()
+        XCTAssertTrue(app.tabBars.buttons["Plan"].exists)
+        XCTAssertTrue(app.tabBars.buttons["Recipes"].exists)
+        XCTAssertTrue(app.tabBars.buttons["Settings"].exists)
     }
     
-    /// Full happy path: login → see recipes → go to meal plan
-    func test_fullHappyPath_loginToMealPlan() throws {
+    /// Full happy path: login → land on Plan → generate/load review state
+    func test_fullHappyPath_loginToPlanReview() throws {
         guard let email = ProcessInfo.processInfo.environment["PAPRIKA_TEST_EMAIL"],
               let password = ProcessInfo.processInfo.environment["PAPRIKA_TEST_PASSWORD"] else {
             throw XCTSkip("Test credentials not configured")
@@ -141,26 +184,20 @@ final class MealPlannerUITests: XCTestCase {
         app.secureTextFields["Password"].typeText(password)
         app.buttons["Sign In"].tap()
 
-        // Wait for recipes
-        XCTAssertTrue(app.navigationBars["Recipes"].waitForExistence(timeout: 15))
-
-        // Navigate to Meal Plan
-        app.tabBars.buttons["Meal Plan"].tap()
-        XCTAssertTrue(app.navigationBars["Meal Plan"].waitForExistence(timeout: 5))
-
-        // Verify we can see the week view
-        XCTAssertTrue(app.staticTexts["Today"].exists || app.buttons["Today"].exists)
+        waitForAuthenticatedUI()
+        XCTAssertTrue(ensurePlanReviewIsVisible(), "Expected generated or loaded plan review UI")
     }
 
     // MARK: - Session Persistence Tests
 
-    // Test credentials (same as integration tests)
-    private let testEmail = "blackhole@mailinator.com"
-    private let testPassword = "cessuh-xawtig-xIbpa2"
-
     /// Verifies that after signing in, session persists when app goes to background and returns
     /// NOTE: UI test terminate/launch reinstalls app, wiping keychain. We test background/foreground instead.
     func test_sessionPersistence_afterLogin_relaunchSkipsLogin() throws {
+        guard let email = configuredTestEmail,
+              let password = configuredTestPassword else {
+            throw XCTSkip("Test credentials not configured")
+        }
+
         // Check initial keychain status
         let keychainStatus = app.staticTexts["KeychainStatus"]
         if keychainStatus.waitForExistence(timeout: 3) {
@@ -170,15 +207,14 @@ final class MealPlannerUITests: XCTestCase {
         // Sign in only if needed (might already be logged in from previous test)
         if app.textFields["Email"].exists {
             app.textFields["Email"].tap()
-            app.textFields["Email"].typeText(testEmail)
+            app.textFields["Email"].typeText(email)
             app.secureTextFields["Password"].tap()
-            app.secureTextFields["Password"].typeText(testPassword)
+            app.secureTextFields["Password"].typeText(password)
             app.buttons["Sign In"].tap()
         }
 
         // Wait for successful login - should see tab bar
-        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15),
-                      "Should see tab bar after login")
+        waitForAuthenticatedUI()
 
         // Wait a moment for keychain to be written
         sleep(2)
@@ -204,7 +240,7 @@ final class MealPlannerUITests: XCTestCase {
         sleep(1)
 
         // The settings screen should show the logged-in email
-        XCTAssertTrue(app.staticTexts[testEmail].waitForExistence(timeout: 3),
+        XCTAssertTrue(app.staticTexts[email].waitForExistence(timeout: 3),
                       "Should see logged-in email in Settings - confirms session persists")
     }
 
@@ -212,68 +248,39 @@ final class MealPlannerUITests: XCTestCase {
 
     /// Verifies that after generating a plan, countdown timer appears in toolbar
     func test_planGeneration_showsCountdownTimer() throws {
-        // Login if needed
-        if app.textFields["Email"].exists {
-            app.textFields["Email"].tap()
-            app.textFields["Email"].typeText(testEmail)
-            app.secureTextFields["Password"].tap()
-            app.secureTextFields["Password"].typeText(testPassword)
-            app.buttons["Sign In"].tap()
+        guard let email = configuredTestEmail,
+              let password = configuredTestPassword else {
+            throw XCTSkip("Test credentials not configured")
         }
 
-        // Wait for main screen
-        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15))
+        signInIfNeeded(email: email, password: password)
+        waitForAuthenticatedUI()
+        XCTAssertTrue(ensurePlanReviewIsVisible(), "Expected plan review UI")
 
-        // Go to Plan tab
-        app.tabBars.buttons["Plan"].tap()
-
-        // Wait for loading to complete (new behavior: loads existing meals first)
-        sleep(3)
-
-        // Either we see "Plan My Week" (no existing meals) or we see existing plan
-        let planButton = app.buttons["Plan My Week"]
-        if planButton.waitForExistence(timeout: 5) {
-            // No existing meals - generate a new plan
-            planButton.tap()
-        }
-        // If no button, existing meals were loaded and we already have a plan
-
-        // Wait for plan to appear - should see toolbar buttons
         let syncButton = app.buttons["SyncButton"]
-        XCTAssertTrue(syncButton.waitForExistence(timeout: 10), "Sync button should appear in toolbar")
+        XCTAssertTrue(syncButton.exists, "Sync button should appear in toolbar")
 
-        // Verify regenerate button exists
         let regenerateButton = app.buttons["RegenerateButton"]
         XCTAssertTrue(regenerateButton.exists, "Regenerate button should exist in toolbar")
 
-        // Verify day cards are showing (at least one day)
-        // Note: "Today" might not be first if showing cached plan from different day
-        let hasContent = app.staticTexts["Today"].exists ||
-                        app.staticTexts["Monday"].exists ||
-                        app.staticTexts["Tuesday"].exists
-        XCTAssertTrue(hasContent, "Should show day labels in the plan")
+        let dayCards = app.otherElements.matching(NSPredicate(format: "identifier BEGINSWITH 'DayPlanCard_'"))
+        XCTAssertGreaterThan(dayCards.count, 0, "Should show at least one day card in the plan")
     }
 
-    /// Verifies tapping countdown timer triggers sync
-    func test_planGeneration_tapCountdown_triggersSync() throws {
-        // Check if we need to login (might already be logged in from previous test)
-        if app.textFields["Email"].exists {
-            // Login
-            app.textFields["Email"].tap()
-            app.textFields["Email"].typeText(testEmail)
-            app.secureTextFields["Password"].tap()
-            app.secureTextFields["Password"].typeText(testPassword)
-            app.buttons["Sign In"].tap()
+    /// Verifies tapping the sync affordance on the review screen attempts sync
+    func test_planGeneration_tapSyncButton_triggersSync() throws {
+        guard let email = configuredTestEmail,
+              let password = configuredTestPassword else {
+            throw XCTSkip("Test credentials not configured")
         }
 
-        // Wait for login to complete (tab bar indicates we're logged in)
-        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 15))
+        signInIfNeeded(email: email, password: password)
+        waitForAuthenticatedUI()
 
         // Check keychain status in Settings before trying to sync
         app.tabBars.buttons["Settings"].tap()
-        sleep(1)
         let keychainStatusLabel = app.staticTexts["SettingsKeychainStatus"]
-        if keychainStatusLabel.exists {
+        if keychainStatusLabel.waitForExistence(timeout: 3) {
             print("🔑 Keychain status after login: \(keychainStatusLabel.label)")
         }
 
@@ -283,23 +290,9 @@ final class MealPlannerUITests: XCTestCase {
             print("❌ Keychain error: \(keychainErrorLabel.label)")
         }
 
-        // Navigate to Plan
-        app.tabBars.buttons["Plan"].tap()
+        XCTAssertTrue(ensurePlanReviewIsVisible(), "Expected plan review UI before syncing")
 
-        // Wait for loading (new behavior: loads existing meals first)
-        sleep(3)
-
-        // Generate plan if needed (might already have existing meals loaded)
-        let planButton = app.buttons["Plan My Week"]
-        if planButton.waitForExistence(timeout: 3) {
-            planButton.tap()
-        }
-
-        // Wait for plan - sync button indicates plan is shown
         let syncButton = app.buttons["SyncButton"]
-        XCTAssertTrue(syncButton.waitForExistence(timeout: 10), "Sync button should appear")
-
-        // Tap the sync button
         syncButton.tap()
 
         // Wait for sync to complete
