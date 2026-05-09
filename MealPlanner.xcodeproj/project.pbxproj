@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,14 @@
 		17BA24E2B397951C8B0260DF /* ResilienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A281E5F31DF412611C119131 /* ResilienceTests.swift */; };
 		1817BDA0D56EB60FAA282E22 /* SyncStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F965E3E00487CACC7486D27 /* SyncStatusManager.swift */; };
 		1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */; };
+		1B4E58822FAF91250022BF08 /* TimeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58812FAF91250022BF08 /* TimeParser.swift */; };
+		1B4E58832FAF91250022BF08 /* TimeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58812FAF91250022BF08 /* TimeParser.swift */; };
+		1B4E58852FAF91290022BF08 /* TimeParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58842FAF91290022BF08 /* TimeParserTests.swift */; };
+		1B4E58862FAF91290022BF08 /* TimeParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58842FAF91290022BF08 /* TimeParserTests.swift */; };
+		1B4E58882FAF92C50022BF08 /* EffortLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58872FAF92C50022BF08 /* EffortLevelTests.swift */; };
+		1B4E58892FAF92C50022BF08 /* EffortLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58872FAF92C50022BF08 /* EffortLevelTests.swift */; };
+		1B4E588B2FAF92C90022BF08 /* EffortLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E588A2FAF92C90022BF08 /* EffortLevel.swift */; };
+		1B4E588C2FAF92C90022BF08 /* EffortLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E588A2FAF92C90022BF08 /* EffortLevel.swift */; };
 		1C027958E2975A4045C9F9B8 /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46807E03C78FB285683CC8C7 /* MealPlanView.swift */; };
 		1E966DAB7B63FFC6709DA6EA /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */; };
 		21FF757CE747C78703A3DED3 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7D1FC29AF7F17926A67B5 /* SkeletonView.swift */; };
@@ -130,13 +138,17 @@
 		0369ED671AEAE3161AB91611 /* PaprikaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaModels.swift; sourceTree = "<group>"; };
 		07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
 		0B961CB18A0E84013A469BE9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1B4E58812FAF91250022BF08 /* TimeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeParser.swift; sourceTree = "<group>"; };
+		1B4E58842FAF91290022BF08 /* TimeParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeParserTests.swift; sourceTree = "<group>"; };
+		1B4E58872FAF92C50022BF08 /* EffortLevelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffortLevelTests.swift; sourceTree = "<group>"; };
+		1B4E588A2FAF92C90022BF08 /* EffortLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffortLevel.swift; sourceTree = "<group>"; };
 		201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MealPlannerTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21ECFE7D5540F09D7B615512 /* RejectionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectionTracker.swift; sourceTree = "<group>"; };
 		314F77A096421405FAC62A30 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		321E88D239D4B88DDF6D76EF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		3847B7674E57F6ACC8D943D9 /* PaprikaClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaClient.swift; sourceTree = "<group>"; };
 		39E76B021A94C6C45471B80C /* RecipePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePickerView.swift; sourceTree = "<group>"; };
-		3D725EF400E9788B25374EAC /* PaprikaPlanner-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PaprikaPlanner-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D725EF400E9788B25374EAC /* PaprikaPlanner-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "PaprikaPlanner-macOS.app"; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44D6FC38E4942D5CE0B08BC8 /* MealPlannerUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46807E03C78FB285683CC8C7 /* MealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanView.swift; sourceTree = "<group>"; };
 		4EB1A12FAAC390FC9565118D /* SyncStatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusIndicator.swift; sourceTree = "<group>"; };
@@ -154,8 +166,8 @@
 		7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
 		826B5F30FAC90E540982E4ED /* RecipeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewModel.swift; sourceTree = "<group>"; };
 		86736260C8C6BE852935B1BE /* PlanGenerationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModelTests.swift; sourceTree = "<group>"; };
-		9006EBFF5E5EF2FF33745195 /* PaprikaPlanner.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PaprikaPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		948C2B902339EA917F6C8C0D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		9006EBFF5E5EF2FF33745195 /* PaprikaPlanner.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = PaprikaPlanner.app; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		948C2B902339EA917F6C8C0D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		95446E528A48CD0DD5393A9D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A281E5F31DF412611C119131 /* ResilienceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResilienceTests.swift; sourceTree = "<group>"; };
 		A9FA963F59DF520DD5D24CA6 /* OfflineSyncQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncQueue.swift; sourceTree = "<group>"; };
@@ -195,6 +207,8 @@
 				6008DBFD2A6F65E8ABCC4443 /* RecipeListViewModelTests.swift */,
 				613A289377B431DB3F1C9C09 /* RecipeSyncEngineTests.swift */,
 				A281E5F31DF412611C119131 /* ResilienceTests.swift */,
+				1B4E58842FAF91290022BF08 /* TimeParserTests.swift */,
+				1B4E58872FAF92C50022BF08 /* EffortLevelTests.swift */,
 			);
 			path = MealPlannerTests;
 			sourceTree = "<group>";
@@ -214,6 +228,15 @@
 				21ECFE7D5540F09D7B615512 /* RejectionTracker.swift */,
 			);
 			path = "Generation 2";
+			sourceTree = "<group>";
+		};
+		1B4E58802FAF91210022BF08 /* Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				1B4E58812FAF91250022BF08 /* TimeParser.swift */,
+				1B4E588A2FAF92C90022BF08 /* EffortLevel.swift */,
+			);
+			path = Metadata;
 			sourceTree = "<group>";
 		};
 		252E7F194D4A59AD6694BE01 /* Settings */ = {
@@ -370,6 +393,7 @@
 				5E0495A885CF41BC935E83E9 /* Persistence */,
 				C3145070EC35BE1268BC0EAA /* Security */,
 				893FF4E902E67F1E95D8E11C /* Sync */,
+				1B4E58802FAF91210022BF08 /* Metadata */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -545,7 +569,6 @@
 			);
 			mainGroup = 64F39675F1172FA47A6368CB;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -606,11 +629,13 @@
 				A3863643798545F72FA42731 /* OfflineSyncQueue.swift in Sources */,
 				BD6B62F62EE24BF8A9F8ABAA /* PaprikaClient.swift in Sources */,
 				4E142DBAC25872D83BC9AC9A /* PaprikaModels.swift in Sources */,
+				1B4E588B2FAF92C90022BF08 /* EffortLevel.swift in Sources */,
 				1190878EEA7580F1247D215E /* PlanGenerationView.swift in Sources */,
 				3553A2257A46F480BE9BEDE0 /* PlanGenerationViewModel.swift in Sources */,
 				A85B55A8A71C1D097FAF53C6 /* PlanGenerator.swift in Sources */,
 				C765F938DA65E544DEB7155B /* PullToRevealRefresh.swift in Sources */,
 				325244BAF9C05679A0EE56FF /* RecipeDetailView.swift in Sources */,
+				1B4E58832FAF91250022BF08 /* TimeParser.swift in Sources */,
 				31C52997094807D34110C2A8 /* RecipeListView.swift in Sources */,
 				C434573BE66355E70EB7FCC8 /* RecipeListViewModel.swift in Sources */,
 				94D694500A803EAED9B5972C /* RecipePickerView.swift in Sources */,
@@ -637,9 +662,11 @@
 			files = (
 				9ACA5A1482832BD09294D0AF /* ImageCacheTests.swift in Sources */,
 				1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */,
+				1B4E58862FAF91290022BF08 /* TimeParserTests.swift in Sources */,
 				3F138BA0F1BCA0615CB15D4F /* PaprikaIntegrationTests.swift in Sources */,
 				EB401BAC55C506B68A6AF142 /* PlanGenerationViewModelTests.swift in Sources */,
 				73A9F7BF6E5DAD077B9008D4 /* PlanGeneratorTests.swift in Sources */,
+				1B4E58882FAF92C50022BF08 /* EffortLevelTests.swift in Sources */,
 				250D7A156942921F6034DA6F /* RecipeListViewModelTests.swift in Sources */,
 				AEAB42CA8230A1F500442BCF /* RecipeSyncEngineTests.swift in Sources */,
 				17BA24E2B397951C8B0260DF /* ResilienceTests.swift in Sources */,
@@ -652,9 +679,11 @@
 			files = (
 				9CA81DE042116506F10BE4FF /* ImageCacheTests.swift in Sources */,
 				2380A16B0A1C956B82878857 /* MealPlannerTests.swift in Sources */,
+				1B4E58852FAF91290022BF08 /* TimeParserTests.swift in Sources */,
 				FBCD4B491094152184FF2966 /* PaprikaIntegrationTests.swift in Sources */,
 				12A82115796CA7F1090168AD /* PlanGenerationViewModelTests.swift in Sources */,
 				AD721AECDD7752D09C39416C /* PlanGeneratorTests.swift in Sources */,
+				1B4E58892FAF92C50022BF08 /* EffortLevelTests.swift in Sources */,
 				F1E70CCC5BEC925A6F07E55F /* RecipeListViewModelTests.swift in Sources */,
 				B6FA008E7AE2B56116874145 /* RecipeSyncEngineTests.swift in Sources */,
 				2EF25C23843F0EB652280104 /* ResilienceTests.swift in Sources */,
@@ -679,11 +708,13 @@
 				9F81B05D1E9EFDB20BFBC290 /* OfflineSyncQueue.swift in Sources */,
 				880298F989971CC4C762BE1B /* PaprikaClient.swift in Sources */,
 				DD09227016B3E1F4193A394E /* PaprikaModels.swift in Sources */,
+				1B4E588C2FAF92C90022BF08 /* EffortLevel.swift in Sources */,
 				5272FD20E8163547B621883D /* PlanGenerationView.swift in Sources */,
 				AADF638ED5F7FD523A434A1D /* PlanGenerationViewModel.swift in Sources */,
 				8E096462253116CA3CD33854 /* PlanGenerator.swift in Sources */,
 				36680A376271D44783BE8E34 /* PullToRevealRefresh.swift in Sources */,
 				3B21CA8B9F6C7CB5871EA8BE /* RecipeDetailView.swift in Sources */,
+				1B4E58822FAF91250022BF08 /* TimeParser.swift in Sources */,
 				DBC2B740FA8FF5DD90A3EF9D /* RecipeListView.swift in Sources */,
 				8F8D147834C56AAB534C71C5 /* RecipeListViewModel.swift in Sources */,
 				63D72B109F3FF0CA0E6D2AC5 /* RecipePickerView.swift in Sources */,
