@@ -14,6 +14,7 @@ struct MealPlannerApp: App {
             CachedMealModel.self,
             CategoryModel.self,
             SlotRuleModel.self,
+            RecipeMetadataOverride.self,
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: false)
 
