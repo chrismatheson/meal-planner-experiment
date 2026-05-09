@@ -73,8 +73,15 @@ effectiveKidFriendly(recipe, override?) -> Bool?
 
 ## Inference Lifecycle
 
-1. **On recipe sync** — after new/updated recipes land in SwiftData, run inference for any recipe without a `confirmed` or `manual` override. Create or update `RecipeMetadataOverride` with `source: "inferred"`.
-2. **On recipe data change** — if a synced recipe's `prepTime`/`cookTime`/`ingredients` changed (detected by hash change), re-run inference. Only overwrite if existing override source is `"inferred"`.
+### Threading
+All inference runs **off the main thread** as a background `Task`. The inference engine is pure computation (time parsing, ingredient counting, threshold checks) with no UI dependency. Results are written to SwiftData on a background `ModelContext` and merged automatically.
+
+### Batching
+Inference processes recipes in batches of **25** — a human-comprehensible number that maps well to progress reporting ("Analysed 25 of 180 recipes") and keeps each batch fast enough (~ms) that partial progress is visible. Between batches, yield to avoid starving other work. The batch review prompt only fires once all batches complete.
+
+### Triggers
+1. **After recipe sync** — sync engine calls `MetadataInferenceEngine.runInBackground(context:)`. This fetches all recipes without a `confirmed` or `manual` override, batches them in groups of 25, infers effort level for each, and creates/updates `RecipeMetadataOverride` with `source: "inferred"`.
+2. **On recipe data change** — if a synced recipe's hash changed (meaning `prepTime`/`cookTime`/`ingredients` may have changed), that recipe is included in the next inference pass. Only overwrites if existing override source is `"inferred"`.
 3. **Batch review** — user confirms or changes. Source becomes `"confirmed"` or `"manual"`. `needsSync = true`.
 4. **Per-recipe edit** — user taps metadata pill on recipe detail. Source becomes `"manual"`. `needsSync = true`.
 
