@@ -14,7 +14,7 @@ final class PlanGeneratorTests: XCTestCase {
 
     func test_generateWeek_respectsExcludedRecipeIds() {
         let generator = PlanGenerator(chooseRecipe: firstChoice)
-        let recipes = makeRecipes(count: 8)
+        let recipes = makeRecipes(count: 10)
         let excluded = Set(recipes.prefix(3).map(\.uid))
 
         let days = generator.generateWeek(from: recipes, excluding: excluded)
