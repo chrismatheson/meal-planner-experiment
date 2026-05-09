@@ -3,31 +3,38 @@ import Foundation
 /// Pure planning logic extracted from `WeekPlan` so it can be tested directly.
 struct PlanGenerator {
     typealias RecipeChooser = ([RecipeModel]) -> RecipeModel?
+    typealias EffortResolver = (RecipeModel, MetadataOverrideProtocol?) -> EffortLevel
 
     private let chooseRecipe: RecipeChooser
     private let maxSameCuisinePerWeek: Int
+    private let effortResolver: EffortResolver
 
     init(
         maxSameCuisinePerWeek: Int = 2,
-        chooseRecipe: @escaping RecipeChooser = { $0.randomElement() }
+        chooseRecipe: @escaping RecipeChooser = { $0.randomElement() },
+        effortResolver: @escaping EffortResolver = { recipe, _ in EffortLevel.infer(from: recipe) }
     ) {
         self.maxSameCuisinePerWeek = maxSameCuisinePerWeek
         self.chooseRecipe = chooseRecipe
+        self.effortResolver = effortResolver
     }
 
     func generateWeek(
         from recipes: [RecipeModel],
         excluding excludedRecipeIds: Set<String>,
-        startingOn startDate: Date = Date()
+        startingOn startDate: Date = Date(),
+        effortPreferences: [EffortLevel?]? = nil
     ) -> [DayPlan] {
         var days: [DayPlan] = []
 
         for dayOffset in 0..<7 {
             let date = Calendar.current.date(byAdding: .day, value: dayOffset, to: startDate) ?? startDate
+            let preference = effortPreferences?[safe: dayOffset] ?? nil
             let recipe = pickRecipe(
                 from: recipes,
                 for: days,
-                excluding: excludedRecipeIds
+                excluding: excludedRecipeIds,
+                effortPreference: preference
             )
             days.append(DayPlan(date: date, recipe: recipe))
         }
@@ -39,7 +46,8 @@ struct PlanGenerator {
         day index: Int,
         in currentDays: [DayPlan],
         from recipes: [RecipeModel],
-        excluding excludedRecipeIds: Set<String>
+        excluding excludedRecipeIds: Set<String>,
+        effortPreference: EffortLevel? = nil
     ) -> DayPlan? {
         guard index >= 0 && index < currentDays.count else { return nil }
 
@@ -49,7 +57,8 @@ struct PlanGenerator {
         let recipe = pickRecipe(
             from: recipes,
             for: daysExcludingTarget,
-            excluding: excludedRecipeIds
+            excluding: excludedRecipeIds,
+            effortPreference: effortPreference
         )
 
         return DayPlan(date: currentDays[index].date, recipe: recipe)
@@ -58,7 +67,8 @@ struct PlanGenerator {
     private func pickRecipe(
         from recipes: [RecipeModel],
         for existingDays: [DayPlan],
-        excluding excludedRecipeIds: Set<String>
+        excluding excludedRecipeIds: Set<String>,
+        effortPreference: EffortLevel? = nil
     ) -> RecipeModel? {
         let usedIds = Set(existingDays.compactMap { $0.recipe?.uid })
         var available = recipes.filter { recipe in
@@ -70,6 +80,13 @@ struct PlanGenerator {
             return chooseRecipe(fallback)
         }
 
+        // Effort preference: prefer matching, fall back to all
+        if let preference = effortPreference {
+            let matching = available.filter { effortResolver($0, nil) == preference }
+            if !matching.isEmpty { available = matching }
+        }
+
+        // Cuisine diversity
         let overusedCuisines = getOverusedCuisines(in: existingDays)
         if !overusedCuisines.isEmpty {
             let diverseOptions = available.filter { recipe in
@@ -96,5 +113,11 @@ struct PlanGenerator {
         }
 
         return Set(cuisineCounts.filter { $0.value >= maxSameCuisinePerWeek }.keys)
+    }
+}
+
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
     }
 }
