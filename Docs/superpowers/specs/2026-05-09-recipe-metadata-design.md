@@ -87,25 +87,29 @@ Inference processes recipes in batches of **25** — a human-comprehensible numb
 
 ## Batch Review UX
 
+### Design principle
+**The app does the work, the user just steers.** Language must always frame inference as something the app has already done for you — never as a to-do list. The user is approving the app's work, not doing data entry. This principle applies to all copy, badges, and prompts across the feature.
+
 ### Trigger
-After recipe sync completes, if there are unreviewed recipes (overrides with `source: "inferred"`), show a non-blocking prompt: **"We analysed N new recipes — review effort levels now?"** with **"Review"** and **"Later"** buttons.
+After recipe sync + inference completes, if there are unreviewed recipes (overrides with `source: "inferred"`), show a non-blocking prompt: **"We've auto-categorised N recipes by effort level. Take a quick look?"** with **"Let's see"** and **"Not now"** buttons.
 
 ### Deferral & re-entry
-- Dismissing stores nothing — the unreviewed count persists.
+- Dismissing stores nothing — the inferred classifications still apply to generation immediately (they're just unconfirmed).
 - Entry points for resuming:
-  - **Recipes tab**: banner at top when unreviewed count > 0: "N recipes to review"
-  - **Settings**: "Recipe Metadata" row showing unreviewed count badge
+  - **Recipes tab**: subtle banner: "We've categorised N recipes — check our work?"
+  - **Settings**: "Recipe Intelligence" row: "N recipes auto-categorised"
+- The inference results are already being used by the generator even without review. Review is about correction, not activation.
 
 ### Review flow (sheet)
 - Card stack or scrollable list. Each card shows: recipe photo, name, inferred effort pill, kid-friendly toggle.
 - User taps effort pill to cycle: Quick → Normal → Elaborate (or confirm inferred).
 - User toggles kid-friendly on/off (default: off/unset).
-- "Skip" button to leave as inferred without confirming.
-- "Done for now" saves progress, remaining recipes stay unreviewed.
-- Progress bar at top: "12 of 47 reviewed".
+- "Looks right" button to confirm the inferred value (primary action — most common tap).
+- "Done for now" saves progress. Remaining recipes continue using inferred values.
+- Progress bar at top: "Checked 12 of 47".
 
 ### Grouping
-Present recipes grouped by inferred effort level: "These look Quick", "These look Elaborate". User confirms or corrects per-recipe within the group. This is faster than random order.
+Present recipes grouped by inferred effort level: "These look Quick", "These look Elaborate". User confirms or corrects per-recipe within the group. This is faster than random order and reinforces that the app already did the classification.
 
 ## Paprika Category Write-Back
 
