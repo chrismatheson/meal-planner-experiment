@@ -172,6 +172,16 @@ final class RecipeSyncEngine {
                 }
             }
 
+            // Write back MP: categories to Paprika if enabled
+            if UserDefaults.standard.bool(forKey: "paprikaCategoryWriteBack") {
+                Task.detached { [container = context.container, client] in
+                    let synced = await CategoryWriteBackEngine().run(client: client, container: container)
+                    if synced > 0 {
+                        SyncEventLog.shared.info("Write-back: \(synced) recipes")
+                    }
+                }
+            }
+
             let result = SyncResult(
                 total: stubs.count,
                 fetched: diff.toFetch.count - errors,

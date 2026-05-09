@@ -4,10 +4,12 @@ import SwiftData
 struct RecipeListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(AppState.self) private var appState
+    @Environment(MetadataInferenceState.self) private var inferenceState
     @Query(sort: \RecipeModel.name) private var recipes: [RecipeModel]
-    
+
     @State private var viewModel = RecipeListViewModel()
     @State private var searchText = ""
+    @State private var showingBatchReview = false
     
     private var filteredRecipes: [RecipeModel] {
         if searchText.isEmpty {
@@ -44,12 +46,40 @@ struct RecipeListView: View {
                 // Cached data shows immediately via @Query, this refreshes in background
                 await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)
             }
+            .alert("Recipe Intelligence",
+                   isPresented: Binding(
+                       get: { inferenceState.shouldShowPostSyncPrompt },
+                       set: { _ in inferenceState.dismissPostSyncPrompt() })) {
+                Button("Let's see") { showingBatchReview = true }
+                Button("Not now", role: .cancel) { inferenceState.dismissPostSyncPrompt() }
+            } message: {
+                Text("We've auto-categorised \(inferenceState.unreviewedCount) recipes. Take a quick look?")
+            }
+            .sheet(isPresented: $showingBatchReview) {
+                BatchReviewView(container: modelContext.container)
+            }
         }
     }
     
     private var recipeGrid: some View {
         ScrollView {
             VStack(spacing: Spacing.sm) {
+                if inferenceState.hasUnreviewed {
+                    Button { showingBatchReview = true } label: {
+                        HStack {
+                            Image(systemName: "sparkles")
+                            Text("We've categorised \(inferenceState.unreviewedCount) recipes — check our work?")
+                                .font(.subheadline)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
+                        .padding(Spacing.sm)
+                        .background(Color.paprikaLight.opacity(0.3))
+                        .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
+                    }
+                    .buttonStyle(.plain)
+                }
+
                 LazyVGrid(columns: columns, spacing: Spacing.sm) {
                     ForEach(filteredRecipes) { recipe in
                         RecipeCard(recipe: recipe)
@@ -158,5 +188,6 @@ struct RecipeCard: View {
 #Preview {
     RecipeListView()
         .environment(AppState())
+        .environment(MetadataInferenceState())
         .modelContainer(for: RecipeModel.self, inMemory: true)
 }

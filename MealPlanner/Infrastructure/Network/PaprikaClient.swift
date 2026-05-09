@@ -181,6 +181,51 @@ actor PaprikaClient {
         return response.result
     }
 
+    /// Save a recipe back to Paprika using v1 sync API with gzip compression.
+    /// Used for writing back category changes (e.g., MP: Quick, MP: Kid-Friendly).
+    func saveRecipe(_ recipe: PaprikaRecipe) async throws {
+        guard let authHeader = basicAuthHeader else {
+            throw PaprikaError.notAuthenticated
+        }
+
+        let encoder = JSONEncoder()
+        let jsonData = try encoder.encode(recipe)
+
+        let gzippedData = try gzipCompress(jsonData)
+
+        let boundary = UUID().uuidString
+        var body = Data()
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"data\"; filename=\"data.gz\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+        body.append(gzippedData)
+        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+
+        let url = baseURLv1Sync.appendingPathComponent("recipe/\(recipe.uid)/")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue(authHeader, forHTTPHeaderField: "Authorization")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+        request.httpBody = body
+
+        let (data, response) = try await session.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw PaprikaError.invalidResponse
+        }
+
+        #if DEBUG
+        if let responseStr = String(data: data, encoding: .utf8) {
+            print("saveRecipe response (\(httpResponse.statusCode)): \(responseStr)")
+        }
+        #endif
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw PaprikaError.serverError(httpResponse.statusCode)
+        }
+    }
+
     /// Save meal items using v1 sync API with gzip compression
     /// This is the working approach discovered from paprika-mcp package
     func saveMeals(_ meals: [PaprikaMeal]) async throws {

@@ -3,6 +3,15 @@ import Foundation
 enum EffortLevel: String, CaseIterable, Codable {
     case quick, normal, elaborate
 
+    /// Cycle to the next effort level (quick → normal → elaborate → quick)
+    var next: EffortLevel {
+        switch self {
+        case .quick: .normal
+        case .normal: .elaborate
+        case .elaborate: .quick
+        }
+    }
+
     var categoryName: String {
         switch self {
         case .quick: "MP: Quick"

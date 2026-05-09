@@ -71,7 +71,7 @@ struct PaprikaRecipe: Codable, Identifiable {
     let cookTime: String?
     let totalTime: String?
     let rating: Int?
-    let categories: [String]?
+    var categories: [String]?
     let photo: String?
     let photoUrl: String?
     let source: String?

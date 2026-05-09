@@ -1,9 +1,13 @@
 import SwiftUI
+import SwiftData
 
 /// Detailed view of a recipe showing image, ingredients, directions, etc.
 struct RecipeDetailView: View {
     let recipe: RecipeModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @State private var currentEffort: EffortLevel?
+    @State private var isKidFriendly: Bool?
     
     var body: some View {
         ScrollView {
@@ -39,6 +43,7 @@ struct RecipeDetailView: View {
             }
         }
         .ignoresSafeArea(edges: .top)
+        .onAppear { loadMetadata() }
     }
     
     // MARK: - Hero Image
@@ -115,9 +120,74 @@ struct RecipeDetailView: View {
                     }
                 }
             }
+
+            // Metadata pills
+            if let effort = currentEffort {
+                HStack(spacing: Spacing.sm) {
+                    Button { cycleEffort() } label: {
+                        EffortPill(level: effort)
+                    }
+                    .buttonStyle(.plain)
+
+                    if isKidFriendly == true {
+                        Label("Kid-Friendly", systemImage: "face.smiling")
+                            .font(.caption)
+                            .foregroundStyle(.green)
+                    }
+                }
+            }
         }
     }
-    
+
+    // MARK: - Metadata Helpers
+
+    private func loadMetadata() {
+        let uid = recipe.uid
+        var descriptor = FetchDescriptor<RecipeMetadataOverride>(
+            predicate: #Predicate<RecipeMetadataOverride> { $0.recipeUid == uid }
+        )
+        descriptor.fetchLimit = 1
+        if let override = (try? modelContext.fetch(descriptor))?.first {
+            currentEffort = EffortLevel(rawValue: override.effortLevel ?? "normal") ?? .normal
+            isKidFriendly = override.isKidFriendly
+        } else {
+            // Use inferred value if no override exists
+            currentEffort = EffortLevel.infer(from: recipe)
+            isKidFriendly = nil
+        }
+    }
+
+    private func cycleEffort() {
+        guard let current = currentEffort else { return }
+        let next = current.next
+        currentEffort = next
+        updateOverride(effortLevel: next)
+    }
+
+    private func updateOverride(effortLevel: EffortLevel) {
+        let uid = recipe.uid
+        var descriptor = FetchDescriptor<RecipeMetadataOverride>(
+            predicate: #Predicate<RecipeMetadataOverride> { $0.recipeUid == uid }
+        )
+        descriptor.fetchLimit = 1
+
+        if let override = (try? modelContext.fetch(descriptor))?.first {
+            override.effortLevel = effortLevel.rawValue
+            override.source = "manual"
+            override.needsSync = true
+            override.lastModified = Date()
+        } else {
+            let newOverride = RecipeMetadataOverride(
+                recipeUid: uid,
+                effortLevel: effortLevel.rawValue,
+                source: "manual",
+                needsSync: true
+            )
+            modelContext.insert(newOverride)
+        }
+        try? modelContext.save()
+    }
+
     // MARK: - Ingredients Section
     
     private func ingredientsSection(_ ingredients: String) -> some View {

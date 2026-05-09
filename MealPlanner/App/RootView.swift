@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 /// Root view that handles authentication routing
 struct RootView: View {
@@ -64,7 +65,11 @@ struct MainTabView: View {
 /// App settings view with sync status as a canonical home
 struct SettingsView: View {
     @Environment(AppState.self) private var appState
+    @Environment(MetadataInferenceState.self) private var inferenceState
+    @Environment(\.modelContext) private var modelContext
     @State private var keychainStatus = "Checking..."
+    @State private var showingBatchReview = false
+    @AppStorage("paprikaCategoryWriteBack") private var writeBackEnabled = false
     private let syncManager = SyncStatusManager.shared
 
     var body: some View {
@@ -140,6 +145,32 @@ struct SettingsView: View {
                     Text("Generation")
                 } footer: {
                     Text("Rejected recipes won't be suggested again this session. Resets after 1 hour or when you sync.")
+                }
+
+                // Intelligence Section
+                Section {
+                    Button { showingBatchReview = true } label: {
+                        HStack {
+                            Label("Recipe Intelligence", systemImage: "sparkles")
+                            Spacer()
+                            Text(inferenceState.hasUnreviewed ? "\(inferenceState.unreviewedCount) to review" : "All reviewed")
+                                .foregroundStyle(.secondary)
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .buttonStyle(.plain)
+
+                    Toggle(isOn: $writeBackEnabled) {
+                        Label("Sync categories to Paprika", systemImage: "arrow.up.circle")
+                    }
+                } header: {
+                    Text("Intelligence")
+                } footer: {
+                    Text("Auto-categorises recipes by effort level based on cooking time and ingredients.")
+                }
+                .sheet(isPresented: $showingBatchReview) {
+                    BatchReviewView(container: modelContext.container)
                 }
 
                 #if DEBUG

@@ -5,6 +5,7 @@ import SwiftData
 struct MealPlannerApp: App {
     let container: ModelContainer
     @State private var appState = AppState()
+    @State private var inferenceState = MetadataInferenceState()
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
@@ -45,6 +46,7 @@ struct MealPlannerApp: App {
         WindowGroup {
             RootView()
                 .environment(appState)
+                .environment(inferenceState)
                 .modelContainer(container)
                 .onChange(of: appState.isAuthenticated) { _, isAuth in
                     if isAuth, let client = appState.paprikaClient {

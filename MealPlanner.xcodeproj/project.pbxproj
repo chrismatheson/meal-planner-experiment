@@ -37,6 +37,16 @@
 		1B4E589B2FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58992FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift */; };
 		1B4E589D2FAF957F0022BF08 /* PlanGeneratorEffortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E589C2FAF957F0022BF08 /* PlanGeneratorEffortTests.swift */; };
 		1B4E589E2FAF957F0022BF08 /* PlanGeneratorEffortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E589C2FAF957F0022BF08 /* PlanGeneratorEffortTests.swift */; };
+		1B4E58A02FAF9E510022BF08 /* MetadataInferenceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E589F2FAF9E510022BF08 /* MetadataInferenceState.swift */; };
+		1B4E58A12FAF9E510022BF08 /* MetadataInferenceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E589F2FAF9E510022BF08 /* MetadataInferenceState.swift */; };
+		1B4E58A32FAF9E690022BF08 /* BatchReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58A22FAF9E690022BF08 /* BatchReviewViewModel.swift */; };
+		1B4E58A42FAF9E690022BF08 /* BatchReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58A22FAF9E690022BF08 /* BatchReviewViewModel.swift */; };
+		1B4E58A62FAF9E790022BF08 /* CategoryWriteBackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58A52FAF9E790022BF08 /* CategoryWriteBackEngine.swift */; };
+		1B4E58A72FAF9E790022BF08 /* CategoryWriteBackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58A52FAF9E790022BF08 /* CategoryWriteBackEngine.swift */; };
+		1B4E58A92FAF9E9B0022BF08 /* BatchReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58A82FAF9E9B0022BF08 /* BatchReviewView.swift */; };
+		1B4E58AA2FAF9E9B0022BF08 /* BatchReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58A82FAF9E9B0022BF08 /* BatchReviewView.swift */; };
+		1B4E58AC2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58AB2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift */; };
+		1B4E58AD2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4E58AB2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift */; };
 		1C027958E2975A4045C9F9B8 /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46807E03C78FB285683CC8C7 /* MealPlanView.swift */; };
 		1E966DAB7B63FFC6709DA6EA /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */; };
 		21FF757CE747C78703A3DED3 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7D1FC29AF7F17926A67B5 /* SkeletonView.swift */; };
@@ -160,6 +170,11 @@
 		1B4E58962FAF94FE0022BF08 /* MetadataInferenceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInferenceEngine.swift; sourceTree = "<group>"; };
 		1B4E58992FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInferenceEngineTests.swift; sourceTree = "<group>"; };
 		1B4E589C2FAF957F0022BF08 /* PlanGeneratorEffortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGeneratorEffortTests.swift; sourceTree = "<group>"; };
+		1B4E589F2FAF9E510022BF08 /* MetadataInferenceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInferenceState.swift; sourceTree = "<group>"; };
+		1B4E58A22FAF9E690022BF08 /* BatchReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchReviewViewModel.swift; sourceTree = "<group>"; };
+		1B4E58A52FAF9E790022BF08 /* CategoryWriteBackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWriteBackEngine.swift; sourceTree = "<group>"; };
+		1B4E58A82FAF9E9B0022BF08 /* BatchReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchReviewView.swift; sourceTree = "<group>"; };
+		1B4E58AB2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWriteBackEngineTests.swift; sourceTree = "<group>"; };
 		201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MealPlannerTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21ECFE7D5540F09D7B615512 /* RejectionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectionTracker.swift; sourceTree = "<group>"; };
 		314F77A096421405FAC62A30 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -184,6 +199,7 @@
 		7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
 		826B5F30FAC90E540982E4ED /* RecipeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewModel.swift; sourceTree = "<group>"; };
 		86736260C8C6BE852935B1BE /* PlanGenerationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModelTests.swift; sourceTree = "<group>"; };
+		8C69087D703ABAF0DE54982A /* MetadataInferenceEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInferenceEngineTests.swift; sourceTree = "<group>"; };
 		9006EBFF5E5EF2FF33745195 /* PaprikaPlanner.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = PaprikaPlanner.app; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		948C2B902339EA917F6C8C0D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		95446E528A48CD0DD5393A9D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -230,6 +246,8 @@
 				1B4E58932FAF94950022BF08 /* MetadataResolverTests.swift */,
 				1B4E58992FAF94FE0022BF08 /* MetadataInferenceEngineTests.swift */,
 				1B4E589C2FAF957F0022BF08 /* PlanGeneratorEffortTests.swift */,
+				3496E2C0154AC33FA60A7FF2 /* TimeParserTests.swift */,
+				1B4E58AB2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift */,
 			);
 			path = MealPlannerTests;
 			sourceTree = "<group>";
@@ -335,12 +353,28 @@
 			);
 			sourceTree = "<group>";
 		};
+		68989E2AE5D9C3D6D78C6BBA /* Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				078B52722EB991541CDE1965 /* EffortLevel.swift */,
+				E0577FFBF57378FBB0DDC66B /* MetadataInferenceEngine.swift */,
+				5812C15320FAD2BD272745E4 /* MetadataResolver.swift */,
+				095A347AF188754195024351 /* RecipeMetadataOverride.swift */,
+				967D4C63D0EBF9972029C4E2 /* TimeParser.swift */,
+				1B4E589F2FAF9E510022BF08 /* MetadataInferenceState.swift */,
+				1B4E58A22FAF9E690022BF08 /* BatchReviewViewModel.swift */,
+				1B4E58A52FAF9E790022BF08 /* CategoryWriteBackEngine.swift */,
+			);
+			path = Metadata;
+			sourceTree = "<group>";
+		};
 		6B3F3AF3627C98CA4A1AD972 /* Recipes */ = {
 			isa = PBXGroup;
 			children = (
 				CC7DCDB161D3A89E8F8BDF1A /* RecipeDetailView.swift */,
 				07F9C5FCF47855B6B9D0EE64 /* RecipeListView.swift */,
 				826B5F30FAC90E540982E4ED /* RecipeListViewModel.swift */,
+				1B4E58A82FAF9E9B0022BF08 /* BatchReviewView.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -644,14 +678,18 @@
 				DF7DCD432454EAF927C49933 /* BackgroundRefreshManager.swift in Sources */,
 				EF7DDC971B79BF23EB17C100 /* CachedAsyncImage.swift in Sources */,
 				C7D098E52F0000DDE08B6645 /* DayPlanCard.swift in Sources */,
+				1B4E58AA2FAF9E9B0022BF08 /* BatchReviewView.swift in Sources */,
+				380B0DDF25D32DA8EEB7C5C2 /* EffortLevel.swift in Sources */,
 				EC7C6B8B268129E7D401D8C0 /* KeychainService.swift in Sources */,
 				851BFEFD019ACC77ADBF323B /* LoadingView.swift in Sources */,
 				9AF244E6C69BBB8FA0FA26BF /* LoginView.swift in Sources */,
 				1C027958E2975A4045C9F9B8 /* MealPlanView.swift in Sources */,
+				1B4E58A42FAF9E690022BF08 /* BatchReviewViewModel.swift in Sources */,
 				495D76A8EEE65C3BEC0E496C /* MealPlanViewModel.swift in Sources */,
 				2436FA6C43E910B00691CE1D /* MealPlannerApp.swift in Sources */,
 				A3863643798545F72FA42731 /* OfflineSyncQueue.swift in Sources */,
 				BD6B62F62EE24BF8A9F8ABAA /* PaprikaClient.swift in Sources */,
+				1B4E58A02FAF9E510022BF08 /* MetadataInferenceState.swift in Sources */,
 				4E142DBAC25872D83BC9AC9A /* PaprikaModels.swift in Sources */,
 				1B4E588B2FAF92C90022BF08 /* EffortLevel.swift in Sources */,
 				1190878EEA7580F1247D215E /* PlanGenerationView.swift in Sources */,
@@ -673,6 +711,7 @@
 				AD2BAB9139544567F3BA3FB0 /* SlotRule.swift in Sources */,
 				1B4E58972FAF94FE0022BF08 /* MetadataInferenceEngine.swift in Sources */,
 				8B4FF220FC679AA8CDADE35C /* SwiftDataModels.swift in Sources */,
+				1B4E58A72FAF9E790022BF08 /* CategoryWriteBackEngine.swift in Sources */,
 				D2F6630226E038391B8FFA3B /* SyncDetailView.swift in Sources */,
 				DC2122B568A9B9CB5257F33E /* SyncEventLog.swift in Sources */,
 				D3D386A5DA0DF7739F65E681 /* SyncStatusIndicator.swift in Sources */,
@@ -693,6 +732,8 @@
 				1B4E58862FAF91290022BF08 /* TimeParserTests.swift in Sources */,
 				3F138BA0F1BCA0615CB15D4F /* PaprikaIntegrationTests.swift in Sources */,
 				EB401BAC55C506B68A6AF142 /* PlanGenerationViewModelTests.swift in Sources */,
+				8805940FCB4102C90DEB8AE0 /* PlanGeneratorEffortTests.swift in Sources */,
+				1B4E58AD2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift in Sources */,
 				73A9F7BF6E5DAD077B9008D4 /* PlanGeneratorTests.swift in Sources */,
 				1B4E58942FAF94950022BF08 /* MetadataResolverTests.swift in Sources */,
 				1B4E58882FAF92C50022BF08 /* EffortLevelTests.swift in Sources */,
@@ -713,6 +754,8 @@
 				1B4E58852FAF91290022BF08 /* TimeParserTests.swift in Sources */,
 				FBCD4B491094152184FF2966 /* PaprikaIntegrationTests.swift in Sources */,
 				12A82115796CA7F1090168AD /* PlanGenerationViewModelTests.swift in Sources */,
+				35795D4AB4CD1DB94C4DA620 /* PlanGeneratorEffortTests.swift in Sources */,
+				1B4E58AC2FAF9EAE0022BF08 /* CategoryWriteBackEngineTests.swift in Sources */,
 				AD721AECDD7752D09C39416C /* PlanGeneratorTests.swift in Sources */,
 				1B4E58952FAF94950022BF08 /* MetadataResolverTests.swift in Sources */,
 				1B4E58892FAF92C50022BF08 /* EffortLevelTests.swift in Sources */,
@@ -732,14 +775,18 @@
 				073BC80CA1B968664CE5AFCD /* BackgroundRefreshManager.swift in Sources */,
 				9522F3C34764FC8EE797367F /* CachedAsyncImage.swift in Sources */,
 				9FB2B4E9F3D016A58E6C5B83 /* DayPlanCard.swift in Sources */,
+				1B4E58A92FAF9E9B0022BF08 /* BatchReviewView.swift in Sources */,
+				CC055042C0F3CED9942F3D61 /* EffortLevel.swift in Sources */,
 				AE152EBE88347C2D5297C176 /* KeychainService.swift in Sources */,
 				FFCB23E75C8E429039551F5A /* LoadingView.swift in Sources */,
 				0538EEF8A9ECFD473411B622 /* LoginView.swift in Sources */,
 				5F99415F6202A0775654F133 /* MealPlanView.swift in Sources */,
+				1B4E58A32FAF9E690022BF08 /* BatchReviewViewModel.swift in Sources */,
 				79210FC6A4A2BE0586B0B847 /* MealPlanViewModel.swift in Sources */,
 				A53F4D9E5C7E242B575CE47B /* MealPlannerApp.swift in Sources */,
 				9F81B05D1E9EFDB20BFBC290 /* OfflineSyncQueue.swift in Sources */,
 				880298F989971CC4C762BE1B /* PaprikaClient.swift in Sources */,
+				1B4E58A12FAF9E510022BF08 /* MetadataInferenceState.swift in Sources */,
 				DD09227016B3E1F4193A394E /* PaprikaModels.swift in Sources */,
 				1B4E588C2FAF92C90022BF08 /* EffortLevel.swift in Sources */,
 				5272FD20E8163547B621883D /* PlanGenerationView.swift in Sources */,
@@ -761,6 +808,7 @@
 				F13C946D34892D7C5E461E37 /* SlotRule.swift in Sources */,
 				1B4E58982FAF94FE0022BF08 /* MetadataInferenceEngine.swift in Sources */,
 				1E966DAB7B63FFC6709DA6EA /* SwiftDataModels.swift in Sources */,
+				1B4E58A62FAF9E790022BF08 /* CategoryWriteBackEngine.swift in Sources */,
 				08115CF068680341636BDB36 /* SyncDetailView.swift in Sources */,
 				CCF0BF63E341EA44A8D1CE43 /* SyncEventLog.swift in Sources */,
 				119CEA49E36E8BC2908FBC85 /* SyncStatusIndicator.swift in Sources */,
