@@ -100,6 +100,9 @@ final class RecipeSyncEngine {
     /// Perform a full incremental recipe sync.
     /// - Returns: SyncResult with counts, or throws on fatal error
     /// Guards against concurrent sync calls — returns empty result if already syncing.
+    /// Optional inference state to trigger post-sync prompt
+    var inferenceState: MetadataInferenceState?
+
     @MainActor
     func sync(client: PaprikaClient, context: ModelContext) async -> SyncResult {
         guard !isSyncing else {
@@ -164,11 +167,14 @@ final class RecipeSyncEngine {
             phase = .complete
 
             // Run metadata inference in background after recipe sync
-            Task.detached {
+            Task.detached { [inferenceState, container = context.container] in
                 let engine = MetadataInferenceEngine()
-                let inferred = await engine.runInBackground(container: context.container)
+                let inferred = await engine.runInBackground(container: container)
                 if inferred > 0 {
                     SyncEventLog.shared.info("Metadata: inferred effort level for \(inferred) recipes")
+                    await MainActor.run {
+                        inferenceState?.triggerPostSyncPrompt(inferredCount: inferred, container: container)
+                    }
                 }
             }
 

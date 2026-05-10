@@ -11,6 +11,9 @@ final class MetadataInferenceState {
     /// Whether the post-sync prompt should be shown (set after inference completes)
     private(set) var shouldShowPostSyncPrompt: Bool = false
 
+    /// Whether inference is currently running
+    private(set) var isRunning: Bool = false
+
     /// True if there are any unreviewed overrides
     var hasUnreviewed: Bool { unreviewedCount > 0 }
 
@@ -24,6 +27,7 @@ final class MetadataInferenceState {
     }
 
     /// Called after inference completes to trigger the post-sync prompt
+    @MainActor
     func triggerPostSyncPrompt(inferredCount: Int, container: ModelContainer) {
         refresh(container: container)
         if unreviewedCount > 0 {
@@ -34,5 +38,26 @@ final class MetadataInferenceState {
     /// Dismiss the post-sync prompt
     func dismissPostSyncPrompt() {
         shouldShowPostSyncPrompt = false
+    }
+
+    /// Manually run inference on all recipes (for pre-synced libraries)
+    @MainActor
+    func runManually(container: ModelContainer) async {
+        guard !isRunning else { return }
+        isRunning = true
+
+        let engine = MetadataInferenceEngine()
+        let inferred = await engine.runInBackground(container: container)
+
+        if inferred > 0 {
+            SyncEventLog.shared.info("Metadata: manually inferred effort level for \(inferred) recipes")
+        }
+
+        refresh(container: container)
+        isRunning = false
+
+        if inferred > 0 && unreviewedCount > 0 {
+            shouldShowPostSyncPrompt = true
+        }
     }
 }

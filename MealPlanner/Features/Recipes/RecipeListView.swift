@@ -42,6 +42,8 @@ struct RecipeListView: View {
                 await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient, force: true)
             }
             .task {
+                // Wire inference state so post-sync prompt fires automatically
+                viewModel.syncEngine.inferenceState = inferenceState
                 // Always trigger a sync when view appears
                 // Cached data shows immediately via @Query, this refreshes in background
                 await viewModel.syncRecipes(context: modelContext, client: appState.paprikaClient)

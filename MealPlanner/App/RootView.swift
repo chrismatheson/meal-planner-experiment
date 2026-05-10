@@ -161,13 +161,30 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.plain)
 
+                    Button {
+                        Task {
+                            await inferenceState.runManually(container: modelContext.container)
+                        }
+                    } label: {
+                        HStack {
+                            Label("Run Intelligence Now", systemImage: "arrow.clockwise")
+                            Spacer()
+                            if inferenceState.isRunning {
+                                ProgressView()
+                                    .scaleEffect(0.8)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(inferenceState.isRunning)
+
                     Toggle(isOn: $writeBackEnabled) {
                         Label("Sync categories to Paprika", systemImage: "arrow.up.circle")
                     }
                 } header: {
                     Text("Intelligence")
                 } footer: {
-                    Text("Auto-categorises recipes by effort level based on cooking time and ingredients.")
+                    Text("Auto-categorises recipes by effort level based on cooking time and ingredients. Tap 'Run Intelligence Now' if your recipes were synced before this feature was added.")
                 }
                 .sheet(isPresented: $showingBatchReview) {
                     BatchReviewView(container: modelContext.container)
