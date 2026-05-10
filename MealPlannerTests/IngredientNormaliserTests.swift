@@ -55,3 +55,40 @@ final class IngredientNormaliserTests: XCTestCase {
         IngredientNormaliser.normalise(input)
     }
 }
+
+// MARK: - IngredientTextNormaliser tests
+
+final class IngredientTextNormaliserTests: XCTestCase {
+    func test_multiLine_normalisesEachLine() {
+        let input = "1/2 Cup Flour\n2 tablespoons olive oil\n1 lb spaghetti"
+        let result = IngredientTextNormaliser.normalise(input)
+        XCTAssertEqual(result.text, "0.5 cup Flour\n2 tbsp olive oil\n1 lb spaghetti")
+        XCTAssertEqual(result.totalLines, 3)
+        XCTAssertEqual(result.normalisedLines, 2)
+        XCTAssertEqual(result.unparseableLines, 0)
+    }
+
+    func test_preservesBlankLines() {
+        let input = "1/2 cup flour\n\n2 eggs"
+        let result = IngredientTextNormaliser.normalise(input)
+        XCTAssertTrue(result.text!.contains("\n\n"))
+    }
+
+    func test_unparseableLinesInStats() {
+        let input = "1 cup flour\nSalt to taste\nFreshly ground pepper"
+        let result = IngredientTextNormaliser.normalise(input)
+        XCTAssertEqual(result.unparseableLines, 2)
+    }
+
+    func test_nothingChanged_returnsNilText() {
+        let input = "1 lb spaghetti\n4 eggs"
+        let result = IngredientTextNormaliser.normalise(input)
+        XCTAssertNil(result.text, "Already-clean text should return nil")
+    }
+
+    func test_nilInput_returnsNilText() {
+        let result = IngredientTextNormaliser.normalise(nil)
+        XCTAssertNil(result.text)
+        XCTAssertEqual(result.totalLines, 0)
+    }
+}
