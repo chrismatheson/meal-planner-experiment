@@ -70,6 +70,7 @@ struct SettingsView: View {
     @State private var keychainStatus = "Checking..."
     @State private var showingBatchReview = false
     @AppStorage("paprikaCategoryWriteBack") private var writeBackEnabled = false
+    @AppStorage("ingredientNormalisationEnabled") private var ingredientNormalisationEnabled = true
     private let syncManager = SyncStatusManager.shared
 
     var body: some View {
@@ -181,10 +182,14 @@ struct SettingsView: View {
                     Toggle(isOn: $writeBackEnabled) {
                         Label("Sync categories to Paprika", systemImage: "arrow.up.circle")
                     }
+
+                    Toggle(isOn: $ingredientNormalisationEnabled) {
+                        Label("Normalise ingredients", systemImage: "text.alignleft")
+                    }
                 } header: {
                     Text("Intelligence")
                 } footer: {
-                    Text("Auto-categorises recipes by effort level based on cooking time and ingredients. Tap 'Run Intelligence Now' if your recipes were synced before this feature was added.")
+                    Text("Auto-categorises recipes by effort level and normalises ingredient formatting. Tap 'Run Intelligence Now' if your recipes were synced before this feature was added.")
                 }
                 .sheet(isPresented: $showingBatchReview) {
                     BatchReviewView(container: modelContext.container)

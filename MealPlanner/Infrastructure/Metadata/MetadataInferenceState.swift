@@ -40,6 +40,9 @@ final class MetadataInferenceState {
         shouldShowPostSyncPrompt = false
     }
 
+    /// Stats from the last normalisation run
+    private(set) var lastNormalisationStats: (total: Int, normalised: Int, unparseable: Int)?
+
     /// Manually run inference on all recipes (for pre-synced libraries)
     @MainActor
     func runManually(container: ModelContainer) async {
@@ -47,16 +50,19 @@ final class MetadataInferenceState {
         isRunning = true
 
         let engine = MetadataInferenceEngine()
-        let inferred = await engine.runInBackground(container: container)
+        let result = await engine.runInBackground(container: container)
 
-        if inferred > 0 {
-            SyncEventLog.shared.info("Metadata: manually inferred effort level for \(inferred) recipes")
+        if result.inferred > 0 {
+            SyncEventLog.shared.info("Metadata: manually inferred effort level for \(result.inferred) recipes")
+        }
+        if result.normalised > 0 {
+            SyncEventLog.shared.info("Ingredients: normalised \(result.normalised) recipes")
         }
 
         refresh(container: container)
         isRunning = false
 
-        if inferred > 0 && unreviewedCount > 0 {
+        if result.inferred > 0 && unreviewedCount > 0 {
             shouldShowPostSyncPrompt = true
         }
     }

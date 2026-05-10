@@ -27,9 +27,9 @@ final class MetadataInferenceEngineTests: XCTestCase {
         try! context.save()
 
         let engine = MetadataInferenceEngine()
-        let count = await engine.runSync(context: context)
+        let result = await engine.runSync(context: context)
 
-        XCTAssertEqual(count, 3)
+        XCTAssertEqual(result.inferred, 3)
         let overrides = try! context.fetch(FetchDescriptor<RecipeMetadataOverride>())
         XCTAssertEqual(overrides.count, 3)
         XCTAssertTrue(overrides.allSatisfy { $0.source == "inferred" })
@@ -47,9 +47,9 @@ final class MetadataInferenceEngineTests: XCTestCase {
         try! context.save()
 
         let engine = MetadataInferenceEngine()
-        let count = await engine.runSync(context: context)
+        let result = await engine.runSync(context: context)
 
-        XCTAssertEqual(count, 0)
+        XCTAssertEqual(result.inferred, 0)
         let overrides = try! context.fetch(FetchDescriptor<RecipeMetadataOverride>())
         XCTAssertEqual(overrides.first?.effortLevel, "elaborate") // unchanged
     }
@@ -65,9 +65,9 @@ final class MetadataInferenceEngineTests: XCTestCase {
         try! context.save()
 
         let engine = MetadataInferenceEngine()
-        let count = await engine.runSync(context: context)
+        let result = await engine.runSync(context: context)
 
-        XCTAssertEqual(count, 1)
+        XCTAssertEqual(result.inferred, 1)
         let overrides = try! context.fetch(FetchDescriptor<RecipeMetadataOverride>())
         XCTAssertEqual(overrides.first?.effortLevel, "elaborate") // updated
     }

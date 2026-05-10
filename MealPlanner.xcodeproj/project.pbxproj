@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,24 @@
 		17BA24E2B397951C8B0260DF /* ResilienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A281E5F31DF412611C119131 /* ResilienceTests.swift */; };
 		1817BDA0D56EB60FAA282E22 /* SyncStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F965E3E00487CACC7486D27 /* SyncStatusManager.swift */; };
 		1846DF34E98D35678F72F0C4 /* MealPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FBA0A47A00E9D3F29A68FD /* MealPlannerTests.swift */; };
+		1B9984352FB0786900D05FEB /* QuantityParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984342FB0786900D05FEB /* QuantityParserTests.swift */; };
+		1B9984362FB0786900D05FEB /* QuantityParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984342FB0786900D05FEB /* QuantityParserTests.swift */; };
+		1B9984382FB0787900D05FEB /* QuantityParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984372FB0787900D05FEB /* QuantityParser.swift */; };
+		1B9984392FB0787900D05FEB /* QuantityParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984372FB0787900D05FEB /* QuantityParser.swift */; };
+		1B99843B2FB078B900D05FEB /* UnitResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99843A2FB078B900D05FEB /* UnitResolverTests.swift */; };
+		1B99843C2FB078B900D05FEB /* UnitResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99843A2FB078B900D05FEB /* UnitResolverTests.swift */; };
+		1B99843E2FB078B900D05FEB /* UnitResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99843D2FB078B900D05FEB /* UnitResolver.swift */; };
+		1B99843F2FB078B900D05FEB /* UnitResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99843D2FB078B900D05FEB /* UnitResolver.swift */; };
+		1B9984412FB078E900D05FEB /* IngredientLineParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984402FB078E900D05FEB /* IngredientLineParserTests.swift */; };
+		1B9984422FB078E900D05FEB /* IngredientLineParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984402FB078E900D05FEB /* IngredientLineParserTests.swift */; };
+		1B9984442FB0790F00D05FEB /* IngredientLineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984432FB0790F00D05FEB /* IngredientLineParser.swift */; };
+		1B9984452FB0790F00D05FEB /* IngredientLineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984432FB0790F00D05FEB /* IngredientLineParser.swift */; };
+		1B9984472FB0794B00D05FEB /* IngredientNormaliserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984462FB0794B00D05FEB /* IngredientNormaliserTests.swift */; };
+		1B9984482FB0794B00D05FEB /* IngredientNormaliserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984462FB0794B00D05FEB /* IngredientNormaliserTests.swift */; };
+		1B99844A2FB0794B00D05FEB /* IngredientNormaliser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984492FB0794B00D05FEB /* IngredientNormaliser.swift */; };
+		1B99844B2FB0794B00D05FEB /* IngredientNormaliser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9984492FB0794B00D05FEB /* IngredientNormaliser.swift */; };
+		1B99844D2FB0797100D05FEB /* IngredientTextNormaliser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99844C2FB0797100D05FEB /* IngredientTextNormaliser.swift */; };
+		1B99844E2FB0797100D05FEB /* IngredientTextNormaliser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B99844C2FB0797100D05FEB /* IngredientTextNormaliser.swift */; };
 		1C027958E2975A4045C9F9B8 /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46807E03C78FB285683CC8C7 /* MealPlanView.swift */; };
 		1C529C8088F04CAA280CDB77 /* EffortLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29570596DBCB9017041FB5D /* EffortLevelTests.swift */; };
 		1E966DAB7B63FFC6709DA6EA /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F55C03B35B75C85B8582FDD /* SwiftDataModels.swift */; };
@@ -163,6 +181,15 @@
 		095A347AF188754195024351 /* RecipeMetadataOverride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeMetadataOverride.swift; sourceTree = "<group>"; };
 		0A342351218C7A2D1F9756B2 /* BatchReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchReviewView.swift; sourceTree = "<group>"; };
 		0B961CB18A0E84013A469BE9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1B9984342FB0786900D05FEB /* QuantityParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityParserTests.swift; sourceTree = "<group>"; };
+		1B9984372FB0787900D05FEB /* QuantityParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityParser.swift; sourceTree = "<group>"; };
+		1B99843A2FB078B900D05FEB /* UnitResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitResolverTests.swift; sourceTree = "<group>"; };
+		1B99843D2FB078B900D05FEB /* UnitResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitResolver.swift; sourceTree = "<group>"; };
+		1B9984402FB078E900D05FEB /* IngredientLineParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientLineParserTests.swift; sourceTree = "<group>"; };
+		1B9984432FB0790F00D05FEB /* IngredientLineParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientLineParser.swift; sourceTree = "<group>"; };
+		1B9984462FB0794B00D05FEB /* IngredientNormaliserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientNormaliserTests.swift; sourceTree = "<group>"; };
+		1B9984492FB0794B00D05FEB /* IngredientNormaliser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientNormaliser.swift; sourceTree = "<group>"; };
+		1B99844C2FB0797100D05FEB /* IngredientTextNormaliser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientTextNormaliser.swift; sourceTree = "<group>"; };
 		201D3E0499CC0639CA1500BB /* MealPlannerTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MealPlannerTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21ECFE7D5540F09D7B615512 /* RejectionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectionTracker.swift; sourceTree = "<group>"; };
 		239A81EACC4CBBC0FA376D8D /* CategoryWriteBackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWriteBackEngine.swift; sourceTree = "<group>"; };
@@ -171,7 +198,7 @@
 		3496E2C0154AC33FA60A7FF2 /* TimeParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeParserTests.swift; sourceTree = "<group>"; };
 		3847B7674E57F6ACC8D943D9 /* PaprikaClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaprikaClient.swift; sourceTree = "<group>"; };
 		39E76B021A94C6C45471B80C /* RecipePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePickerView.swift; sourceTree = "<group>"; };
-		3D725EF400E9788B25374EAC /* PaprikaPlanner-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PaprikaPlanner-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D725EF400E9788B25374EAC /* PaprikaPlanner-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "PaprikaPlanner-macOS.app"; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44D6FC38E4942D5CE0B08BC8 /* MealPlannerUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MealPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46807E03C78FB285683CC8C7 /* MealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanView.swift; sourceTree = "<group>"; };
 		4EB1A12FAAC390FC9565118D /* SyncStatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusIndicator.swift; sourceTree = "<group>"; };
@@ -194,8 +221,8 @@
 		86736260C8C6BE852935B1BE /* PlanGenerationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanGenerationViewModelTests.swift; sourceTree = "<group>"; };
 		88BAEBA951A43DA9B9A05F76 /* CategoryWriteBackEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWriteBackEngineTests.swift; sourceTree = "<group>"; };
 		8C69087D703ABAF0DE54982A /* MetadataInferenceEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataInferenceEngineTests.swift; sourceTree = "<group>"; };
-		9006EBFF5E5EF2FF33745195 /* PaprikaPlanner.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PaprikaPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		948C2B902339EA917F6C8C0D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		9006EBFF5E5EF2FF33745195 /* PaprikaPlanner.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; name = PaprikaPlanner.app; path = paprikaplanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		948C2B902339EA917F6C8C0D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		95446E528A48CD0DD5393A9D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		967D4C63D0EBF9972029C4E2 /* TimeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeParser.swift; sourceTree = "<group>"; };
 		A281E5F31DF412611C119131 /* ResilienceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResilienceTests.swift; sourceTree = "<group>"; };
@@ -246,6 +273,10 @@
 				613A289377B431DB3F1C9C09 /* RecipeSyncEngineTests.swift */,
 				A281E5F31DF412611C119131 /* ResilienceTests.swift */,
 				3496E2C0154AC33FA60A7FF2 /* TimeParserTests.swift */,
+				1B9984342FB0786900D05FEB /* QuantityParserTests.swift */,
+				1B99843A2FB078B900D05FEB /* UnitResolverTests.swift */,
+				1B9984402FB078E900D05FEB /* IngredientLineParserTests.swift */,
+				1B9984462FB0794B00D05FEB /* IngredientNormaliserTests.swift */,
 			);
 			path = MealPlannerTests;
 			sourceTree = "<group>";
@@ -350,6 +381,11 @@
 				5812C15320FAD2BD272745E4 /* MetadataResolver.swift */,
 				095A347AF188754195024351 /* RecipeMetadataOverride.swift */,
 				967D4C63D0EBF9972029C4E2 /* TimeParser.swift */,
+				1B9984372FB0787900D05FEB /* QuantityParser.swift */,
+				1B99843D2FB078B900D05FEB /* UnitResolver.swift */,
+				1B9984432FB0790F00D05FEB /* IngredientLineParser.swift */,
+				1B9984492FB0794B00D05FEB /* IngredientNormaliser.swift */,
+				1B99844C2FB0797100D05FEB /* IngredientTextNormaliser.swift */,
 			);
 			path = Metadata;
 			sourceTree = "<group>";
@@ -613,7 +649,6 @@
 			);
 			mainGroup = 64F39675F1172FA47A6368CB;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -663,8 +698,10 @@
 				A62EE7E944ADC05D7C567FC8 /* AddRuleSheet.swift in Sources */,
 				A344033FE4A919257243DED1 /* AppState.swift in Sources */,
 				DF7DCD432454EAF927C49933 /* BackgroundRefreshManager.swift in Sources */,
+				1B99844E2FB0797100D05FEB /* IngredientTextNormaliser.swift in Sources */,
 				5576EA51FB83DCF3DFC98A7F /* BatchReviewView.swift in Sources */,
 				FF4122A4BEB919C523775605 /* BatchReviewViewModel.swift in Sources */,
+				1B9984392FB0787900D05FEB /* QuantityParser.swift in Sources */,
 				EF7DDC971B79BF23EB17C100 /* CachedAsyncImage.swift in Sources */,
 				3CDA72C3B56B1CD2923BF616 /* CategoryWriteBackEngine.swift in Sources */,
 				C7D098E52F0000DDE08B6645 /* DayPlanCard.swift in Sources */,
@@ -678,6 +715,7 @@
 				10106C77FAB69D1F6D9D564B /* MetadataInferenceEngine.swift in Sources */,
 				FD09566857BEE2F623154664 /* MetadataInferenceState.swift in Sources */,
 				77FBE53D58258FE26DCC8389 /* MetadataResolver.swift in Sources */,
+				1B9984452FB0790F00D05FEB /* IngredientLineParser.swift in Sources */,
 				A3863643798545F72FA42731 /* OfflineSyncQueue.swift in Sources */,
 				BD6B62F62EE24BF8A9F8ABAA /* PaprikaClient.swift in Sources */,
 				4E142DBAC25872D83BC9AC9A /* PaprikaModels.swift in Sources */,
@@ -685,6 +723,7 @@
 				3553A2257A46F480BE9BEDE0 /* PlanGenerationViewModel.swift in Sources */,
 				A85B55A8A71C1D097FAF53C6 /* PlanGenerator.swift in Sources */,
 				C765F938DA65E544DEB7155B /* PullToRevealRefresh.swift in Sources */,
+				1B99843E2FB078B900D05FEB /* UnitResolver.swift in Sources */,
 				325244BAF9C05679A0EE56FF /* RecipeDetailView.swift in Sources */,
 				31C52997094807D34110C2A8 /* RecipeListView.swift in Sources */,
 				C434573BE66355E70EB7FCC8 /* RecipeListViewModel.swift in Sources */,
@@ -701,6 +740,7 @@
 				D2F6630226E038391B8FFA3B /* SyncDetailView.swift in Sources */,
 				DC2122B568A9B9CB5257F33E /* SyncEventLog.swift in Sources */,
 				D3D386A5DA0DF7739F65E681 /* SyncStatusIndicator.swift in Sources */,
+				1B99844A2FB0794B00D05FEB /* IngredientNormaliser.swift in Sources */,
 				1817BDA0D56EB60FAA282E22 /* SyncStatusManager.swift in Sources */,
 				902B12373CDC0846743A1D27 /* Theme.swift in Sources */,
 				0231DE895DFF71BBE4C999A9 /* TimeParser.swift in Sources */,
@@ -719,9 +759,13 @@
 				F2BBE3EBB3FC34A3A8906EA7 /* MetadataInferenceEngineTests.swift in Sources */,
 				0B8579A837FBC98D05226B4D /* MetadataResolverTests.swift in Sources */,
 				3F138BA0F1BCA0615CB15D4F /* PaprikaIntegrationTests.swift in Sources */,
+				1B99843B2FB078B900D05FEB /* UnitResolverTests.swift in Sources */,
+				1B9984472FB0794B00D05FEB /* IngredientNormaliserTests.swift in Sources */,
 				EB401BAC55C506B68A6AF142 /* PlanGenerationViewModelTests.swift in Sources */,
 				8805940FCB4102C90DEB8AE0 /* PlanGeneratorEffortTests.swift in Sources */,
+				1B9984352FB0786900D05FEB /* QuantityParserTests.swift in Sources */,
 				73A9F7BF6E5DAD077B9008D4 /* PlanGeneratorTests.swift in Sources */,
+				1B9984412FB078E900D05FEB /* IngredientLineParserTests.swift in Sources */,
 				250D7A156942921F6034DA6F /* RecipeListViewModelTests.swift in Sources */,
 				AEAB42CA8230A1F500442BCF /* RecipeSyncEngineTests.swift in Sources */,
 				17BA24E2B397951C8B0260DF /* ResilienceTests.swift in Sources */,
@@ -740,9 +784,13 @@
 				BCD99E215FB87DB555F38732 /* MetadataInferenceEngineTests.swift in Sources */,
 				BC0CC8D16CADCFF1434F3831 /* MetadataResolverTests.swift in Sources */,
 				FBCD4B491094152184FF2966 /* PaprikaIntegrationTests.swift in Sources */,
+				1B99843C2FB078B900D05FEB /* UnitResolverTests.swift in Sources */,
+				1B9984482FB0794B00D05FEB /* IngredientNormaliserTests.swift in Sources */,
 				12A82115796CA7F1090168AD /* PlanGenerationViewModelTests.swift in Sources */,
 				35795D4AB4CD1DB94C4DA620 /* PlanGeneratorEffortTests.swift in Sources */,
+				1B9984362FB0786900D05FEB /* QuantityParserTests.swift in Sources */,
 				AD721AECDD7752D09C39416C /* PlanGeneratorTests.swift in Sources */,
+				1B9984422FB078E900D05FEB /* IngredientLineParserTests.swift in Sources */,
 				F1E70CCC5BEC925A6F07E55F /* RecipeListViewModelTests.swift in Sources */,
 				B6FA008E7AE2B56116874145 /* RecipeSyncEngineTests.swift in Sources */,
 				2EF25C23843F0EB652280104 /* ResilienceTests.swift in Sources */,
@@ -757,8 +805,10 @@
 				4EDF92849099867AA9A8CF44 /* AddRuleSheet.swift in Sources */,
 				5197F1528256F67299B70CC1 /* AppState.swift in Sources */,
 				073BC80CA1B968664CE5AFCD /* BackgroundRefreshManager.swift in Sources */,
+				1B99844D2FB0797100D05FEB /* IngredientTextNormaliser.swift in Sources */,
 				46194B072E65286857CE8D30 /* BatchReviewView.swift in Sources */,
 				02C683C5AF873958CFA43BB1 /* BatchReviewViewModel.swift in Sources */,
+				1B9984382FB0787900D05FEB /* QuantityParser.swift in Sources */,
 				9522F3C34764FC8EE797367F /* CachedAsyncImage.swift in Sources */,
 				5A84D006AA2D62360E0AC67B /* CategoryWriteBackEngine.swift in Sources */,
 				9FB2B4E9F3D016A58E6C5B83 /* DayPlanCard.swift in Sources */,
@@ -772,6 +822,7 @@
 				A0149D41976A7BC8118FC096 /* MetadataInferenceEngine.swift in Sources */,
 				B86228D0F250DA2D29F7F739 /* MetadataInferenceState.swift in Sources */,
 				09F711AFF46A5FE1B54E5D2A /* MetadataResolver.swift in Sources */,
+				1B9984442FB0790F00D05FEB /* IngredientLineParser.swift in Sources */,
 				9F81B05D1E9EFDB20BFBC290 /* OfflineSyncQueue.swift in Sources */,
 				880298F989971CC4C762BE1B /* PaprikaClient.swift in Sources */,
 				DD09227016B3E1F4193A394E /* PaprikaModels.swift in Sources */,
@@ -779,6 +830,7 @@
 				AADF638ED5F7FD523A434A1D /* PlanGenerationViewModel.swift in Sources */,
 				8E096462253116CA3CD33854 /* PlanGenerator.swift in Sources */,
 				36680A376271D44783BE8E34 /* PullToRevealRefresh.swift in Sources */,
+				1B99843F2FB078B900D05FEB /* UnitResolver.swift in Sources */,
 				3B21CA8B9F6C7CB5871EA8BE /* RecipeDetailView.swift in Sources */,
 				DBC2B740FA8FF5DD90A3EF9D /* RecipeListView.swift in Sources */,
 				8F8D147834C56AAB534C71C5 /* RecipeListViewModel.swift in Sources */,
@@ -795,6 +847,7 @@
 				08115CF068680341636BDB36 /* SyncDetailView.swift in Sources */,
 				CCF0BF63E341EA44A8D1CE43 /* SyncEventLog.swift in Sources */,
 				119CEA49E36E8BC2908FBC85 /* SyncStatusIndicator.swift in Sources */,
+				1B99844B2FB0794B00D05FEB /* IngredientNormaliser.swift in Sources */,
 				59FDCA0D4076C35D779D76F6 /* SyncStatusManager.swift in Sources */,
 				00027D9B751FB59D94C92D67 /* Theme.swift in Sources */,
 				61ECDB4694B7A975CF2C7E05 /* TimeParser.swift in Sources */,

@@ -5,15 +5,18 @@ import SwiftData
 final class MetadataInferenceEngine {
     static let batchSize = 25
 
+    /// Whether to normalise ingredient text during inference
+    var normaliseIngredients: Bool = true
+
     /// Run inference on a background ModelContext. Returns number of recipes processed.
-    func runInBackground(container: ModelContainer) async -> Int {
+    func runInBackground(container: ModelContainer) async -> (inferred: Int, normalised: Int) {
         let context = ModelContext(container)
         context.autosaveEnabled = false
         return await runSync(context: context)
     }
 
     /// Synchronous inference for testing. Processes all eligible recipes.
-    func runSync(context: ModelContext) async -> Int {
+    func runSync(context: ModelContext) async -> (inferred: Int, normalised: Int) {
         // Fetch all recipes
         let recipes = (try? context.fetch(FetchDescriptor<RecipeModel>())) ?? []
         // Fetch existing overrides, keyed by recipeUid
@@ -21,6 +24,7 @@ final class MetadataInferenceEngine {
         let overridesByUid = Dictionary(uniqueKeysWithValues: overrides.map { ($0.recipeUid, $0) })
 
         var processed = 0
+        var normalisedRecipes = 0
 
         // Process in batches
         for batchStart in stride(from: 0, to: recipes.count, by: Self.batchSize) {
@@ -48,6 +52,15 @@ final class MetadataInferenceEngine {
                     context.insert(newOverride)
                 }
                 processed += 1
+
+                // Normalise ingredients if enabled
+                if normaliseIngredients {
+                    let result = IngredientTextNormaliser.normalise(recipe.ingredients)
+                    if let normalisedText = result.text {
+                        recipe.ingredients = normalisedText
+                        normalisedRecipes += 1
+                    }
+                }
             }
 
             // Yield between batches to avoid starving other work
@@ -57,6 +70,6 @@ final class MetadataInferenceEngine {
         }
 
         try? context.save()
-        return processed
+        return (inferred: processed, normalised: normalisedRecipes)
     }
 }

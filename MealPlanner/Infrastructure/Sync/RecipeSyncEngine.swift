@@ -169,12 +169,15 @@ final class RecipeSyncEngine {
             // Run metadata inference in background after recipe sync
             Task.detached { [inferenceState, container = context.container] in
                 let engine = MetadataInferenceEngine()
-                let inferred = await engine.runInBackground(container: container)
-                if inferred > 0 {
-                    SyncEventLog.shared.info("Metadata: inferred effort level for \(inferred) recipes")
+                let result = await engine.runInBackground(container: container)
+                if result.inferred > 0 {
+                    SyncEventLog.shared.info("Metadata: inferred effort level for \(result.inferred) recipes")
                     await MainActor.run {
-                        inferenceState?.triggerPostSyncPrompt(inferredCount: inferred, container: container)
+                        inferenceState?.triggerPostSyncPrompt(inferredCount: result.inferred, container: container)
                     }
+                }
+                if result.normalised > 0 {
+                    SyncEventLog.shared.info("Ingredients: normalised \(result.normalised) recipes")
                 }
             }
 
