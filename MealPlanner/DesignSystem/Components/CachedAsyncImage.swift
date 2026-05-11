@@ -1,3 +1,4 @@
+import Foundation
 import SwiftUI
 import os.log
 
@@ -6,12 +7,20 @@ private let logger = Logger(subsystem: "com.curleybracketsengineering.paprikapla
 /// Shared image cache for recipe photos
 /// 50 MB memory, 200 MB disk
 enum ImageCache {
-    static let shared: URLCache = {
+    static let directoryName = "recipe_images"
+    static let didClearNotification = Notification.Name("ImageCacheDidClear")
+
+    static var directoryURL: URL {
         let cachesDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        let cacheDir = cachesDir.appendingPathComponent("recipe_images")
+        return cachesDir.appendingPathComponent(directoryName, isDirectory: true)
+    }
+
+    static let shared: URLCache = {
+        let cacheDir = directoryURL
 
         // Ensure directory exists
         try? FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
+        try? markDirectoryAsDisposableCache(cacheDir)
 
         return URLCache(
             memoryCapacity: 50_000_000,
@@ -25,6 +34,31 @@ enum ImageCache {
         let request = URLRequest(url: url)
         return shared.cachedResponse(for: request) != nil
     }
+
+    static func recreateDirectoryIfNeeded() throws {
+        try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true)
+        try markDirectoryAsDisposableCache(directoryURL)
+    }
+
+    static func clear() throws {
+        shared.removeAllCachedResponses()
+
+        if let contents = try? FileManager.default.contentsOfDirectory(
+            at: directoryURL,
+            includingPropertiesForKeys: nil
+        ) {
+            for item in contents {
+                try FileManager.default.removeItem(at: item)
+            }
+        }
+
+        try recreateDirectoryIfNeeded()
+        NotificationCenter.default.post(name: didClearNotification, object: nil)
+    }
+
+    private static func markDirectoryAsDisposableCache(_ url: URL) throws {
+        try (url as NSURL).setResourceValue(true, forKey: .isExcludedFromBackupKey)
+    }
 }
 
 /// An image view that caches images to disk for reliable offline display
@@ -35,6 +69,7 @@ struct CachedAsyncImage<Placeholder: View>: View {
 
     @State private var image: UIImage?
     @State private var isLoading = false
+    @State private var reloadToken = UUID()
 
     init(url: URL?, @ViewBuilder placeholder: @escaping () -> Placeholder) {
         self.url = url
@@ -64,6 +99,14 @@ struct CachedAsyncImage<Placeholder: View>: View {
         }
         .task(id: url) {
             await loadImage()
+        }
+        .task(id: reloadToken) {
+            await loadImage()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: ImageCache.didClearNotification)) { _ in
+            image = nil
+            isLoading = false
+            reloadToken = UUID()
         }
     }
 

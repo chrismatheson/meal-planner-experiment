@@ -237,6 +237,9 @@ final class PlanGenerationViewModel {
         let recipeDescriptor = FetchDescriptor<RecipeModel>()
         let recipes = (try? context.fetch(recipeDescriptor)) ?? []
         let recipesByUid = Dictionary(uniqueKeysWithValues: recipes.map { ($0.uid, $0) })
+        let recipesByNormalisedName = recipes.reduce(into: [String: RecipeModel]()) { result, recipe in
+            result[normalisedRecipeName(recipe.name)] = recipe
+        }
         print("🍽️ Have \(recipes.count) recipes in local cache")
 
         // Create WeekPlan with available recipes
@@ -250,6 +253,7 @@ final class PlanGenerationViewModel {
         print("🍽️ Week starts: \(monday)")
 
         var days: [DayPlan] = []
+        var repairedMealReferences = false
         for dayOffset in 0..<7 {
             let date = Calendar.current.date(byAdding: .day, value: dayOffset, to: monday) ?? monday
 
@@ -258,7 +262,7 @@ final class PlanGenerationViewModel {
                 Calendar.current.isDate(meal.date, inSameDayAs: date)
             }
 
-            let recipe: RecipeModel?
+            var recipe: RecipeModel?
             let mealName: String?
 
             if let meal = mealForDay {
@@ -271,6 +275,13 @@ final class PlanGenerationViewModel {
                 } else {
                     recipe = nil
                 }
+                if recipe == nil {
+                    recipe = recipesByNormalisedName[normalisedRecipeName(meal.recipeName)]
+                    if recipe != nil {
+                        print("   🔗 Day \(dayOffset): Linked '\(meal.recipeName)' by name")
+                    }
+                }
+                repairedMealReferences = repairRecipeReference(for: meal, resolvedRecipe: recipe) || repairedMealReferences
                 // Always capture the meal name for display
                 mealName = meal.recipeName
                 print("   📅 Day \(dayOffset): \(meal.recipeName)")
@@ -284,7 +295,30 @@ final class PlanGenerationViewModel {
         }
 
         weekPlan?.days = days
+        if repairedMealReferences {
+            try? context.save()
+            print("🔗 Repaired stale cached meal recipe references")
+        }
         print("🍽️ Built week plan with \(days.count) days")
+    }
+
+    private func repairRecipeReference(for meal: CachedMealModel, resolvedRecipe: RecipeModel?) -> Bool {
+        if let resolvedRecipe, meal.recipeUid != resolvedRecipe.uid {
+            meal.recipeUid = resolvedRecipe.uid
+            return true
+        }
+
+        if resolvedRecipe == nil, meal.recipeUid != nil {
+            meal.recipeUid = nil
+            return true
+        }
+
+        return false
+    }
+
+    private func normalisedRecipeName(_ name: String) -> String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines)
+            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
     }
 
     /// Generate a new week plan from cached recipes (replaces existing)

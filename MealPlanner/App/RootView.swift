@@ -111,6 +111,16 @@ struct SettingsView: View {
                     Text("Meal plans sync automatically after 20 seconds of inactivity.")
                 }
 
+                Section {
+                    NavigationLink {
+                        StorageManagementView()
+                    } label: {
+                        Label("Storage", systemImage: "internaldrive")
+                    }
+                } footer: {
+                    Text("Review local cache size and clear disposable offline data.")
+                }
+
                 // Generation Section - rules + rejection tracker
                 Section {
                     NavigationLink {
