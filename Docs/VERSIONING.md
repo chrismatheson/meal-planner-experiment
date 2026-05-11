@@ -26,6 +26,8 @@ CURRENT_PROJECT_VERSION: N      (e.g., 89 = git commit count)
 - **MARKETING_VERSION** (`CFBundleShortVersionString`): Semantic version, X.Y.Z only
 - **CURRENT_PROJECT_VERSION** (`CFBundleVersion`): Git commit count (auto-increments)
 
+Xcode Cloud archives should be started from branch-change pushes to `main`; if a build is retried from App Store Connect, confirm its last commit is the current `origin/main` head before using that TestFlight build for validation.
+
 ## When to Bump
 
 | Action | Version Change |
